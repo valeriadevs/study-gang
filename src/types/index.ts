@@ -106,6 +106,8 @@ export interface Reference {
   category: string;
   description?: string;
   blocks?: ContentBlock[];
+  timeLimit?: number;
+  passingScore?: number;
 }
 
 export interface Progress {

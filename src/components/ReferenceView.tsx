@@ -1,6 +1,7 @@
 import { useStore } from '../store/useStore';
 import { ContentRenderer } from './ContentRenderer';
 import { EmptyState } from './EmptyState';
+import { TestView } from './TestView';
 import { layout } from '../styles/tokens';
 
 export function ReferenceView() {
@@ -42,6 +43,11 @@ export function ReferenceView() {
         </div>
       );
     }
+    // Route tests to TestView
+    if (ref.blocks && ref.blocks.length > 0 && ref.timeLimit !== undefined) {
+      return <TestView reference={ref} />;
+    }
+
     return (
       <div
         className="p-8 mx-auto fade-in"
@@ -102,7 +108,7 @@ export function ReferenceView() {
         Quick Reference
       </h1>
       <p className="text-ink-2 text-base mb-6">
-        Cheat sheets, lookup tables, and comparison tables.
+        Cheat sheets, lookup tables, and timed exam tests.
       </p>
 
       {Object.entries(byCategory).map(([category, refs]) => (
@@ -121,6 +127,12 @@ export function ReferenceView() {
                 <h3 className="text-sm font-bold mb-1">{r.title}</h3>
                 {r.description && (
                   <p className="text-xs text-ink-2">{r.description}</p>
+                )}
+                {r.timeLimit !== undefined && (
+                  <div className="flex items-center gap-3 mt-2 text-xs text-ink-3">
+                    <span>⏱ {r.timeLimit} min</span>
+                    <span>✓ {r.passingScore}% pass</span>
+                  </div>
                 )}
               </button>
             ))}
