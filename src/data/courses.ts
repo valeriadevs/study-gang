@@ -3,6 +3,10 @@ import { java14Course } from './java/index';
 import { dbms8Course } from './dbms/index';
 import { sde8Course } from './sde/index';
 import { javaAdvCourse } from './java-adv/index';
+import { javaTests } from './tests/java-tests';
+import { dbmsTests } from './tests/dbms-tests';
+import { sdeTests } from './tests/sde-tests';
+import { javaAdvTests } from './tests/java-adv-tests';
 
 export const courses: Course[] = [
   java14Course,
@@ -11,7 +15,12 @@ export const courses: Course[] = [
   javaAdvCourse,
 ];
 
-export const references: Reference[] = [];
+export const references: Reference[] = [
+  ...javaTests,
+  ...dbmsTests,
+  ...sdeTests,
+  ...javaAdvTests,
+];
 
 export function getCourseById(id: string): Course | undefined {
   return courses.find((c) => c.id === id);
