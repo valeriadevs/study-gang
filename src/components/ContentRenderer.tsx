@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { CodeBlock } from './CodeBlock';
 import { PracticeEditor } from './PracticeEditor';
 import { Icon } from './Icon';
-import type { ContentBlock, CalloutType } from '../types';
+import type { ContentBlock } from '../types';
 import { cn } from '../utils/helpers';
 import { useStore } from '../store/useStore';
 
@@ -11,33 +11,12 @@ interface ContentRendererProps {
   dayId?: string;
 }
 
-const calloutColors: Record<CalloutType, { border: string; bg: string; text: string; icon: string }> = {
-  info:    { border: 'border-info',   bg: 'bg-info/10',   text: 'text-info',   icon: 'info' },
-  tip:     { border: 'border-accent', bg: 'bg-accent/10', text: 'text-accent', icon: 'bulb' },
-  warn:    { border: 'border-danger', bg: 'bg-danger/10', text: 'text-danger', icon: 'warning' },
-  success: { border: 'border-success',bg: 'bg-success/10',text: 'text-success',icon: 'check' },
-  note:    { border: 'border-purple', bg: 'bg-purple/10', text: 'text-purple', icon: 'notepad' },
-  doubt:   { border: 'border-amber-500',  bg: 'bg-amber-500/10',  text: 'text-amber-400',  icon: 'question' },
-  exam:    { border: 'border-red-500',    bg: 'bg-red-500/10',    text: 'text-red-400',    icon: 'target' },
-  bridge:  { border: 'border-violet-400', bg: 'bg-violet-400/10', text: 'text-violet-300', icon: 'link' },
-};
-
-const CALLOUT_LABELS: Record<CalloutType, string> = {
-  info: 'Info',
-  tip: 'Tip',
-  warn: 'Warning',
-  success: 'Success',
-  note: 'Note',
-  doubt: 'Doubt Clinic',
-  exam: 'Exam Alert',
-  bridge: 'Connect the Dots',
-};
 
 export function ContentRenderer({ block, dayId }: ContentRendererProps) {
   switch (block.type) {
     case 'paragraph':
       return (
-        <p className="bg-panel border border-border rounded-xl p-5 leading-relaxed text-ink block-hover">
+        <p className="bg-panel border border-border rounded-xl p-5 leading-relaxed text-body-lg text-ink block-hover">
           {renderInline(block.content ?? '')}
         </p>
       );
@@ -49,9 +28,9 @@ export function ContentRenderer({ block, dayId }: ContentRendererProps) {
         <Tag
           className={cn(
             'font-bold tracking-tight',
-            level === 2 && 'text-2xl mt-6',
-            level === 3 && 'text-lg mt-5',
-            level === 4 && 'text-base text-accent-2 mt-4'
+            level === 2 && 'text-2xl mt-6 font-display',
+            level === 3 && 'text-h3 font-sub italic text-accent mt-5',
+            level === 4 && 'text-body-md text-accent-2 font-mono uppercase tracking-wider mt-4'
           )}
         >
           {block.content}
@@ -119,7 +98,7 @@ export function ContentRenderer({ block, dayId }: ContentRendererProps) {
                     {headers.map((h, i) => (
                       <th
                         key={i}
-                        className="text-left px-3 py-2.5 bg-panel-2 font-semibold text-accent-2 text-xs border-b border-border"
+                        className="text-left px-3 py-2.5 bg-panel-2 font-semibold text-accent-2 text-body-sm border-b border-border"
                       >
                         {h}
                       </th>
@@ -152,21 +131,21 @@ export function ContentRenderer({ block, dayId }: ContentRendererProps) {
 
     case 'callout': {
       const ctype = block.calloutType ?? 'info';
-      const colors = calloutColors[ctype];
-      const label = CALLOUT_LABELS[ctype];
+      // Map to design system: warn→warn style, everything else→tip style
+      const severity = ctype === 'warn' || ctype === 'exam'
+        ? 'warn' : 'tip';
+      const isWarn = severity === 'warn';
       return (
-        <div
-          className={cn(
-            'border-l-4 rounded-r-lg p-4 leading-relaxed callout-card',
-            colors.border,
-            colors.bg
-          )}
-        >
-          <div className={cn('font-bold mb-1.5 flex items-center gap-2 text-sm', colors.text)}>
-            <span aria-hidden="true">{colors.icon}</span>
-            <span>{label}</span>
+        <div className={`callout callout--${severity} flex gap-3 p-4 rounded-lg ${isWarn ? 'bg-danger/10 border border-danger/20' : 'bg-accent/10 border border-accent/20'}`}>
+          <div className={`callout__badge flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs ${isWarn ? 'bg-danger text-white' : 'bg-accent text-[oklch(12%_.014_220)]'}`}>
+            {isWarn ? '!' : '▷'}
           </div>
-          <div className="text-ink whitespace-pre-line">{renderInline(block.content ?? '')}</div>
+          <div className="callout__body min-w-0">
+            {block.title && (
+              <div className="font-bold mb-1.5 text-body-md text-ink">{block.title}</div>
+            )}
+            <div className="text-body-md text-ink whitespace-pre-line">{renderInline(block.content ?? '')}</div>
+          </div>
         </div>
       );
     }
@@ -252,7 +231,7 @@ function QuizBlock({ questions, title }: { questions: NonNullable<ContentBlock['
                   Q{index + 1}.
                 </span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-ink font-medium mb-2.5">{renderInline(question.question)}</p>
+                  <p className="text-body-md text-ink font-medium mb-2.5">{renderInline(question.question)}</p>
                   <div className="space-y-1.5">
                     {question.options.map((option, optionIndex) => {
                       const isCorrect = optionIndex === question.correctIndex;
@@ -393,7 +372,7 @@ function FlashcardBlock({ cards, title }: { cards: NonNullable<ContentBlock['car
                 )}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-[11px] uppercase tracking-wider font-bold text-ink-2">
+                  <span className="text-body-sm font-mono uppercase tracking-wider font-bold text-ink-2">
                     {isFlipped ? 'Answer' : 'Question'}
                   </span>
                   <span className="text-xs text-ink-2 inline-flex items-center gap-1">

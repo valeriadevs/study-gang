@@ -63,24 +63,31 @@ export function TaskList({ courseId, tasks }: TaskListProps) {
                   done && 'opacity-60 border-success/30'
                 )}
               >
-                <span
-                  className={cn(
-                    'w-5 h-5 rounded border-2 flex-shrink-0 grid place-items-center mt-0.5 transition-colors duration-fast',
-                    done
-                      ? 'bg-success border-success text-bg task-check-pop'
-                      : 'border-border'
-                  )}
-                  aria-hidden="true"
-                >
-                  {done && <Icon name="check" size="xs" weight="Filled" />}
-                </span>
-                <span className={cn('flex-1 leading-relaxed text-sm', done && 'line-through')}>
+                <label className={cn('flex-shrink-0 mt-0.5 cursor-pointer', done && 'task-check-pop')}>
+                  <input
+                    type="checkbox"
+                    checked={done}
+                    onChange={() => toggleTask(courseId, task.id)}
+                    className="sr-only"
+                  />
+                  <span className={cn(
+                    'block w-5 h-5 rounded border-2 transition-colors',
+                    done ? 'bg-success border-success' : 'border-border bg-transparent'
+                  )}>
+                    {done && (
+                      <svg className="w-full h-full text-[oklch(12%_.014_220)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    )}
+                  </span>
+                </label>
+                <span className={cn('flex-1 leading-relaxed text-body-md', done && 'line-through')}>
                   {task.text}
                 </span>
                 {task.tag && (
                   <span
                     className={cn(
-                      'text-[10px] px-1.5 py-0.5 rounded uppercase tracking-wider font-semibold flex-shrink-0',
+                      'text-[10px] px-1.5 py-0.5 rounded uppercase tracking-wider font-mono font-semibold flex-shrink-0',
                       TAG_STYLES[task.tag] ?? 'bg-panel text-ink-2'
                     )}
                   >

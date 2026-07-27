@@ -104,10 +104,10 @@ export function HomeView() {
           className="border border-border rounded-xl p-8 mb-6"
           style={{ background: 'linear-gradient(to bottom right, rgba(248,152,32,0.15), rgba(237,28,36,0.05))' }}
         >
-          <h1 className="text-3xl font-extrabold tracking-tight mb-2">
+          <h1 className="text-h1 font-display mb-2">
             Welcome to Study Gang
           </h1>
-          <p className="text-ink-2 max-w-2xl">
+          <p className="text-body-lg text-ink-2 max-w-2xl">
             Your unified study hub. Pick a course below to dive into a day-by-day
             plan, track tasks, take notes, and run code — all without leaving
             this app.
@@ -136,17 +136,17 @@ export function HomeView() {
         <div className="hero-orbit hero-orbit-two" aria-hidden="true" />
         <div className="relative flex flex-col lg:flex-row lg:items-center gap-7 justify-between">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-accent mb-3">
+            <div className="inline-flex items-center gap-2 text-xs font-bold font-mono uppercase tracking-[0.16em] text-accent mb-3">
               <Icon name={greeting.iconName} size="sm" weight="Filled" />
               <span>{greeting.title}</span>
             </div>
             <h1
               id="home-hero-title"
-              className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2"
+              className="text-h1 font-display mb-2"
             >
               Welcome back, Vinay
             </h1>
-            <p className="text-ink-2 max-w-2xl leading-relaxed">
+            <p className="text-body-lg text-ink-2 max-w-2xl leading-relaxed">
               {metrics.doneTasks === 0
                 ? 'Your study desk is ready. Pick a course, take one small step, and let momentum do the introducing.'
                 : metrics.completedCourses === metrics.totalCourses
@@ -169,7 +169,7 @@ export function HomeView() {
                   All course plans complete
                 </span>
               )}
-              <span className="chip">
+              <span className="chip font-mono">
                 <Icon name="trophy" size="sm" className="text-accent" />
                 Level {level.level} · {level.currentXp} XP
               </span>
@@ -196,8 +196,8 @@ export function HomeView() {
                 <Icon name={buddy.iconName} size="xl" weight="Filled" className="text-accent-2" />
               </div>
               <div>
-                <div className="text-sm font-bold text-ink">{buddy.label}</div>
-                <div className="text-xs text-ink-2 mt-0.5">{completionPercent}% of task trail explored</div>
+                <div className="text-body-md font-bold text-ink">{buddy.label}</div>
+                <div className="text-body-sm text-ink-2 mt-0.5">{completionPercent}% of task trail explored</div>
                 <div
                   className="w-40 h-1.5 bg-bg-2 rounded-full overflow-hidden mt-2"
                   role="progressbar"
@@ -218,7 +218,7 @@ export function HomeView() {
                 className="absolute -left-1.5 top-3 w-3 h-3 rotate-45 bg-white/[0.04] border-l border-b border-white/10"
                 aria-hidden="true"
               />
-              <p className="text-[12px] text-ink-2 leading-snug italic">
+              <p className="text-body-sm text-ink-2 leading-snug italic">
                 &ldquo;{buddyMessage}&rdquo;
               </p>
             </div>
@@ -234,7 +234,7 @@ export function HomeView() {
               <span>Today&rsquo;s tiny nudge</span>
               <span className="w-1.5 h-1.5 rounded-full bg-accent pulse-dot" aria-hidden="true" />
             </div>
-            <p className="text-xs text-ink-2 leading-relaxed mt-0.5 max-w-3xl">{tip}</p>
+            <p className="text-body-sm text-ink-2 leading-relaxed mt-0.5 max-w-3xl">{tip}</p>
           </div>
         </div>
       </section>

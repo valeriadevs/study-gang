@@ -130,7 +130,7 @@ export function Timer() {
         <button
           type="button"
           onClick={() => setShowPresets((open) => !open)}
-          className="text-xs text-ink-2 hover:text-ink transition-colors duration-fast relative z-[1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
+          className="text-xs font-mono text-ink-2 hover:text-ink transition-colors duration-fast relative z-[1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
           title="Set focus duration"
           aria-label="Set focus duration"
           aria-expanded={showPresets}

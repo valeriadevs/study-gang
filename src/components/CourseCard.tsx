@@ -38,9 +38,9 @@ export function CourseCard({ course, onClick }: CourseCardProps) {
         </div>
         <span className="text-ink-3 group-hover:text-accent transition-all duration-fast text-lg group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true">↗</span>
       </div>
-      <h3 className="text-base font-bold mb-1">{course.name}</h3>
-      <p className="text-xs text-ink-2 mb-3 line-clamp-2">{course.subtitle}</p>
-      <div className="flex gap-3 text-[11px] text-ink-2 mb-3">
+      <h3 className="text-h3 font-display mb-1">{course.name}</h3>
+      <p className="text-body-sm text-ink-2 mb-3 line-clamp-2">{course.subtitle}</p>
+      <div className="flex gap-3 text-body-sm text-ink-2 mb-3">
         <span>
           <b className="text-ink font-semibold">{course.duration}</b> days
         </span>
@@ -61,13 +61,13 @@ export function CourseCard({ course, onClick }: CourseCardProps) {
           style={{ width: `${metrics.taskPercent}%`, background: course.color }}
         />
       </div>
-      <div className="text-[11px] text-ink-2 mt-1.5 flex justify-between gap-2">
+      <div className="text-body-sm text-ink-2 mt-1.5 flex justify-between gap-2">
         <span>
           {metrics.doneDays} / {metrics.totalDays} days · {metrics.doneTasks} / {metrics.totalTasks} tasks
         </span>
         <span className="font-semibold" style={{ color: course.color }}>{metrics.taskPercent}%</span>
       </div>
-      <p className="text-[11px] text-ink-3 mt-2 truncate group-hover:text-ink-2 transition-colors duration-fast">{status}</p>
+      <p className="text-body-sm text-ink-3 mt-2 truncate group-hover:text-ink-2 transition-colors duration-fast">{status}</p>
     </button>
   );
 }

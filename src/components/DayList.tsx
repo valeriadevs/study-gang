@@ -28,7 +28,7 @@ export function DayList({ courseId }: DayListProps) {
         <button
           type="button"
           onClick={goHome}
-          className="text-xs text-ink-2 hover:text-ink transition-colors duration-fast mb-2 inline-flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-2 rounded"
+          className="text-body-sm text-ink-2 hover:text-ink transition-colors duration-fast mb-2 inline-flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-2 rounded"
         >
           <span aria-hidden="true">←</span> All courses
         </button>
@@ -43,7 +43,7 @@ export function DayList({ courseId }: DayListProps) {
           />
           <span>{course.name}</span>
         </h2>
-        <p className="text-xs text-ink-2 mt-1">{course.subtitle}</p>
+        <p className="text-body-sm text-ink-2 mt-1">{course.subtitle}</p>
         <div className="flex gap-3 text-xs text-ink-2 mt-3">
           <span><b className="text-ink">{course.duration}</b> days</span>
           <span><b className="text-ink">{course.dailyMinutes}</b> min/day</span>
@@ -61,7 +61,7 @@ export function DayList({ courseId }: DayListProps) {
             style={{ width: `${metrics.taskPercent}%`, background: course.color }}
           />
         </div>
-        <div className="text-[11px] text-ink-2 mt-1.5 flex justify-between">
+        <div className="text-body-sm text-ink-2 mt-1.5 flex justify-between">
           <span>{metrics.doneTasks} / {metrics.totalTasks} tasks</span>
           <span style={{ color: course.color }}>{metrics.taskPercent}%</span>
         </div>
@@ -73,7 +73,7 @@ export function DayList({ courseId }: DayListProps) {
           return (
             <div key={`${phase.name}-${phaseIndex}`}>
               <div className="flex items-center justify-between px-2 mb-1.5">
-                <div className="text-[11px] uppercase tracking-wider text-ink-3 font-bold">
+                <div className="text-body-sm font-mono uppercase tracking-wider text-ink-3 font-bold">
                   {phase.name}
                 </div>
                 <span className="text-[10px] text-ink-3 tabular-nums">{phaseDone}/{phase.days.length}</span>
@@ -84,21 +84,6 @@ export function DayList({ courseId }: DayListProps) {
                   const isActive = selectedDayId === day.id;
                   const dayTasks = day.tasks ?? [];
                   const dayDoneTasks = dayTasks.filter((task) => Boolean(cp?.tasks?.[task.id])).length;
-                  // Tile color:
-                  // - done: success background with dark contrast text
-                  // - active: course color background with dark contrast text
-                  // - idle: panel-2 with muted text
-                  const tileStyle = isDone
-                    ? { background: 'var(--color-success, #22c55e)', color: '#052e16' }
-                    : isActive
-                      ? { background: course.color, color: '#1a0f00' }
-                      : undefined;
-                  const tileClass = cn(
-                    'w-7 h-7 rounded-lg grid place-items-center text-xs font-semibold flex-shrink-0 transition-all duration-fast',
-                    !isDone && !isActive && 'bg-panel-2 text-ink-2',
-                    isActive && !isDone && 'shadow-[0_0_0_2px_rgba(248,152,32,0.45)]',
-                    isDone && 'task-check-pop'
-                  );
                   return (
                     <button
                       type="button"
@@ -115,23 +100,22 @@ export function DayList({ courseId }: DayListProps) {
                         isDone && !isActive && 'hover:border-success/30'
                       )}
                     >
-                      <div className={tileClass} style={tileStyle} aria-hidden="true">
-                        {isDone ? (
-                          <Icon name="check" size="xs" weight="Filled" />
-                        ) : (
-                          day.number
-                        )}
-                      </div>
+                      <div className={cn(
+                        'day-item__dot w-2 h-2 rounded-full flex-shrink-0 transition-colors',
+                        isDone && 'bg-success',
+                        !isDone && isActive && 'bg-accent',
+                        !isDone && !isActive && 'bg-border'
+                      )} />
                       <div className="flex-1 min-w-0">
                         <div
                           className={cn(
-                            'text-[13px] font-medium truncate',
+                            'text-body-md font-medium truncate',
                             isDone ? 'text-ink-2 line-through decoration-success/50' : 'text-ink'
                           )}
                         >
                           {day.title}
                         </div>
-                        <div className="text-[11px] text-ink-2 mt-0.5 truncate">
+                        <div className="text-body-sm text-ink-2 mt-0.5 truncate">
                           {day.duration ?? course.dailyMinutes} min
                           {dayTasks.length > 0 && <> · {pluralize(dayTasks.length, 'task')}</>}
                         </div>
@@ -159,7 +143,7 @@ export function DayList({ courseId }: DayListProps) {
 
       {references.length > 0 && (
         <div className="mt-6 pt-4 border-t border-border">
-          <div className="text-[11px] uppercase tracking-wider text-ink-3 font-bold px-2 mb-2">Reference</div>
+          <div className="text-body-sm font-mono uppercase tracking-wider text-ink-3 font-bold px-2 mb-2">Reference</div>
           <div className="space-y-0.5">
             {references.map((reference) => (
               <button

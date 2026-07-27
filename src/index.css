@@ -3,6 +3,16 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --color-accent: oklch(80% .15 175);
+    --color-accent-soft: color-mix(in oklch, oklch(80% .15 175), transparent 85%);
+    --color-accent-mid: color-mix(in oklch, oklch(80% .15 175), transparent 60%);
+    --color-warn: oklch(68% .17 30);
+    --color-warn-soft: color-mix(in oklch, oklch(68% .17 30), transparent 88%);
+    --color-warn-mid: color-mix(in oklch, oklch(68% .17 30), transparent 70%);
+    --color-success-leaf: oklch(80% .13 155);
+  }
+
   html, body, #root {
     height: 100%;
   }
@@ -12,7 +22,7 @@
   }
   ::selection {
     background: theme('colors.accent.DEFAULT');
-    color: theme('colors.bg.DEFAULT');
+    color: oklch(12% .014 220);
   }
   /* Custom scrollbars */
   *::-webkit-scrollbar {
@@ -23,14 +33,14 @@
     background: transparent;
   }
   *::-webkit-scrollbar-thumb {
-    background: theme('colors.border');
+    background: theme('colors.border.DEFAULT');
     border-radius: 4px;
   }
   *::-webkit-scrollbar-thumb:hover {
     background: theme('colors.ink.3');
   }
   * {
-    scrollbar-color: theme('colors.border') transparent;
+    scrollbar-color: theme('colors.border.DEFAULT') transparent;
     scrollbar-width: thin;
   }
   .scrollbar-none {
@@ -52,19 +62,24 @@
 /* ───────── Component layer ───────── */
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors duration-fast;
+    @apply inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded-md text-body-md font-medium transition-colors duration-fast;
+    border: 1px solid transparent;
   }
   .btn-primary {
-    @apply bg-accent text-bg hover:bg-accent-2;
+    @apply bg-accent text-[oklch(12%_.014_220)] font-semibold hover:opacity-90;
+    border-color: var(--color-accent);
   }
   .btn-ghost {
-    @apply bg-transparent border border-border text-ink-2 hover:text-ink hover:border-ink;
+    @apply bg-transparent border-border text-ink-2 hover:text-ink hover:border-ink;
   }
   .btn-secondary {
-    @apply bg-panel-2 border border-border text-ink hover:bg-panel hover:border-accent;
+    @apply bg-panel-2 border-border text-ink hover:bg-panel hover:border-accent;
+  }
+  .btn-warn {
+    @apply bg-danger text-white font-semibold border-danger hover:opacity-90;
   }
   .chip {
-    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border border-border bg-panel text-ink-2;
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-body-sm font-mono font-medium border border-border bg-panel text-ink-2 tracking-tight;
   }
   /* The single source of truth for content surfaces: cards, sections, and
    * any "panel with a border" pattern. Avoid hand-rolling this elsewhere. */
@@ -95,7 +110,7 @@
   padding: 1px 6px;
   border-radius: 4px;
   font-size: 0.88em;
-  border: 1px solid theme('colors.border');
+  border: 1px solid theme('colors.border.DEFAULT');
   font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
 }
 
@@ -309,20 +324,6 @@ pre code {
   box-shadow: 0 4px 14px rgba(0,0,0,0.25);
 }
 
-/* Callout cards get a slightly more pronounced hover so the user can feel
- * which ones are reference material vs. inline narration. */
-.callout-card {
-  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1),
-              filter 200ms cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-}
-.callout-card:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.05);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-}
-
 /* Achievement card pop animation when freshly unlocked. */
 .achievement-fresh {
   animation: achievementPop 600ms cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -372,6 +373,19 @@ aside.bg-bg-2::-webkit-scrollbar-thumb:hover {
 }
 .pulse-dot {
   animation: pulseDot 1.4s ease-in-out infinite;
+}
+
+/* ───────── Callout badge styling ───────── */
+.callout__badge {
+  font-family: theme('fontFamily.display');
+}
+.callout--tip .callout__badge {
+  font-family: theme('fontFamily.sans');
+}
+
+/* ───────── Day item dot ───────── */
+.day-item__dot {
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.08);
 }
 
 /* ───────── Reduced motion ─────────

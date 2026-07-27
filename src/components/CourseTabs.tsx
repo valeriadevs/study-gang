@@ -22,7 +22,7 @@ export function CourseTabs() {
             onClick={() => selectCourse(course.id)}
             aria-current={active ? 'page' : undefined}
             className={cn(
-              'px-3.5 py-2 rounded-full text-[13px] font-medium whitespace-nowrap',
+              'px-3.5 py-2 rounded-full text-body-sm font-medium whitespace-nowrap',
               'border transition-all flex items-center gap-2',
               active
                 ? 'bg-panel text-ink border-accent shadow-[0_0_0_1px_#f89820]'

@@ -124,7 +124,7 @@ export function PracticeEditor({
   return (
     <div className="bg-code border border-border rounded-lg overflow-hidden">
       <div className="flex justify-between items-center px-3.5 py-2 bg-panel-2 border-b border-border text-xs">
-        <span className="font-mono font-semibold text-accent-2 flex items-center gap-2">
+        <span className="font-mono text-accent-2 text-body-sm flex items-center gap-2">
           <Icon name="play" size="sm" className="text-accent" />
           <span>{title ?? `Practice · ${langLabel(lang)}`}</span>
         </span>
@@ -168,7 +168,7 @@ export function PracticeEditor({
       </div>
 
       {hint && (
-        <div className="px-4 py-2.5 bg-panel-2 border-t border-border text-xs text-ink-2 flex items-start gap-2">
+        <div className="px-4 py-2.5 bg-panel-2 border-t border-border text-body-sm text-ink-2 flex items-start gap-2">
           <Icon name="bulb" size="sm" className="text-accent flex-shrink-0 mt-0.5" />
           <span className="text-ink">{hint}</span>
         </div>
@@ -177,7 +177,7 @@ export function PracticeEditor({
       {output && (
         <div
           className={cn(
-            'px-4 py-3 border-t border-border font-mono text-xs leading-relaxed max-h-[280px] overflow-y-auto',
+            'px-4 py-3 border-t border-border font-mono text-body-sm leading-relaxed max-h-[280px] overflow-y-auto',
             outputType === 'success' && 'text-success',
             outputType === 'error' && 'text-danger',
             outputType === 'idle' && 'text-ink-2'

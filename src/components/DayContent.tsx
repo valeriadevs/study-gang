@@ -91,7 +91,7 @@ export function DayContent({ course, phase, day }: DayContentProps) {
       {/* Breadcrumb */}
       <nav
         aria-label="Breadcrumb"
-        className="text-[13px] text-ink-2 mb-3 mt-3 flex items-center gap-1.5 flex-wrap"
+        className="text-body-sm text-ink-2 mb-3 mt-3 flex items-center gap-1.5 flex-wrap"
       >
         <span>{course.name}</span>
         <span aria-hidden="true">›</span>
@@ -102,7 +102,7 @@ export function DayContent({ course, phase, day }: DayContentProps) {
 
       {/* Title row */}
       <header className="flex items-start justify-between gap-4 mb-2">
-        <h1 className="text-[32px] font-extrabold tracking-tight">{day.title}</h1>
+        <h1 className="text-h1 font-display">{day.title}</h1>
         <div
           className="hidden sm:grid place-items-center w-12 h-12 rounded-2xl bg-panel border border-border"
           style={{ color: course.color }}
@@ -112,7 +112,7 @@ export function DayContent({ course, phase, day }: DayContentProps) {
         </div>
       </header>
       {day.subtitle && (
-        <p className="text-ink-2 text-base mb-4">{day.subtitle}</p>
+        <p className="font-sub italic text-accent mb-4">{day.subtitle}</p>
       )}
 
       {/* Meta chips */}
@@ -146,7 +146,7 @@ export function DayContent({ course, phase, day }: DayContentProps) {
       {/* Topics (Today's targets) */}
       {day.topics && day.topics.length > 0 && (
         <section className="surface p-5 mb-4" aria-labelledby="topics-heading">
-          <h2 id="topics-heading" className="text-base font-bold mb-2.5 flex items-center gap-2">
+          <h2 id="topics-heading" className="text-body-lg font-bold mb-2.5 flex items-center gap-2">
             <Icon name="target" size="sm" className="text-accent" />
             <span>Today&rsquo;s targets</span>
           </h2>
@@ -172,7 +172,7 @@ export function DayContent({ course, phase, day }: DayContentProps) {
           </h2>
           <ul className="space-y-1 list-disc pl-5 marker:text-accent">
             {day.alignment.map((alignment, index) => (
-              <li key={index} className="text-sm text-ink-2">{alignment}</li>
+              <li key={index} className="text-body-md text-ink-2">{alignment}</li>
             ))}
           </ul>
         </section>
@@ -199,7 +199,7 @@ export function DayContent({ course, phase, day }: DayContentProps) {
       {tasks.length > 0 && (
         <section className="surface p-6 mb-4" aria-labelledby="tasks-heading">
           <div className="flex flex-wrap items-start justify-between gap-2 mb-3.5">
-            <h2 id="tasks-heading" className="text-base font-bold flex items-center gap-2">
+            <h2 id="tasks-heading" className="text-body-lg font-bold flex items-center gap-2">
               <Icon name="checkSquare" size="sm" className="text-accent" />
               <span>Tasks</span>
             </h2>
@@ -212,7 +212,7 @@ export function DayContent({ course, phase, day }: DayContentProps) {
       {/* Notes */}
       <section className="surface p-6 mb-4" aria-labelledby="notes-heading">
         <div className="flex flex-wrap items-start justify-between gap-2 mb-3.5">
-          <h2 id="notes-heading" className="text-base font-bold flex items-center gap-2">
+          <h2 id="notes-heading" className="text-body-lg font-bold flex items-center gap-2">
             <Icon name="notepad" size="sm" className="text-accent" />
             <span>Your Notes</span>
           </h2>
@@ -224,8 +224,8 @@ export function DayContent({ course, phase, day }: DayContentProps) {
       {/* Day check-in */}
       <section className="surface p-6 mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h3 className="text-sm font-bold mb-1">Day check-in</h3>
-          <p className="text-xs text-ink-2">
+          <h3 className="text-body-md font-bold mb-1">Day check-in</h3>
+          <p className="text-body-sm text-ink-2">
             {dayDone
               ? 'This day is safely in the books. You can revisit it whenever you like.'
               : doneTaskCount === tasks.length && tasks.length > 0

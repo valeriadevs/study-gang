@@ -54,8 +54,8 @@ export const shadows = {
   panel: '0 10px 30px rgba(0,0,0,0.35)',
   lift: '0 4px 14px rgba(0,0,0,0.25)',
   emphasis: '0 6px 20px rgba(0,0,0,0.3)',
-  glow: '0 0 0 1px rgba(248,152,32,0.4), 0 0 18px rgba(248,152,32,0.25)',
-  'glow-strong': '0 0 0 1px rgba(248,152,32,0.7), 0 0 24px rgba(248,152,32,0.35)',
+  glow: '0 0 0 1px rgba(128,230,200,0.4), 0 0 18px rgba(128,230,200,0.25)',
+  'glow-strong': '0 0 0 1px rgba(128,230,200,0.7), 0 0 24px rgba(128,230,200,0.35)',
 } as const;
 
 /** Icon size mapping in px. Use these instead of writing magic numbers so
@@ -91,6 +91,6 @@ export const zIndex = {
 /** Contrast pairs we use repeatedly. These are the dark-theme-on-accent
  *  text colours that keep WCAG-readable contrast on a coloured surface. */
 export const contrast = {
-  onAccent: '#1a0f00',      // accent / accent-2 background
-  onSuccess: '#052e16',     // success background
+  onAccent: '#1a2630',
+  onSuccess: '#1a2630',
 } as const;

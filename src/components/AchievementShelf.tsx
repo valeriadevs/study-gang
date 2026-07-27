@@ -53,17 +53,17 @@ export function AchievementShelf() {
     <section className="surface p-5 mb-6" aria-labelledby="achievements-title">
       <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
         <div>
-          <h2 id="achievements-title" className="text-base font-bold flex items-center gap-2">
+          <h2 id="achievements-title" className="text-h3 font-display flex items-center gap-2">
             <Icon name="medalStar" size="sm" className="text-accent" />
             <span>Little wins, stacked up</span>
           </h2>
-          <p className="text-xs text-ink-2 mt-1">
+          <p className="text-body-sm text-ink-2 mt-1">
             Personality with a purpose: a gentle nudge to keep showing up.
           </p>
         </div>
         <div className="text-right">
-          <div className="text-[10px] uppercase tracking-wider text-ink-3 font-bold">Level</div>
-          <div className="text-xl font-extrabold text-accent inline-flex items-center gap-1.5">
+          <div className="text-body-sm font-mono uppercase tracking-wider text-ink-3 font-bold">Level</div>
+          <div className="text-h3 font-display text-accent inline-flex items-center gap-1.5">
             <Icon name="trophy" size="sm" className="text-accent" />
             {level.level}
           </div>
@@ -71,7 +71,7 @@ export function AchievementShelf() {
       </div>
 
       <div className="mb-4">
-        <div className="flex justify-between items-center text-[11px] text-ink-2 mb-1.5">
+        <div className="flex justify-between items-center text-body-sm text-ink-2 mb-1.5">
           <span>{level.currentXp} XP total</span>
           <span>{level.xpForNextLevel - level.xpIntoLevel} XP to next level</span>
         </div>
@@ -110,7 +110,7 @@ export function AchievementShelf() {
             >
               {isFresh && (
                 <span
-                  className="absolute top-1.5 right-1.5 text-[10px] uppercase font-bold text-accent tracking-wider"
+                  className="absolute top-1.5 right-1.5 text-body-sm font-mono uppercase font-bold text-accent tracking-wider"
                   aria-hidden="true"
                 >
                   New
@@ -128,8 +128,8 @@ export function AchievementShelf() {
                   <Icon name="lock" size="lg" className="text-ink-3" />
                 )}
               </div>
-              <div className="text-xs font-bold text-ink truncate">{achievement.title}</div>
-              <div className="text-[10px] text-ink-3 mt-0.5 line-clamp-2">
+              <div className="text-body-sm font-bold text-ink truncate">{achievement.title}</div>
+              <div className="text-body-sm text-ink-3 mt-0.5 line-clamp-2">
                 {isUnlocked ? 'Unlocked — nice.' : achievement.hint}
               </div>
             </div>

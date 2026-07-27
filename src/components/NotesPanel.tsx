@@ -47,11 +47,11 @@ export function NotesPanel({ courseId, dayId, topics }: NotesPanelProps) {
         value={value}
         onChange={handleChange}
         placeholder={`What clicked about ${promptTopic}? Leave one useful breadcrumb for tomorrow-you…`}
-        className="w-full min-h-[140px] bg-bg-2 border border-border rounded-lg px-3.5 py-3 text-ink font-sans text-sm leading-relaxed resize-y outline-none transition-colors duration-fast placeholder:text-ink-3 focus:border-accent focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-0"
+        className="w-full min-h-[140px] bg-bg-2 border border-border rounded-lg px-3.5 py-3 text-ink font-sans text-body-md leading-relaxed resize-y outline-none transition-colors duration-fast placeholder:text-ink-3 focus:border-accent focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-0"
       />
       <div className="flex items-center justify-between gap-3 mt-1.5 min-h-[18px]">
         <div
-          className={`text-[11px] inline-flex items-center gap-1.5 ${saved ? 'text-success' : 'text-ink-2'}`}
+          className={`text-body-sm inline-flex items-center gap-1.5 ${saved ? 'text-success' : 'text-ink-2'}`}
           aria-live="polite"
         >
           {saved ? (
@@ -63,7 +63,7 @@ export function NotesPanel({ courseId, dayId, topics }: NotesPanelProps) {
             'Saving your breadcrumb…'
           )}
         </div>
-        <div className="text-[11px] text-ink-3 tabular-nums">{value.length} characters</div>
+        <div className="text-body-sm text-ink-3 tabular-nums">{value.length} characters</div>
       </div>
     </div>
   );

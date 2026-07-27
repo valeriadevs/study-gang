@@ -12,7 +12,7 @@ export function Header() {
       <button
         type="button"
         onClick={goHome}
-        className="flex items-center gap-2.5 font-extrabold text-lg tracking-tight hover:opacity-80 transition-opacity duration-fast group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-2 rounded-md"
+        className="flex items-center gap-2.5 font-display text-h3 tracking-tight hover:opacity-80 transition-opacity duration-fast group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-2 rounded-md"
       >
         <span
           className="w-8 h-8 rounded-lg grid place-items-center text-accent shadow-glow group-hover:rotate-[-4deg] transition-transform duration-normal ease-spring"

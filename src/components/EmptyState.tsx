@@ -17,8 +17,8 @@ export function EmptyState({ icon, title, description, action }: EmptyStateProps
       <div className="mx-auto mb-4 w-16 h-16 grid place-items-center rounded-2xl border border-border bg-panel/60 text-accent opacity-80 transition-all duration-normal ease-standard">
         <Icon name={icon} size="xl" weight="Outline" />
       </div>
-      <h3 className="text-xl font-bold text-ink mb-2">{title}</h3>
-      <p className="text-sm max-w-md mx-auto mb-6 leading-relaxed">{description}</p>
+      <h3 className="text-h3 font-display text-ink mb-2">{title}</h3>
+      <p className="text-body-md max-w-md mx-auto mb-6 leading-relaxed">{description}</p>
       {action && (
         <button
           type="button"

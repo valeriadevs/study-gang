@@ -75,7 +75,7 @@ function StatCard({
 }) {
   return (
     <div className="surface p-4 hover:border-accent/50 transition-colors duration-fast group">
-      <div className="flex items-center gap-1.5 text-[11px] uppercase tracking-wider text-ink-3 font-bold mb-1.5">
+      <div className="flex items-center gap-1.5 text-body-sm font-mono uppercase tracking-wider text-ink-3 font-bold mb-1.5">
         <Icon
           name={icon}
           size="sm"
@@ -83,10 +83,10 @@ function StatCard({
         />
         <span>{label}</span>
       </div>
-      <div className={highlight ? 'text-2xl font-bold text-accent' : 'text-2xl font-bold text-ink'}>
+      <div className={highlight ? 'text-h3 font-display text-accent' : 'text-h3 font-display text-ink'}>
         {value}
         {subtitle && (
-          <small className="text-xs text-ink-2 font-medium ml-2">{subtitle}</small>
+          <small className="text-body-sm text-ink-2 font-medium ml-2">{subtitle}</small>
         )}
       </div>
     </div>

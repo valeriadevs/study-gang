@@ -108,7 +108,7 @@ export function CodeBlock({ code, lang, title, typewriter = false }: CodeBlockPr
   return (
     <div className="bg-code border border-border rounded-lg overflow-hidden code-block group">
       <div className="flex justify-between items-center px-3.5 py-2 bg-panel-2 border-b border-border text-xs">
-        <span className="font-mono font-semibold text-accent-2 flex items-center gap-2 min-w-0">
+        <span className="font-mono text-accent-2 text-body-sm flex items-center gap-2 min-w-0">
           <Icon name="documentText" size="sm" className="text-ink-3" />
           <span className="truncate">{title ?? langLabel(lang)}</span>
           <span className="text-[10px] text-ink-3 font-normal hidden sm:inline">{lineCount} lines</span>
@@ -157,6 +157,14 @@ export function CodeBlock({ code, lang, title, typewriter = false }: CodeBlockPr
                 Copy
               </>
             )}
+          </button>
+          <button
+            onClick={() => {
+              try { navigator.clipboard.writeText(code); } catch {}
+            }}
+            className="px-2.5 py-0.5 rounded text-[11px] border border-border text-ink-2 hover:text-ink hover:border-ink transition-colors ml-1"
+          >
+            type it
           </button>
         </div>
       </div>
