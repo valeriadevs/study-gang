@@ -24,7 +24,9 @@ import {
   CloudSun,
   Coffee,
   Confetti,
+  CupStar,
   Database,
+  Diploma,
   Document,
   DocumentNormal,
   DocumentText,
@@ -32,10 +34,14 @@ import {
   EyeOff,
   Flag,
   Fire,
+  Flag2,
   Home,
   Leaf,
+  Lightning,
   Link,
   Lock,
+  MagicWand,
+  MaskHappy,
   Medal,
   MedalStar,
   Menu,
@@ -44,11 +50,15 @@ import {
   Notebook,
   Pause,
   Play,
+  Puzzle,
   Refresh,
+  Repeat,
   Rocket,
   Rocket2,
+  Save,
   Search,
   Shield,
+  ShieldCheck,
   Search2,
   SearchNormal,
   Setting,
@@ -56,6 +66,7 @@ import {
   Sparkle,
   Sparkles,
   Star,
+  Stars,
   Sun,
   Sun2,
   Target,
@@ -129,8 +140,9 @@ const reiconRegistry: Record<string, ComponentType<ReiconIconProps>> = {
   documentText: DocumentText,
   documentNormal: DocumentNormal,
   fire: Fire,
-  fireStreak: Fire, // UI Designer's semantic alias for "fire streak"
+  fireStreak: Fire, // alias — UI Designer's semantic alias for "fire streak"
   flag: Flag,
+  flag2: Flag2,
   leaf: Leaf,
   link: Link,
   medal: Medal,
@@ -139,11 +151,22 @@ const reiconRegistry: Record<string, ComponentType<ReiconIconProps>> = {
   lock: Lock,
   star: Star,
   star2: Star,
+  starLegend: Stars, // Semester legend — reicon ships no StarLegend
   cardsIcon: Cards, // alias — reicon-react ships no CardsIcon
   cards: Cards,
   checklist: Checklist,
   eye: Eye,
   eyeOff: EyeOff,
+  tools: Play, // Practice Pilot — reicon ships no Tools, Play fits "ran the editor"
+  saveIcon: Save, // reicon ships no SaveIcon
+  puzzle: Puzzle,
+  flashBolt: Lightning, // reicon ships no FlashBolt
+  magicWand: MagicWand,
+  maskHappy: MaskHappy, // Java Jester
+  graduate: Diploma, // SDE Sage — reicon ships no Graduate
+  repeat: Repeat,
+  shieldCheck: ShieldCheck,
+  trophyLevel: CupStar, // Decade of Study — reicon ships no TrophyLevel
   target: Target,
   timer: Timer,
   trophy: Trophy,
