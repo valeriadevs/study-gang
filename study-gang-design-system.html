@@ -1,0 +1,399 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study Gang — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Spectral:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:oklch(13% .015 220);
+  --sf:oklch(19% .022 220);
+  --sf2:oklch(22% .025 220);
+  --fg:oklch(95% .01 90);
+  --mu:oklch(64% .018 215);
+  --mu2:oklch(50% .016 215);
+  --bd:oklch(26% .025 220);
+  --bd2:oklch(32% .03 220);
+  --ac:oklch(80% .15 175);
+  --ac-soft:color-mix(in oklch,oklch(80% .15 175),transparent 85%);
+  --ac-mid:color-mix(in oklch,oklch(80% .15 175),transparent 60%);
+  --ac2:oklch(85% .10 65);
+  --warn:oklch(68% .17 30);
+  --warn-soft:color-mix(in oklch,oklch(68% .17 30),transparent 88%);
+  --warn-mid:color-mix(in oklch,oklch(68% .17 30),transparent 70%);
+  --ds:'Instrument Serif',Georgia,serif;
+  --sub:'Spectral',Georgia,serif;
+  --body:'Inter',system-ui,sans-serif;
+  --mn:'JetBrains Mono',ui-monospace,monospace;
+  --r-sm:6px;--r-md:9px;--r-lg:14px;--r-xl:18px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:oklch(11% .014 220);color:var(--fg);font-family:var(--body);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.page{max-width:1180px;margin:0 auto;padding:60px 32px 100px}
+.head{margin-bottom:48px;padding-bottom:28px;border-bottom:1px solid var(--bd)}
+.eye{font-family:var(--mn);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mu2);margin-bottom:14px}
+h1.ttl{font-family:var(--ds);font-size:clamp(40px,5vw,64px);font-weight:400;letter-spacing:-.01em;line-height:1.05;margin:0 0 12px;color:var(--fg)}
+.ttl em{font-style:italic;color:var(--ac)}
+.sub-h{font-family:var(--sub);font-style:italic;font-size:17px;font-weight:500;color:var(--ac);max-width:680px;margin:0;line-height:1.5}
+.meta-strip{display:flex;gap:18px;margin-top:24px;flex-wrap:wrap}
+.meta-strip .m{display:flex;flex-direction:column;gap:3px}
+.meta-strip .k{font-family:var(--mn);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--mu2)}
+.meta-strip .v{font-size:12px;color:var(--fg);font-family:var(--mn);letter-spacing:.02em}
+.meta-strip .v b{color:var(--ac);font-weight:500}
+section{margin-bottom:56px}
+.sec-h{display:flex;align-items:baseline;gap:16px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--bd)}
+.sec-n{font-family:var(--mn);font-size:11px;letter-spacing:.18em;color:var(--mu2);font-weight:500}
+.sec-t{font-family:var(--ds);font-size:26px;font-weight:400;color:var(--fg);margin:0}
+.sec-t em{font-style:italic;color:var(--ac)}
+.sub-sec{font-family:var(--mn);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ac);margin:28px 0 12px;display:flex;align-items:center;gap:10px}
+.sub-sec::after{content:'';flex:1;height:1px;background:var(--bd)}
+/* === palette === */
+.pal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.token{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-lg);overflow:hidden}
+.token .chip{height:88px;width:100%}
+.token .info{padding:12px 14px}
+.token .name{font-family:var(--mn);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-bottom:4px}
+.token .val{font-family:var(--mn);font-size:11px;color:var(--fg);letter-spacing:.02em}
+/* === type === */
+.type-showcase{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-xl);padding:36px;display:flex;flex-direction:column;gap:28px}
+.type-row{display:grid;grid-template-columns:140px 1fr;gap:24px;align-items:baseline;padding:14px 0;border-bottom:1px dashed var(--bd)}
+.type-row:last-child{border:none}
+.type-row .label{font-family:var(--mn);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mu2)}
+.type-row .label small{display:block;font-size:9px;color:var(--mu2);margin-top:4px;font-weight:400;text-transform:none;letter-spacing:.04em}
+.t-display{font-family:var(--ds);font-size:56px;line-height:1.05;color:var(--fg);font-weight:400;letter-spacing:-.01em}
+.t-display em{font-style:italic;color:var(--ac)}
+.t-sub{font-family:var(--sub);font-size:24px;font-style:italic;font-weight:500;line-height:1.3;color:var(--ac)}
+.t-body{font-size:15px;line-height:1.7;color:var(--fg);max-width:560px}
+.t-body b{font-weight:600}
+.t-body em{font-family:var(--sub);font-style:italic;font-weight:500;color:var(--ac2)}
+.t-mono{font-family:var(--mn);font-size:13px;color:var(--fg);background:oklch(8% .015 220);padding:14px 16px;border-radius:var(--r-md);overflow-x:auto;border:1px solid var(--bd)}
+.t-mono .k{color:var(--ac)}
+.t-mono .f{color:var(--ac2)}
+.t-mono .s{color:oklch(80% .13 155)}
+.t-mono .cm{color:var(--mu2);font-style:italic}
+/* === scale === */
+.scale-grid{display:grid;grid-template-columns:1fr;gap:0;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-xl);overflow:hidden}
+.scale-row{display:grid;grid-template-columns:80px 90px 1fr;align-items:center;gap:20px;padding:14px 22px;border-bottom:1px solid var(--bd)}
+.scale-row:last-child{border:none}
+.scale-row .sz{font-family:var(--mn);font-size:10px;color:var(--ac);font-weight:500}
+.scale-row .lbl{font-family:var(--mn);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--mu2)}
+.scale-row .samp{color:var(--fg)}
+/* === components === */
+.comps{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.comp{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-xl);padding:20px;display:flex;flex-direction:column;gap:14px}
+.comp-h{display:flex;justify-content:space-between;align-items:center}
+.comp-h .n{font-family:var(--mn);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ac)}
+.comp-h .meta{font-family:var(--mn);font-size:9px;color:var(--mu2);letter-spacing:.06em}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{font-family:var(--body);font-size:13px;font-weight:500;padding:9px 16px;border-radius:var(--r-md);border:1px solid var(--bd);background:transparent;color:var(--fg);cursor:pointer;transition:all .12s}
+.btn:hover{border-color:var(--bd2)}
+.btn-primary{background:var(--ac);border-color:var(--ac);color:oklch(13% .015 220);font-weight:600}
+.btn-primary:hover{background:oklch(85% .15 175);border-color:oklch(85% .15 175)}
+.btn-warn{background:var(--warn);border-color:var(--warn);color:oklch(13% .015 220);font-weight:600}
+.chip-d{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;font-size:11px;font-weight:500;background:var(--ac-soft);border:1px solid var(--ac-mid);color:var(--ac);font-family:var(--mn);letter-spacing:.04em}
+.chip-d .d{width:5px;height:5px;border-radius:50%;background:var(--ac);box-shadow:0 0 6px var(--ac)}
+.chip-n{font-family:var(--mn);font-size:10px;letter-spacing:.04em;padding:4px 9px;border-radius:var(--r-sm);background:var(--sf2);border:1px solid var(--bd);color:var(--fg)}
+.badge-dot{width:7px;height:7px;border-radius:50%}
+.dot-ac{background:var(--ac)}
+.dot-warn{background:var(--warn)}
+.dot-ac2{background:var(--ac2)}
+.tag-m{font-family:var(--mn);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:color-mix(in oklch,var(--ac2),transparent 80%);color:oklch(45% .08 65);border:1px solid color-mix(in oklch,var(--ac2),transparent 60%)}
+.tag-m.bonus{background:var(--ac-soft);color:var(--ac);border-color:var(--ac-mid)}
+.task{display:flex;align-items:flex-start;gap:10px;padding:11px 13px;border-radius:var(--r-md);background:var(--sf2);border:1px solid var(--bd);cursor:pointer;font-size:13px;line-height:1.4}
+.task:hover{border-color:var(--bd2)}
+.task input{margin-top:3px;accent-color:var(--ac);width:14px;height:14px;flex-shrink:0;cursor:pointer}
+.task.done{opacity:.4;text-decoration:line-through;text-decoration-color:var(--mu2)}
+.callout{display:flex;gap:12px;padding:14px 16px;border-radius:var(--r-md)}
+.callout-warn{background:var(--warn-soft);border:1px solid var(--warn-mid)}
+.callout-ac{background:var(--ac-soft);border:1px solid var(--ac-mid)}
+.callout .ic{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:12px;flex-shrink:0;font-family:var(--ds)}
+.callout-warn .ic{background:var(--warn);color:oklch(13% .015 220)}
+.callout-ac .ic{background:var(--ac);color:oklch(13% .015 220);font-family:var(--body)}
+.callout .tx{font-size:12.5px;line-height:1.5;color:var(--fg)}
+.callout .tx b{font-weight:600}
+.callout .tx code{font-family:var(--mn);font-size:11px;background:oklch(8% .015 220);padding:1px 5px;border-radius:3px;border:1px solid var(--bd)}
+.codeblock{background:oklch(8% .015 220);border:1px solid var(--bd);border-radius:var(--r-md);overflow:hidden}
+.codeblock-h{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--bd);background:var(--sf)}
+.codeblock-h .l{font-family:var(--mn);font-size:10px;color:var(--mu2);letter-spacing:.1em;text-transform:uppercase}
+.codeblock-h .r{font-family:var(--mn);font-size:10px;color:var(--ac);letter-spacing:.04em}
+.codeblock pre{margin:0;padding:16px 18px;font-family:var(--mn);font-size:12.5px;line-height:1.7;color:var(--fg);overflow-x:auto}
+.codeblock .k{color:var(--ac)}
+.codeblock .f{color:var(--ac2)}
+.codeblock .s{color:oklch(80% .13 155)}
+.codeblock .cm{color:var(--mu2);font-style:italic}
+.note-ta{width:100%;min-height:72px;padding:12px 14px;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r-md);color:var(--fg);font-family:var(--body);font-size:13px;line-height:1.55;resize:vertical;outline:none}
+.note-ta:focus{border-color:var(--ac-mid)}
+.note-ta::placeholder{color:var(--mu2)}
+.day-item{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:var(--r-sm);font-size:12.5px;color:var(--mu);cursor:pointer}
+.day-item.on{background:var(--ac-soft);color:var(--fg);font-weight:500}
+.day-item.done{color:var(--mu2)}
+.day-item .d{width:6px;height:6px;border-radius:50%;border:1px solid var(--mu2);flex-shrink:0}
+.day-item.done .d{background:var(--ac);border-color:var(--ac)}
+.day-item.on .d{background:var(--ac);border-color:var(--ac)}
+.day-item .n{font-family:var(--mn);font-size:10px;color:var(--mu2);width:30px;flex-shrink:0}
+/* === radii + spacing === */
+.rgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.rcard{background:var(--sf);border:1px solid var(--bd);padding:18px;border-radius:var(--r-md);display:flex;flex-direction:column;align-items:center;gap:10px}
+.rcard .swatch{width:100%;height:48px;background:var(--ac);border:1px solid var(--ac-mid)}
+.rcard .nm{font-family:var(--mn);font-size:11px;color:var(--fg);font-weight:500}
+.rcard .vl{font-family:var(--mn);font-size:10px;color:var(--mu2)}
+.spcgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.spc{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-md);padding:14px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.spc .bar{height:12px;background:var(--ac);border-radius:2px}
+.spc .nm{font-family:var(--mn);font-size:10px;color:var(--fg)}
+.spc .vl{font-family:var(--mn);font-size:9px;color:var(--mu2)}
+/* === motion === */
+.motion-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.mcard{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-md);padding:18px}
+.mcard .nm{font-family:var(--mn);font-size:10px;color:var(--ac);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.mcard .vl{font-family:var(--mn);font-size:10px;color:var(--mu2);letter-spacing:.04em}
+.mcard .demo{height:36px;background:var(--ac-soft);border:1px solid var(--ac-mid);border-radius:var(--r-sm);margin-top:10px;display:grid;place-items:center;color:var(--ac);font-family:var(--mn);font-size:11px}
+.mcard .demo.pulse{animation:pulse 2.4s ease-in-out infinite}
+.mcard .demo.sheen{position:relative;overflow:hidden}
+.mcard .demo.sheen::after{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,oklch(80% .15 175 / .35) 50%,transparent 70%);animation:sheen 2.6s linear infinite}
+.mcard .demo.glow{box-shadow:0 0 0 0 var(--ac);animation:glow 2s ease-out infinite}
+@keyframes pulse{0%,100%{opacity:.6;transform:scale(.98)}50%{opacity:1;transform:scale(1.02)}}
+@keyframes sheen{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+@keyframes glow{0%{box-shadow:0 0 0 0 color-mix(in oklch,var(--ac),transparent 60%)}100%{box-shadow:0 0 0 12px transparent}}
+::selection{background:var(--ac);color:oklch(13% .015 220)}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="head">
+<div class="eye">Study Gang · Design System v1 · 2024</div>
+<h1 class="ttl">Study<em>Gang</em>.</h1>
+<p class="sub-h">A complete, single-source design system — palette, typography, components, motion, and the rules that bind them.</p>
+<div class="meta-strip">
+<div class="m"><div class="k">Theme</div><div class="v">Dark · Teal Depth</div></div>
+<div class="m"><div class="k">Mode</div><div class="v">Desktop-first</div></div>
+<div class="m"><div class="k">Display</div><div class="v">Instrument Serif</div></div>
+<div class="m"><div class="k">Sub-display</div><div class="v">Spectral italic</div></div>
+<div class="m"><div class="k">Body</div><div class="v">Inter</div></div>
+<div class="m"><div class="k">Code</div><div class="v">JetBrains Mono</div></div>
+<div class="m"><div class="k">Accent</div><div class="v"><b>Mint · oklch(80 .15 175)</b></div></div>
+<div class="m"><div class="k">Radius</div><div class="v">6 / 9 / 14 / 18</div></div>
+</div>
+</header>
+
+<!-- ============================ PALETTE ============================ -->
+<section>
+<div class="sec-h"><span class="sec-n">01</span><h2 class="sec-t">Palette — <em>teal depth.</em></h2></div>
+<div class="sub-sec">Foundations</div>
+<div class="pal-grid">
+<div class="token"><div class="chip" style="background:var(--bg)"></div><div class="info"><div class="name">bg · canvas</div><div class="val">oklch(13% .015 220)</div></div></div>
+<div class="token"><div class="chip" style="background:var(--sf)"></div><div class="info"><div class="name">surface · lifted</div><div class="val">oklch(19% .022 220)</div></div></div>
+<div class="token"><div class="chip" style="background:var(--sf2)"></div><div class="info"><div class="name">surface · raised</div><div class="val">oklch(22% .025 220)</div></div></div>
+<div class="token"><div class="chip" style="background:var(--fg)"></div><div class="info"><div class="name">fg · primary</div><div class="val">oklch(95% .01 90)</div></div></div>
+<div class="token"><div class="chip" style="background:var(--mu)"></div><div class="info"><div class="name">fg · muted</div><div class="val">oklch(64% .018 215)</div></div></div>
+<div class="token"><div class="chip" style="background:var(--mu2)"></div><div class="info"><div class="name">fg · dim</div><div class="val">oklch(50% .016 215)</div></div></div>
+<div class="token"><div class="chip" style="background:var(--bd)"></div><div class="info"><div class="name">border · hairline</div><div class="val">oklch(26% .025 220)</div></div></div>
+<div class="token"><div class="chip" style="background:var(--bd2)"></div><div class="info"><div class="name">border · strong</div><div class="val">oklch(32% .03 220)</div></div></div>
+</div>
+<div class="sub-sec">Accent · status</div>
+<div class="pal-grid">
+<div class="token"><div class="chip" style="background:var(--ac)"></div><div class="info"><div class="name">accent · mint</div><div class="val">oklch(80% .15 175)</div></div></div>
+<div class="token"><div class="chip" style="background:var(--ac2)"></div><div class="info"><div class="name">accent-2 · cream</div><div class="val">oklch(85% .10 65)</div></div></div>
+<div class="token"><div class="chip" style="background:var(--warn)"></div><div class="info"><div class="name">warn · ember</div><div class="val">oklch(68% .17 30)</div></div></div>
+<div class="token"><div class="chip" style="background:oklch(80% .13 155)"></div><div class="info"><div class="name">success · leaf</div><div class="val">oklch(80% .13 155)</div></div></div>
+</div>
+</section>
+
+<!-- ============================ TYPOGRAPHY ============================ -->
+<section>
+<div class="sec-h"><span class="sec-n">02</span><h2 class="sec-t">Typography — <em>the stack.</em></h2></div>
+<div class="type-showcase">
+<div class="type-row"><div class="label">Display<small>Instrument Serif · 400 · italic for accent</small></div><div class="t-display">Day 03. <em>Recursion.</em></div></div>
+<div class="type-row"><div class="label">Sub-display<small>Spectral · 500 · italic</small></div><div class="t-sub">A function that calls itself — until it doesn't.</div></div>
+<div class="type-row"><div class="label">Body<small>Inter · 400 / 500 / 600</small></div><div class="t-body"><b>Recursion</b> is one of those ideas that feels circular until suddenly it doesn't. A recursive function solves a problem by calling a <em>smaller version</em> of itself — over and over — until it hits a stopping condition. That stopping condition is called the <b>base case</b>.</div></div>
+<div class="type-row"><div class="label">Code<small>JetBrains Mono · 400 / 500</small></div><div class="t-mono"><span class="k">public static int</span> <span class="f">fact</span>(<span class="k">int</span> n) {
+    <span class="k">if</span> (n &lt;= <span class="s">1</span>) <span class="k">return</span> <span class="s">1</span>;
+    <span class="k">return</span> n * <span class="f">fact</span>(n - <span class="s">1</span>);
+}</div></div>
+</div>
+</section>
+
+<!-- ============================ SCALE ============================ -->
+<section>
+<div class="sec-h"><span class="sec-n">03</span><h2 class="sec-t">Type scale.</h2></div>
+<div class="scale-grid">
+<div class="scale-row"><span class="sz">56 / 64</span><span class="lbl">display</span><span class="samp" style="font-family:var(--ds);font-size:56px;line-height:1.05">Recursion.</span></div>
+<div class="scale-row"><span class="sz">40 / 52</span><span class="lbl">h1</span><span class="samp" style="font-family:var(--ds);font-size:40px;line-height:1.1">Day 03 · Recursion</span></div>
+<div class="scale-row"><span class="sz">26 / 32</span><span class="lbl">h2</span><span class="samp" style="font-family:var(--ds);font-size:26px;line-height:1.15">Phase 1 · Foundations</span></div>
+<div class="scale-row"><span class="sz">18 / 24</span><span class="lbl">h3 / sub</span><span class="samp" style="font-family:var(--sub);font-style:italic;font-size:18px;color:var(--ac)">A function that calls itself</span></div>
+<div class="scale-row"><span class="sz">15 / 24</span><span class="lbl">body lg</span><span class="samp" style="font-size:15px;line-height:1.6">Recursion is one of those ideas that feels circular until suddenly it doesn't.</span></div>
+<div class="scale-row"><span class="sz">13 / 20</span><span class="lbl">body · md</span><span class="samp">Standard reading text — paragraphs, list items, captions.</span></div>
+<div class="scale-row"><span class="sz">12 / 18</span><span class="lbl">body · sm</span><span class="samp" style="font-size:12px">Helper text, sublabels, dense UI — task items, sidebars.</span></div>
+<div class="scale-row"><span class="sz">10 / 14</span><span class="lbl">mono · chip</span><span class="samp" style="font-family:var(--mn);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ac)">DAY 03 / 14</span></div>
+</div>
+</section>
+
+<!-- ============================ RADII / SPACING ============================ -->
+<section>
+<div class="sec-h"><span class="sec-n">04</span><h2 class="sec-t">Radii · spacing · borders.</h2></div>
+<div class="sub-sec">Corner radii</div>
+<div class="rgrid">
+<div class="rcard"><div class="swatch" style="border-radius:var(--r-sm)"></div><div class="nm">sm</div><div class="vl">6px · chips · tags</div></div>
+<div class="rcard"><div class="swatch" style="border-radius:var(--r-md)"></div><div class="nm">md</div><div class="vl">9px · buttons · inputs</div></div>
+<div class="rcard"><div class="swatch" style="border-radius:var(--r-lg)"></div><div class="nm">lg</div><div class="vl">14px · cards · panels</div></div>
+<div class="rcard"><div class="swatch" style="border-radius:var(--r-xl)"></div><div class="nm">xl</div><div class="vl">18px · hero · containers</div></div>
+</div>
+<div class="sub-sec">Spacing scale · 4px base</div>
+<div class="spcgrid">
+<div class="spc"><div class="bar" style="width:4px"></div><div class="nm">1 · 4px</div><div class="vl">hairline gap</div></div>
+<div class="spc"><div class="bar" style="width:8px"></div><div class="nm">2 · 8px</div><div class="vl">inline</div></div>
+<div class="spc"><div class="bar" style="width:12px"></div><div class="nm">3 · 12px</div><div class="vl">tight stack</div></div>
+<div class="spc"><div class="bar" style="width:16px"></div><div class="nm">4 · 16px</div><div class="vl">default stack</div></div>
+<div class="spc"><div class="bar" style="width:24px"></div><div class="nm">6 · 24px</div><div class="vl">section gap</div></div>
+<div class="spc"><div class="bar" style="width:32px"></div><div class="nm">8 · 32px</div><div class="vl">block gap</div></div>
+<div class="spc"><div class="bar" style="width:48px"></div><div class="nm">12 · 48px</div><div class="vl">page pad</div></div>
+<div class="spc"><div class="bar" style="width:64px"></div><div class="nm">16 · 64px</div><div class="vl">hero pad</div></div>
+</div>
+</section>
+
+<!-- ============================ COMPONENTS ============================ -->
+<section>
+<div class="sec-h"><span class="sec-n">05</span><h2 class="sec-t">Components.</h2></div>
+<div class="comps">
+
+<div class="comp">
+<div class="comp-h"><div class="n">Buttons</div><div class="meta">3 variants</div></div>
+<div class="row">
+<button class="btn btn-primary">Mark day done</button>
+<button class="btn">Next day →</button>
+<button class="btn btn-warn">Reset</button>
+</div>
+<div class="row">
+<button class="btn btn-primary" style="padding:6px 12px;font-size:11px">Small primary</button>
+</div>
+</div>
+
+<div class="comp">
+<div class="comp-h"><div class="n">Chips · badges</div><div class="meta">3 types</div></div>
+<div class="row">
+<span class="chip-d"><span class="d"></span>11 day streak</span>
+<span class="chip-d" style="background:color-mix(in oklch,var(--warn),transparent 85%);border-color:color-mix(in oklch,var(--warn),transparent 60%);color:var(--warn)"><span class="d" style="background:var(--warn);box-shadow:0 0 6px var(--warn)"></span>Due today</span>
+<span class="chip-n">Day 03 / 14</span>
+<span class="tag-m">lab</span>
+<span class="tag-m bonus">+25 XP</span>
+</div>
+<div class="row">
+<span class="badge-dot dot-ac"></span>
+<span class="badge-dot dot-warn"></span>
+<span class="badge-dot dot-ac2"></span>
+</div>
+</div>
+
+<div class="comp">
+<div class="comp-h"><div class="n">Tasks</div><div class="meta">interactive</div></div>
+<label class="task done"><input type="checkbox" checked><div>Read the recursion section in your notes</div></label>
+<label class="task"><input type="checkbox"><div>Type out the factorial example by hand</div></label>
+<label class="task"><input type="checkbox"><div>Trace <code style="font-family:var(--mn);font-size:12px;background:oklch(8% .015 220);padding:1px 4px;border-radius:3px">fact(4)</code> on paper</div></label>
+</div>
+
+<div class="comp">
+<div class="comp-h"><div class="n">Callouts</div><div class="meta">2 severities</div></div>
+<div class="callout callout-warn"><div class="ic">!</div><div class="tx"><b>No base case</b> = infinite recursion. Always define your stopping condition <code>first</code>.</div></div>
+<div class="callout callout-ac"><div class="ic">▷</div><div class="tx"><b>Try it yourself.</b> Write <code>fib(n)</code> — two base cases (F(0)=0, F(1)=1).</div></div>
+</div>
+
+<div class="comp" style="grid-column:span 2">
+<div class="comp-h"><div class="n">Code block</div><div class="meta">java · syntax + copy</div></div>
+<div class="codeblock">
+<div class="codeblock-h"><span class="l">factorial.java</span><span class="r">copy · ▶ type it</span></div>
+<pre><span class="cm">// factorial: n! = n × (n-1) × ... × 1</span>
+<span class="k">public static int</span> <span class="f">fact</span>(<span class="k">int</span> n) {
+    <span class="k">if</span> (n &lt;= <span class="s">1</span>) <span class="k">return</span> <span class="s">1</span>;        <span class="cm">// base case</span>
+    <span class="k">return</span> n * <span class="f">fact</span>(n - <span class="s">1</span>);     <span class="cm">// recursive call</span>
+}</pre>
+</div>
+</div>
+
+<div class="comp">
+<div class="comp-h"><div class="n">Notes · textarea</div><div class="meta">autosave</div></div>
+<textarea class="note-ta" placeholder="Sketch the call stack for fib(5)... the trickiest part for me is the two-base-cases pattern…"></textarea>
+<div style="font-family:var(--mn);font-size:9px;color:var(--ac);letter-spacing:.04em">● saved · 2s ago</div>
+</div>
+
+<div class="comp">
+<div class="comp-h"><div class="n">Day list · sidebar</div><div class="meta">3 states</div></div>
+<div class="day-item done"><span class="n">01</span><span class="d"></span>Variables & Types</div>
+<div class="day-item on"><span class="n">03</span><span class="d"></span>Recursion</div>
+<div class="day-item"><span class="n">04</span><span class="d"></span>Methods</div>
+<div class="day-item"><span class="n">05</span><span class="d"></span>Arrays</div>
+</div>
+
+</div>
+</section>
+
+<!-- ============================ MOTION ============================ -->
+<section>
+<div class="sec-h"><span class="sec-n">06</span><h2 class="sec-t">Motion — <em>small, intentional.</em></h2></div>
+<div class="motion-grid">
+<div class="mcard"><div class="nm">pulse</div><div class="vl">2.4s · ease · opacity + scale .02</div><div class="demo pulse">RECURSION</div></div>
+<div class="mcard"><div class="nm">sheen</div><div class="vl">2.6s · linear · 110deg pass</div><div class="demo sheen">FETCH</div></div>
+<div class="mcard"><div class="nm">glow-loop</div><div class="vl">2s · ease-out · outward shadow</div><div class="demo glow">SAVED</div></div>
+<div class="mcard"><div class="nm">hover-lift</div><div class="vl">120ms · ease · translateY -1px</div><div class="demo" style="cursor:pointer">LIFT ME</div></div>
+</div>
+</section>
+
+<!-- ============================ RULES ============================ -->
+<section>
+<div class="sec-h"><span class="sec-n">07</span><h2 class="sec-t">Rules.</h2></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px">
+<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-lg);padding:20px">
+<div style="font-family:var(--mn);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ac);margin-bottom:10px">Color</div>
+<div style="font-size:13px;line-height:1.65;color:var(--fg)">
+· one accent (mint) used <b>at most twice</b> per screen<br>
+· warn reserved for stack-overflow / destructive only<br>
+· never overlay two saturated colors<br>
+· never use cream (ac2) as primary text
+</div>
+</div>
+<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-lg);padding:20px">
+<div style="font-family:var(--mn);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ac);margin-bottom:10px">Typography</div>
+<div style="font-size:13px;line-height:1.65;color:var(--fg)">
+· display = <b>Instrument Serif</b>; never pair with another serif<br>
+· italic sub-display only on h3 / sub-lines<br>
+· body ≥ 13px on dense UI; ≥ 15px on reading surfaces<br>
+· mono = code + meta + numerics only
+</div>
+</div>
+<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-lg);padding:20px">
+<div style="font-family:var(--mn);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ac);margin-bottom:10px">Surfaces</div>
+<div style="font-size:13px;line-height:1.65;color:var(--fg)">
+· bg = canvas, sf = panel, sf2 = raised inside panels<br>
+· hairline borders over shadows (always 1px oklch bd)<br>
+· radius scale: sm → md → lg → xl · never in-between<br>
+· spacing on 4px grid; default stack = 16px
+</div>
+</div>
+<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r-lg);padding:20px">
+<div style="font-family:var(--mn);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ac);margin-bottom:10px">Motion</div>
+<div style="font-size:13px;line-height:1.65;color:var(--fg)">
+· 120ms hover, 240ms entrance, 2-3s loops<br>
+· respect <b>prefers-reduced-motion</b><br>
+· one motion at a time per zone · no cascading loops<br>
+· hue shifts allowed only via color-mix on tokens
+</div>
+</div>
+</div>
+</section>
+
+<div style="margin-top:48px;padding-top:24px;border-top:1px solid var(--bd);font-family:var(--mn);font-size:11px;letter-spacing:.04em;color:var(--mu2);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px">
+<span>study-gang · design-system v1</span>
+<span>teal depth · instrument serif · spectral</span>
+<span>single source of truth</span>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,400 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-bg text-ink font-sans antialiased;
+    overflow: hidden;
+  }
+  ::selection {
+    background: theme('colors.accent.DEFAULT');
+    color: theme('colors.bg.DEFAULT');
+  }
+  /* Custom scrollbars */
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: theme('colors.border');
+    border-radius: 4px;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.ink.3');
+  }
+  * {
+    scrollbar-color: theme('colors.border') transparent;
+    scrollbar-width: thin;
+  }
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Global focus-visible ring. Applied to any focusable element that doesn't
+   * already define a more specific focus style. Uses our accent token and the
+   * bg surface for the offset ring so it stays visible regardless of surface. */
+  :where(button, a, [role="button"], textarea, input, [tabindex]):focus-visible {
+    outline: 2px solid theme('colors.accent.DEFAULT');
+    outline-offset: 2px;
+  }
+}
+
+/* ───────── Component layer ───────── */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors duration-fast;
+  }
+  .btn-primary {
+    @apply bg-accent text-bg hover:bg-accent-2;
+  }
+  .btn-ghost {
+    @apply bg-transparent border border-border text-ink-2 hover:text-ink hover:border-ink;
+  }
+  .btn-secondary {
+    @apply bg-panel-2 border border-border text-ink hover:bg-panel hover:border-accent;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border border-border bg-panel text-ink-2;
+  }
+  /* The single source of truth for content surfaces: cards, sections, and
+   * any "panel with a border" pattern. Avoid hand-rolling this elsewhere. */
+  .surface {
+    @apply bg-panel border border-border rounded-xl;
+  }
+  .surface-padded {
+    @apply surface p-5;
+  }
+  .surface-section {
+    @apply surface p-6 mb-4;
+  }
+  /* Skip link — visible only when focused via keyboard. */
+  .skip-link {
+    @apply absolute left-2 top-2 z-50 px-3 py-2 rounded-md bg-accent text-bg font-semibold;
+    transform: translateY(-200%);
+    transition: transform 120ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+}
+
+/* Inline code styling — uses tokens, not hex. */
+.not-prose code {
+  background: theme('colors.panel.2');
+  color: theme('colors.accent.2');
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.88em;
+  border: 1px solid theme('colors.border');
+  font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+}
+
+pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* ───────── Motion vocabulary ───────── */
+/* Two durations, two easings. Reach for these via the utility classes
+ * (duration-fast/normal/slow, ease-standard/spring) so we don't end up with
+ * a dozen bespoke timings. */
+
+/* The fade-in entrance — used on HomeView, ReferenceView, SettingsModal. */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in {
+  animation: fadeIn 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.empty-state > div:first-child {
+  transition: transform 360ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.empty-state:hover > div:first-child {
+  transform: translateY(-3px) rotate(-2deg);
+}
+
+/* ───────── Whimsy / motion primitives ───────── */
+
+.btn-whimsy {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn-whimsy::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 25%, rgba(255,255,255,0.28) 50%, transparent 75%);
+  transform: translateX(-120%);
+  transition: transform 550ms cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+.btn-whimsy > * {
+  position: relative;
+  z-index: 1;
+}
+.btn-whimsy:hover::after {
+  transform: translateX(120%);
+}
+
+.course-icon {
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.course-card:hover .course-icon {
+  transform: rotate(-6deg) scale(1.1);
+}
+
+.task-check-pop {
+  animation: taskCheck 360ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@keyframes taskCheck {
+  0% { transform: scale(0.65) rotate(-8deg); }
+  70% { transform: scale(1.15) rotate(3deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+.flashcard {
+  transform-style: preserve-3d;
+}
+.flashcard:focus-visible {
+  border-color: theme('colors.accent.DEFAULT');
+}
+
+/* ───────── Home hero ───────── */
+
+.home-hero {
+  min-height: 250px;
+}
+.hero-orbit {
+  position: absolute;
+  border: 1px solid rgba(248, 152, 32, 0.15);
+  border-radius: 9999px;
+  pointer-events: none;
+  animation: orbitDrift 14s ease-in-out infinite;
+}
+.hero-orbit-one {
+  width: 260px;
+  height: 260px;
+  right: -90px;
+  top: -145px;
+}
+.hero-orbit-two {
+  width: 170px;
+  height: 170px;
+  right: 70px;
+  bottom: -115px;
+  border-color: rgba(56, 189, 248, 0.12);
+  animation-delay: -5s;
+}
+@keyframes orbitDrift {
+  0%, 100% { transform: rotate(0deg) translate(0, 0); }
+  50% { transform: rotate(12deg) translate(-8px, 6px); }
+}
+
+.buddy-card {
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(11, 13, 18, 0.38);
+  border-radius: 1rem;
+  padding: 0.75rem 1rem 0.75rem 0.75rem;
+  backdrop-filter: blur(8px);
+}
+.buddy-face {
+  width: 3.25rem;
+  height: 3.25rem;
+  display: grid;
+  place-items: center;
+  border-radius: 1rem;
+  background: linear-gradient(145deg, rgba(248,152,32,0.22), rgba(237,28,36,0.12));
+  font-size: 1.75rem;
+  animation: buddyFloat 3.2s ease-in-out infinite;
+}
+@keyframes buddyFloat {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-3px) rotate(2deg); }
+}
+
+.course-finale {
+  isolation: isolate;
+}
+.course-finale::after {
+  content: '✦  ✧  ✦';
+  position: absolute;
+  right: 1.25rem;
+  top: 0.75rem;
+  color: rgba(248,152,32,0.35);
+  letter-spacing: 0.6rem;
+  pointer-events: none;
+}
+
+/* ───────── Celebration layer ───────── */
+
+.celebration-particles {
+  position: fixed;
+  inset: 0;
+  z-index: 119;
+  overflow: hidden;
+  pointer-events: none;
+}
+.celebration-particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+  opacity: 0;
+  box-shadow: 0 0 12px currentColor;
+  animation: particlePop 1.8s ease-out both;
+}
+@keyframes particlePop {
+  0% { opacity: 0; transform: translateY(40px) scale(0.4) rotate(0deg); }
+  18% { opacity: 0.95; }
+  100% { opacity: 0; transform: translateY(-170px) scale(0.9) rotate(240deg); }
+}
+.celebration-toast {
+  border: 1px solid rgba(248,152,32,0.45);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: linear-gradient(145deg, rgba(31, 28, 25, 0.98), rgba(22, 26, 35, 0.98));
+  box-shadow: 0 18px 50px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.03) inset;
+  animation: toastIn 360ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.celebration-emoji {
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 0.85rem;
+  background: rgba(248,152,32,0.14);
+  font-size: 1.5rem;
+  animation: celebrationBounce 700ms ease-out;
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(14px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes celebrationBounce {
+  0% { transform: scale(0.5) rotate(-10deg); }
+  65% { transform: scale(1.12) rotate(4deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+/* ───────── Whimsy additions ───────── */
+
+/* Subtle hover lift for content blocks (paragraphs, lists, tables). */
+.block-hover {
+  transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 180ms cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 180ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.block-hover:hover {
+  transform: translateY(-1px);
+  border-color: rgba(248, 152, 32, 0.35);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+}
+
+/* Callout cards get a slightly more pronounced hover so the user can feel
+ * which ones are reference material vs. inline narration. */
+.callout-card {
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1),
+              filter 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+.callout-card:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+/* Achievement card pop animation when freshly unlocked. */
+.achievement-fresh {
+  animation: achievementPop 600ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: theme('boxShadow.glow-strong');
+}
+@keyframes achievementPop {
+  0%   { transform: scale(0.85); box-shadow: 0 0 0 0 rgba(248,152,32,0.6); }
+  35%  { transform: scale(1.08); box-shadow: 0 0 0 4px rgba(248,152,32,0.25); }
+  70%  { transform: scale(0.98); }
+  100% { transform: scale(1); box-shadow: theme('boxShadow.glow'); }
+}
+.achievement-fresh::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 0.5rem;
+  background: linear-gradient(120deg, transparent 30%, rgba(248,152,32,0.18) 50%, transparent 70%);
+  pointer-events: none;
+  animation: achievementShine 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes achievementShine {
+  0% { transform: translateX(-100%); opacity: 0.9; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+/* Sidebar accent when contents are scrollable. */
+aside.bg-bg-2::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(248,152,32,0.35), rgba(248,152,32,0.15));
+}
+aside.bg-bg-2::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(248,152,32,0.6), rgba(248,152,32,0.3));
+}
+
+/* Buddy speech bubble typing-inspired gentle reveal. */
+.buddy-card .italic {
+  animation: speechFade 450ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes speechFade {
+  from { opacity: 0; transform: translateX(-4px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* The tip dot pulse — adds a tiny "this is alive" signal. */
+@keyframes pulseDot {
+  0%, 100% { opacity: 0.35; transform: scale(0.9); }
+  50%      { opacity: 1; transform: scale(1.2); }
+}
+.pulse-dot {
+  animation: pulseDot 1.4s ease-in-out infinite;
+}
+
+/* ───────── Reduced motion ─────────
+ * Anyone who has asked the OS for less motion gets the no-animation
+ * experience. We preserve the visual signal (glow on fresh achievement)
+ * but kill the kinetic part. */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .celebration-particles {
+    display: none;
+  }
+  .achievement-fresh {
+    box-shadow: theme('boxShadow.glow');
+  }
+  .pulse-dot {
+    opacity: 0.7;
+  }
+}

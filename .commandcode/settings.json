@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Shell(npx tsc -b --noEmit)",
+      "Shell(npx vite build)",
+      "Shell(del:*)",
+      "Shell(powershell -Command (Get-Content 'src/data/java/phases/phase1.ts') -replace '../../types', '../../../types' | Set-Content 'src/data/java/phases/phase1.ts'; (Get-Content 'src/data/java/phases/phase2.ts') -replace '../../types', '../../../types' | Set-Content 'src/data/java/phases/phase2.ts'; (Get-Content 'src/data/java/phases/phase3.ts') -replace '../../types', '../../../types' | Set-Content 'src/data/java/phases/phase3.ts'; (Get-Content 'src/data/java/phases/phase4.ts') -replace '../../types', '../../../types' | Set-Content 'src/data/java/phases/phase4.ts'; (Get-Content 'src/data/java/phases/phase5.ts') -replace '../../types', '../../../types' | Set-Content 'src/data/java/phases/phase5.ts')",
+      "powershell",
+      "Shell(git:*)",
+      "Shell(gh:*)"
+    ],
+    "deny": [],
+    "defaultMode": "default"
+  }
+}
