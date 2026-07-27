@@ -111,14 +111,14 @@ export function CodeBlock({ code, lang, title, typewriter = false }: CodeBlockPr
         <span className="font-mono text-accent-2 text-body-sm flex items-center gap-2 min-w-0">
           <Icon name="documentText" size="sm" className="text-ink-3" />
           <span className="truncate">{title ?? langLabel(lang)}</span>
-          <span className="text-[10px] text-ink-3 font-normal hidden sm:inline">{lineCount} lines</span>
+          <span className="text-xs text-ink-3 font-normal hidden sm:inline">{lineCount} lines</span>
         </span>
         <div className="flex items-center gap-1.5">
           {typewriterActive ? (
             <button
               type="button"
               onClick={skipTypewriter}
-              className="px-2.5 py-0.5 rounded text-[11px] border border-border text-ink-2 hover:text-ink hover:border-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="px-2.5 py-0.5 rounded text-xs border border-border text-ink-2 hover:text-ink hover:border-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               aria-label="Skip typewriter animation"
             >
               Skip
@@ -127,7 +127,7 @@ export function CodeBlock({ code, lang, title, typewriter = false }: CodeBlockPr
             <button
               type="button"
               onClick={startTypewriter}
-              className="px-2.5 py-0.5 rounded text-[11px] border border-border text-ink-2 hover:text-ink hover:border-accent inline-flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="px-2.5 py-0.5 rounded text-xs border border-border text-ink-2 hover:text-ink hover:border-accent inline-flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               aria-label="Type the code out"
               title="Watch the code animate"
             >
@@ -139,7 +139,7 @@ export function CodeBlock({ code, lang, title, typewriter = false }: CodeBlockPr
             type="button"
             onClick={copy}
             className={cn(
-              'px-2.5 py-0.5 rounded text-[11px] border transition-all flex-shrink-0 inline-flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
+              'px-2.5 py-0.5 rounded text-xs border transition-all flex-shrink-0 inline-flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent',
               copied
                 ? 'border-success text-success bg-success/10'
                 : 'border-border text-ink-2 hover:text-ink hover:border-ink'
@@ -162,13 +162,13 @@ export function CodeBlock({ code, lang, title, typewriter = false }: CodeBlockPr
             onClick={() => {
               try { navigator.clipboard.writeText(code); } catch {}
             }}
-            className="px-2.5 py-0.5 rounded text-[11px] border border-border text-ink-2 hover:text-ink hover:border-ink transition-colors ml-1"
+            className="px-2.5 py-0.5 rounded text-xs border border-border text-ink-2 hover:text-ink hover:border-ink transition-colors ml-1"
           >
             type it
           </button>
         </div>
       </div>
-      <pre className="m-0 px-4 py-3.5 overflow-x-auto font-mono text-[13px] leading-relaxed">
+      <pre className="m-0 px-4 py-3.5 overflow-x-auto font-mono text-sm leading-relaxed">
         <code dangerouslySetInnerHTML={{ __html: visibleHtml }} />
         {caretVisible && (
           <span
@@ -179,7 +179,7 @@ export function CodeBlock({ code, lang, title, typewriter = false }: CodeBlockPr
         )}
       </pre>
       {copied && (
-        <div className="px-4 py-1.5 bg-success/5 border-t border-success/20 text-[11px] text-success fade-in" aria-live="polite">
+        <div className="px-4 py-1.5 bg-success/5 border-t border-success/20 text-xs text-success fade-in" aria-live="polite">
           Code secured. Now make it yours.
         </div>
       )}

@@ -49,7 +49,7 @@ export function ReferenceView() {
       >
         <nav
           aria-label="Breadcrumb"
-          className="text-[13px] text-ink-2 mb-2 flex items-center gap-1.5"
+          className="text-sm text-ink-2 mb-2 flex items-center gap-1.5"
         >
           <button
             type="button"

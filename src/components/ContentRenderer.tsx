@@ -208,7 +208,7 @@ function QuizBlock({ questions, title }: { questions: NonNullable<ContentBlock['
           <span>{title ?? 'Check Your Understanding'}</span>
         </h3>
         <div className="flex items-center gap-2">
-          <span className="text-[11px] text-ink-2 tabular-nums">{answeredCount}/{questions.length} · {score} correct</span>
+          <span className="text-xs text-ink-2 tabular-nums">{answeredCount}/{questions.length} · {score} correct</span>
           <button
             type="button"
             onClick={allRevealed ? resetAll : revealAll}

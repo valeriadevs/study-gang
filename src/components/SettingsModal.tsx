@@ -80,7 +80,7 @@ export function SettingsModal() {
         <section aria-labelledby="settings-stats-heading" className="mb-5">
           <h3
             id="settings-stats-heading"
-            className="text-[11px] uppercase tracking-wider text-ink-3 font-bold mb-2"
+            className="text-xs uppercase tracking-wider text-ink-3 font-bold mb-2"
           >
             Study stats
           </h3>
@@ -105,7 +105,7 @@ export function SettingsModal() {
         <section aria-labelledby="settings-achievements-heading" className="mb-5">
           <h3
             id="settings-achievements-heading"
-            className="text-[11px] uppercase tracking-wider text-ink-3 font-bold mb-2"
+            className="text-xs uppercase tracking-wider text-ink-3 font-bold mb-2"
           >
             Achievements
           </h3>
@@ -120,7 +120,7 @@ export function SettingsModal() {
               </div>
             </div>
             <div className="text-right">
-              <div className="text-[10px] uppercase tracking-wider text-ink-3 font-bold">Level</div>
+              <div className="text-xs uppercase tracking-wider text-ink-3 font-bold">Level</div>
               <div className="text-xl font-extrabold text-accent inline-flex items-center gap-1.5">
                 <Icon name="trophy" size="sm" />
                 {level.level}
@@ -133,7 +133,7 @@ export function SettingsModal() {
         <section aria-labelledby="settings-data-heading" className="mb-5">
           <h3
             id="settings-data-heading"
-            className="text-[11px] uppercase tracking-wider text-ink-3 font-bold mb-2"
+            className="text-xs uppercase tracking-wider text-ink-3 font-bold mb-2"
           >
             Data
           </h3>
@@ -155,7 +155,7 @@ export function SettingsModal() {
         <section aria-labelledby="settings-about-heading">
           <h3
             id="settings-about-heading"
-            className="text-[11px] uppercase tracking-wider text-ink-3 font-bold mb-2"
+            className="text-xs uppercase tracking-wider text-ink-3 font-bold mb-2"
           >
             About
           </h3>

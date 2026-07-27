@@ -124,7 +124,7 @@ export function CelebrationLayer() {
             <div className="min-w-0 flex-1">
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.18em] text-accent font-bold">
+                  <p className="text-xs uppercase tracking-[0.18em] text-accent font-bold">
                     {KIND_LABELS[celebration.kind]}
                   </p>
                   <h2 className="text-base font-bold text-ink mt-0.5">
@@ -148,15 +148,15 @@ export function CelebrationLayer() {
                 <div className="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-white/10 text-center">
                   <div>
                     <div className="text-sm font-bold text-ink">{courseMetric.doneDays}/{courseMetric.totalDays}</div>
-                    <div className="text-[10px] text-ink-3">days</div>
+                    <div className="text-xs text-ink-3">days</div>
                   </div>
                   <div>
                     <div className="text-sm font-bold text-ink">{courseMetric.doneTasks}/{courseMetric.totalTasks}</div>
-                    <div className="text-[10px] text-ink-3">tasks</div>
+                    <div className="text-xs text-ink-3">tasks</div>
                   </div>
                   <div>
                     <div className="text-sm font-bold text-ink">{courseMetric.minutesStudied}m</div>
-                    <div className="text-[10px] text-ink-3">focused</div>
+                    <div className="text-xs text-ink-3">focused</div>
                   </div>
                 </div>
               )}
@@ -164,7 +164,7 @@ export function CelebrationLayer() {
               {unlocked.length > 0 && (
                 <div className="flex flex-wrap gap-1.5 mt-3">
                   {unlocked.map((achievement) => achievement && (
-                    <span key={achievement.id} className="text-[11px] chip border-accent/40 text-accent inline-flex items-center gap-1">
+                    <span key={achievement.id} className="text-xs chip border-accent/40 text-accent inline-flex items-center gap-1">
                       <Icon name={achievement.icon} size="xs" />
                       {achievement.title}
                     </span>

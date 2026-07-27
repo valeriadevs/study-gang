@@ -38,7 +38,7 @@ export function TaskList({ courseId, tasks }: TaskListProps) {
             style={{ width: `${tasks.length > 0 ? (doneCount / tasks.length) * 100 : 0}%` }}
           />
         </div>
-        <span className="text-[11px] text-ink-2 tabular-nums">{doneCount}/{tasks.length}</span>
+        <span className="text-xs text-ink-2 tabular-nums">{doneCount}/{tasks.length}</span>
       </div>
       <p className={cn('text-xs mb-3', allDone ? 'text-success' : 'text-ink-3')}>
         {allDone
@@ -87,7 +87,7 @@ export function TaskList({ courseId, tasks }: TaskListProps) {
                 {task.tag && (
                   <span
                     className={cn(
-                      'text-[10px] px-1.5 py-0.5 rounded uppercase tracking-wider font-mono font-semibold flex-shrink-0',
+                      'text-xs px-1.5 py-0.5 rounded uppercase tracking-wider font-mono font-semibold flex-shrink-0',
                       TAG_STYLES[task.tag] ?? 'bg-panel text-ink-2'
                     )}
                   >

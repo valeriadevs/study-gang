@@ -76,7 +76,7 @@ export function DayList({ courseId }: DayListProps) {
                 <div className="text-body-sm font-mono uppercase tracking-wider text-ink-3 font-bold">
                   {phase.name}
                 </div>
-                <span className="text-[10px] text-ink-3 tabular-nums">{phaseDone}/{phase.days.length}</span>
+                <span className="text-xs text-ink-3 tabular-nums">{phaseDone}/{phase.days.length}</span>
               </div>
               <div className="space-y-0.5">
                 {phase.days.map((day) => {
@@ -121,7 +121,7 @@ export function DayList({ courseId }: DayListProps) {
                         </div>
                       </div>
                       {dayTasks.length > 0 && !isDone && (
-                        <span className="text-[10px] text-ink-3 tabular-nums flex-shrink-0">{dayDoneTasks}/{dayTasks.length}</span>
+                        <span className="text-xs text-ink-3 tabular-nums flex-shrink-0">{dayDoneTasks}/{dayTasks.length}</span>
                       )}
                       <div
                         className={cn(

@@ -230,7 +230,7 @@ export function HomeView() {
             <Icon name="bulb" size="md" weight="Filled" />
           </span>
           <div>
-            <div className="text-[10px] uppercase tracking-wider text-accent font-bold flex items-center gap-2">
+            <div className="text-xs uppercase tracking-wider text-accent font-bold flex items-center gap-2">
               <span>Today&rsquo;s tiny nudge</span>
               <span className="w-1.5 h-1.5 rounded-full bg-accent pulse-dot" aria-hidden="true" />
             </div>

@@ -175,7 +175,7 @@ export function Timer() {
           className="absolute top-full right-0 mt-2 bg-panel border border-border rounded-lg shadow-panel overflow-hidden z-30 min-w-[150px] fade-in"
           role="menu"
         >
-          <div className="px-3 pt-2.5 pb-1 text-[10px] uppercase tracking-wider text-ink-3 font-bold">Choose a focus block</div>
+          <div className="px-3 pt-2.5 pb-1 text-xs uppercase tracking-wider text-ink-3 font-bold">Choose a focus block</div>
           {TIMER_PRESETS.map((preset) => (
             <button
               type="button"

@@ -15,3 +15,5 @@ dist-ssr
 .env.local
 .env.*.local
 .commandcode
+dev-log*.txt
+dev-*.log

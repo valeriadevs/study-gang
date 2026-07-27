@@ -132,14 +132,14 @@ export function PracticeEditor({
           <button
             type="button"
             onClick={handleReset}
-            className="px-2.5 py-0.5 rounded text-[11px] border border-border text-ink-2 hover:text-ink hover:border-ink transition-colors"
+            className="px-2.5 py-0.5 rounded text-xs border border-border text-ink-2 hover:text-ink hover:border-ink transition-colors"
           >
             Reset
           </button>
           <button
             type="button"
             onClick={run}
-            className="px-3 py-0.5 rounded text-[11px] bg-accent text-[#1a0f00] font-semibold hover:bg-accent-2 transition-colors inline-flex items-center gap-1"
+            className="px-3 py-0.5 rounded text-xs bg-accent text-[#1a0f00] font-semibold hover:bg-accent-2 transition-colors inline-flex items-center gap-1"
             title="Run practice (Ctrl or Cmd + Enter)"
           >
             <Icon name="play" size="xs" weight="Filled" />
@@ -151,7 +151,7 @@ export function PracticeEditor({
       {/* Editable code area with highlight overlay */}
       <div className="relative">
         <pre
-          className="m-0 px-4 py-3.5 font-mono text-[13px] leading-relaxed pointer-events-none whitespace-pre-wrap break-all"
+          className="m-0 px-4 py-3.5 font-mono text-sm leading-relaxed pointer-events-none whitespace-pre-wrap break-all"
           aria-hidden
         >
           <code dangerouslySetInnerHTML={{ __html: highlighted }} />
@@ -163,7 +163,7 @@ export function PracticeEditor({
           onKeyDown={handleKeyDown}
           spellCheck={false}
           aria-label={`${title ?? 'Practice'} code editor`}
-          className="absolute inset-0 w-full h-full bg-transparent text-transparent caret-accent font-mono text-[13px] leading-relaxed p-4 resize-none outline-none whitespace-pre-wrap break-all focus-visible:ring-2 focus-visible:ring-accent"
+          className="absolute inset-0 w-full h-full bg-transparent text-transparent caret-accent font-mono text-sm leading-relaxed p-4 resize-none outline-none whitespace-pre-wrap break-all focus-visible:ring-2 focus-visible:ring-accent"
         />
       </div>
 

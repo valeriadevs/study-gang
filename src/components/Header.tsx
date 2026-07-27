@@ -23,7 +23,7 @@ export function Header() {
         </span>
         <span>Study Gang</span>
         <span
-          className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider text-ink-3 border border-border bg-bg/40"
+          className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs font-semibold uppercase tracking-wider text-ink-3 border border-border bg-bg/40"
           aria-label={`Icon system ${ICON_SET_VERSION}`}
           title="Reicon-react icon system"
         >

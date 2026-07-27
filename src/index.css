@@ -62,24 +62,58 @@
 /* ───────── Component layer ───────── */
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded-md text-body-md font-medium transition-colors duration-fast;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 9px;
+    font-size: 13px;
+    line-height: 1.55;
+    font-weight: 500;
+    transition: color 120ms, background-color 120ms, border-color 120ms, opacity 120ms;
     border: 1px solid transparent;
   }
   .btn-primary {
-    @apply bg-accent text-[oklch(12%_.014_220)] font-semibold hover:opacity-90;
-    border-color: var(--color-accent);
+    background-color: oklch(80% .15 175);
+    color: oklch(12% .014 220);
+    font-weight: 600;
+    border-color: oklch(80% .15 175);
   }
+  .btn-primary:hover { opacity: 0.9; }
   .btn-ghost {
-    @apply bg-transparent border-border text-ink-2 hover:text-ink hover:border-ink;
+    background: transparent;
+    border-color: oklch(26% .025 220);
+    color: oklch(64% .018 215);
   }
+  .btn-ghost:hover { color: oklch(95% .01 90); border-color: oklch(95% .01 90); }
   .btn-secondary {
-    @apply bg-panel-2 border-border text-ink hover:bg-panel hover:border-accent;
+    background-color: oklch(22% .025 220);
+    border-color: oklch(26% .025 220);
+    color: oklch(95% .01 90);
   }
+  .btn-secondary:hover { background-color: oklch(19% .022 220); border-color: oklch(80% .15 175); }
   .btn-warn {
-    @apply bg-danger text-white font-semibold border-danger hover:opacity-90;
+    background-color: oklch(68% .17 30);
+    color: white;
+    font-weight: 600;
+    border-color: oklch(68% .17 30);
   }
+  .btn-warn:hover { opacity: 0.9; }
   .chip {
-    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-body-sm font-mono font-medium border border-border bg-panel text-ink-2 tracking-tight;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.28rem 0.7rem;
+    border-radius: 9999px;
+    font-size: 13px;
+    line-height: 1.45;
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    font-weight: 500;
+    border: 1px solid oklch(26% .025 220);
+    background-color: oklch(19% .022 220);
+    color: oklch(64% .018 215);
+    letter-spacing: -0.02em;
   }
   /* The single source of truth for content surfaces: cards, sections, and
    * any "panel with a border" pattern. Avoid hand-rolling this elsewhere. */
@@ -107,9 +141,9 @@
 .not-prose code {
   background: theme('colors.panel.2');
   color: theme('colors.accent.2');
-  padding: 1px 6px;
-  border-radius: 4px;
-  font-size: 0.88em;
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-size: 0.95em;
   border: 1px solid theme('colors.border.DEFAULT');
   font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
 }
