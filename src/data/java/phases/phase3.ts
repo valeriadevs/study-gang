@@ -3,7 +3,7 @@ import type { Day } from '../../../types';
 export const phase3days: Day[] = [
   // DAY 7: Classes, Objects, Constructors
   {
-    id: 'java-14-d7', number: 7, title: 'Classes, Objects, and Constructors', duration: 120,
+    id: 'java-14-d7', number: 8, title: 'Classes, Objects, and Constructors', duration: 120,
     topics: ['Class Definition', 'this Keyword', 'Constructors'],
     alignment: ['CodeGym: Creating Objects'],
     blocks: [
@@ -48,7 +48,7 @@ export const phase3days: Day[] = [
 
   // DAY 8: Static & Inheritance
   {
-    id: 'java-14-d8', number: 8, title: 'Static Members and Inheritance', duration: 120,
+    id: 'java-14-d8', number: 9, title: 'Static Members and Inheritance', duration: 120,
     topics: ['static Variables/Methods', 'Single Inheritance', 'Multilevel Inheritance'],
     blocks: [
       { type: 'callout', id: 'd8-intro', calloutType: 'info', title: 'Shared State and Code Reuse', content: '`static` members belong to the **class itself**, not to individual objects. **Inheritance** lets a child class pick up everything from its parent. Together, they are the backbone of code organization.' },
@@ -93,7 +93,7 @@ export const phase3days: Day[] = [
 
   // DAY 9: Polymorphism
   {
-    id: 'java-14-d9', number: 9, title: 'Polymorphism Mastery', duration: 120,
+    id: 'java-14-d9', number: 10, title: 'Polymorphism Mastery', duration: 120,
     topics: ['Method Overloading', 'Method Overriding', 'Static vs Dynamic Binding'],
     blocks: [
       { type: 'callout', id: 'd9-intro', calloutType: 'info', title: 'Polymorphism — "Many Forms"', content: 'Same name, different behavior. Two flavours: **compile-time** (overloading) and **runtime** (overriding with dynamic dispatch). Guaranteed CE-2 topic — the comparison table is essential.' },
@@ -139,7 +139,7 @@ export const phase3days: Day[] = [
 
   // DAY 10: Abstraction & Interfaces
   {
-    id: 'java-14-d10', number: 10, title: 'Abstraction and Interfaces', duration: 120,
+    id: 'java-14-d10', number: 11, title: 'Abstraction and Interfaces', duration: 120,
     topics: ['Abstract Classes', 'Abstract Methods', 'Interfaces', 'Multiple Implementation'],
     blocks: [
       { type: 'callout', id: 'd10-intro', calloutType: 'info', title: 'Designing Contracts', content: '**Abstract class** = partial implementation — some methods defined, some left abstract. **Interface** = a pure contract — defines WHAT, not HOW. Both enable polymorphism. Today: when to use each.' },

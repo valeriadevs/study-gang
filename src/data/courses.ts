@@ -4,6 +4,7 @@ import { dbms8Course } from './dbms/index';
 import { sde8Course } from './sde/index';
 import { javaAdvCourse } from './java-adv/index';
 import { javaTests } from './tests/java-tests';
+import { javaCheatsheet } from './tests/java-cheatsheet';
 import { dbmsTests } from './tests/dbms-tests';
 import { sdeTests } from './tests/sde-tests';
 import { javaAdvTests } from './tests/java-adv-tests';
@@ -16,6 +17,7 @@ export const courses: Course[] = [
 ];
 
 export const references: Reference[] = [
+  javaCheatsheet,
   ...javaTests,
   ...dbmsTests,
   ...sdeTests,

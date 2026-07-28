@@ -5,7 +5,7 @@ export const phase6days: Day[] = [
   // DAY 15: Recursion — Functions That Call Themselves
   // ================================================================
   {
-    id: 'java-14-d15', number: 15,
+    id: 'java-14-d15', number: 16,
     title: 'Recursion — Functions That Call Themselves', duration: 120,
     topics: ['Recursion', 'Base Case', 'Recursive Case', 'Call Stack', 'Stack Overflow', 'Tail Recursion'],
     alignment: ['Codecademy: Recursion', 'GeeksForGeeks: Recursion in Java'],
@@ -79,7 +79,7 @@ export const phase6days: Day[] = [
   // DAY 16: Enumerations & Wrapper Deep Dive
   // ================================================================
   {
-    id: 'java-14-d16', number: 16,
+    id: 'java-14-d16', number: 17,
     title: 'Enumerations & Wrapper Class Deep Dive', duration: 120,
     topics: ['enum', 'Enum Constructors', 'values()', 'ordinal()', 'valueOf()', 'Wrapper Utilities', 'parseInt', 'valueOf'],
     alignment: ['Oracle Java Tutorials: Enum Types', 'GeeksForGeeks: Wrapper Classes'],
@@ -144,7 +144,7 @@ export const phase6days: Day[] = [
   // DAY 17: Generics — Type-Safe Code
   // ================================================================
   {
-    id: 'java-14-d17', number: 17,
+    id: 'java-14-d17', number: 18,
     title: 'Generics — Writing Type-Safe Code', duration: 120,
     topics: ['Generic Classes', 'Generic Methods', 'Type Erasure', 'Bounded Type Parameters', 'Wildcards'],
     alignment: ['Oracle Java Tutorials: Generics', 'GeeksForGeeks: Generics in Java'],
@@ -209,7 +209,7 @@ export const phase6days: Day[] = [
   // DAY 18: HashMap & HashSet — The Power Pair
   // ================================================================
   {
-    id: 'java-14-d18', number: 18,
+    id: 'java-14-d18', number: 19,
     title: 'HashMap & HashSet — The Power Pair', duration: 120,
     topics: ['HashMap', 'put() / get() / containsKey()', 'HashSet', 'hashCode()', 'equals() Contract', 'Iteration Patterns'],
     alignment: ['GeeksForGeeks: HashMap in Java', 'Baeldung: HashMap Guide'],
@@ -270,7 +270,7 @@ export const phase6days: Day[] = [
   // DAY 19: TreeMap, TreeSet & Sorted Collections
   // ================================================================
   {
-    id: 'java-14-d19', number: 19,
+    id: 'java-14-d19', number: 20,
     title: 'TreeMap, TreeSet & Sorted Collections', duration: 120,
     topics: ['TreeMap', 'TreeSet', 'Red-Black Tree', 'SortedMap', 'NavigableMap', 'LinkedHashMap', 'LinkedHashSet'],
     alignment: ['GeeksForGeeks: TreeMap in Java', 'Baeldung: Guide to TreeMap'],
@@ -337,7 +337,7 @@ export const phase6days: Day[] = [
   // DAY 20: Lambdas, Streams & Inner Classes — Modern Java
   // ================================================================
   {
-    id: 'java-14-d20', number: 20,
+    id: 'java-14-d20', number: 21,
     title: 'Lambdas, Streams & Inner Classes', duration: 120,
     topics: ['Lambda Expressions', 'Functional Interfaces', 'Stream API', 'forEach/filter/map/collect', 'Anonymous Classes', 'Inner Classes'],
     alignment: ['Oracle Java Tutorials: Lambda Expressions', 'Baeldung: Java 8 Streams'],

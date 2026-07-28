@@ -104,6 +104,8 @@ export interface Reference {
   id: string;
   title: string;
   category: string;
+  /** Links this reference to a specific course. When set, the sidebar filters to this course. */
+  courseId?: string;
   description?: string;
   blocks?: ContentBlock[];
   timeLimit?: number;

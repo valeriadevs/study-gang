@@ -3,7 +3,7 @@ import type { Day } from '../../../types';
 export const phase5days: Day[] = [
   // DAY 13: File I/O & Serialization
   {
-    id: 'java-14-d13', number: 13, title: 'File Handling and Serialization', duration: 120,
+    id: 'java-14-d13', number: 14, title: 'File Handling and Serialization', duration: 120,
     topics: ['FileInputStream', 'FileOutputStream', 'Serializable', 'Serialization / Deserialization'],
     blocks: [
       { type: 'callout', id: 'd13-intro', calloutType: 'info', title: 'Data That Outlives Your Program', content: 'Everything so far lives only in RAM — gone when the program ends. **File I/O** lets you persist data. **Serialization** saves entire Java objects to files and reconstructs them later.' },
@@ -46,7 +46,7 @@ export const phase5days: Day[] = [
 
   // DAY 14: Collections & Sorting (Final Day)
   {
-    id: 'java-14-d14', number: 14, title: 'The Collections Framework & Custom Sorting', duration: 120,
+    id: 'java-14-d14', number: 15, title: 'The Collections Framework & Custom Sorting', duration: 120,
     topics: ['ArrayList', 'Comparable', 'compareTo', 'Comparator'],
     blocks: [
       { type: 'callout', id: 'd14-intro', calloutType: 'info', title: 'The Final Day', content: 'Collections are the data structures you will use every day. Today: **ArrayList** (dynamic array), **Comparable** (natural ordering), and **Comparator** (custom ordering). Ties together interfaces, generics, and OOP.' },

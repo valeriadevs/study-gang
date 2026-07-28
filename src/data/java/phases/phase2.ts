@@ -3,7 +3,7 @@ import type { Day } from '../../../types';
 export const phase2days: Day[] = [
   // ======== DAY 5: Methods (CE-1 Checkpoint) ========
   {
-    id: 'java-14-d5', number: 5,
+    id: 'java-14-d5', number: 6,
     title: 'Checkpoint — Continuous Evaluation 1 Review',
     subtitle: 'Modular Programming (Methods)', duration: 120,
     topics: ['Methods', 'Parameter Passing', 'void vs non-void', 'Local Memory'],
@@ -58,7 +58,7 @@ export const phase2days: Day[] = [
 
   // ======== DAY 6: Arrays & Strings ========
   {
-    id: 'java-14-d6', number: 6,
+    id: 'java-14-d6', number: 7,
     title: 'Data Organization (Arrays & Basic Strings)', duration: 120,
     topics: ['1D Arrays', 'String Methods', 'Strings as Objects'],
     alignment: ['CodeGym: Arrays in Java', 'CodeGym: Working with strings'],

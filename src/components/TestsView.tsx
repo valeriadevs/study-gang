@@ -19,10 +19,12 @@ function isTest(reference: Reference): boolean {
 }
 
 function resolveCourse(reference: Reference, courses: Course[]): Course | null {
+  if (reference.courseId) {
+    return courses.find((c) => c.id === reference.courseId) ?? null;
+  }
   const firstWord = (s: string) => s.split(/\s+/)[0].toLowerCase();
   const wanted = firstWord(reference.category);
-  const match = courses.find((course) => firstWord(course.name) === wanted);
-  return match ?? null;
+  return courses.find((course) => firstWord(course.name) === wanted) ?? null;
 }
 
 export function TestsView() {

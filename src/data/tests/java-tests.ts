@@ -5,7 +5,7 @@ export const javaTests: Reference[] = [
   // TEST 1: Fundamentals (Days 1-4)
   // ================================================================
   {
-    id: 'java-test-1', title: 'Test 1: Java Fundamentals', category: 'Java',
+    id: 'java-test-1', title: 'Test 1: Java Fundamentals', category: 'Java', courseId: 'java-14',
     description: 'JDK/JRE/JVM, primitives, Scanner, control flow, loops. 20 questions â€” target 16+.',
     timeLimit: 30, passingScore: 70,
     attemptAfter: {
@@ -47,7 +47,7 @@ export const javaTests: Reference[] = [
   // TEST 2: Methods, Arrays, Strings, OOP (Days 5-10)
   // ================================================================
   {
-    id: 'java-test-2', title: 'Test 2: Methods, OOP & Polymorphism', category: 'Java',
+    id: 'java-test-2', title: 'Test 2: Methods, OOP & Polymorphism', category: 'Java', courseId: 'java-14',
     description: 'Methods, arrays, Strings, classes, inheritance, polymorphism, abstraction. 20 questions.',
     timeLimit: 30, passingScore: 70,
     attemptAfter: {
@@ -90,7 +90,7 @@ export const javaTests: Reference[] = [
   // TEST 3: Advanced Logic, Exceptions, File I/O (Days 11-14)
   // ================================================================
   {
-    id: 'java-test-3', title: 'Test 3: Exceptions, Collections & I/O', category: 'Java',
+    id: 'java-test-3', title: 'Test 3: Exceptions, Collections & I/O', category: 'Java', courseId: 'java-14',
     description: 'Packages, access modifiers, exceptions, file I/O, serialization, collections. 20 questions.',
     timeLimit: 30, passingScore: 70,
     attemptAfter: {
@@ -133,7 +133,7 @@ export const javaTests: Reference[] = [
   // TEST 4: Modern Java (Days 15-20)
   // ================================================================
   {
-    id: 'java-test-4', title: 'Test 4: Recursion, Generics & Streams', category: 'Java',
+    id: 'java-test-4', title: 'Test 4: Recursion, Generics & Streams', category: 'Java', courseId: 'java-14',
     description: 'Recursion, enums, generics, HashMap/TreeMap/HashSet, lambdas, streams. 20 questions.',
     timeLimit: 30, passingScore: 70,
     attemptAfter: {
@@ -177,7 +177,7 @@ export const javaTests: Reference[] = [
   // TEST 5: Full Course Review
   // ================================================================
   {
-    id: 'java-test-5', title: 'Test 5: Java Full Course Review', category: 'Java',
+    id: 'java-test-5', title: 'Test 5: Java Full Course Review', category: 'Java', courseId: 'java-14',
     description: 'Mixed questions from all 20 days. Comprehensive end-of-course assessment. 20 questions.',
     timeLimit: 35, passingScore: 70,
     attemptAfter: {

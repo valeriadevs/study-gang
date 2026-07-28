@@ -20,6 +20,10 @@ export function DayList({ courseId }: DayListProps) {
   const course = courses.find((item) => item.id === courseId);
   if (!course) return null;
 
+  const courseRefs = references.filter((r) => r.courseId === courseId);
+  const courseTests = courseRefs.filter((r) => r.timeLimit !== undefined);
+  const courseCheatsheets = courseRefs.filter((r) => r.timeLimit === undefined);
+
   const cp = progress[courseId];
   const metrics = getCourseMetrics(course, cp);
 
@@ -142,33 +146,35 @@ export function DayList({ courseId }: DayListProps) {
         })}
       </div>
 
-      {references.length > 0 && (
+      {courseCheatsheets.length > 0 && (
         <div className="mt-6 pt-4 border-t border-border">
-          <div className="text-body-sm font-mono uppercase tracking-wider text-ink-3 font-bold px-2 mb-2">Reference</div>
+          <div className="text-body-sm font-mono uppercase tracking-wider text-ink-3 font-bold px-2 mb-2">Cheat Sheet</div>
           <div className="space-y-0.5">
-            {references.map((reference) => (
+            {courseCheatsheets.map((ref) => (
               <button
                 type="button"
-                key={reference.id}
-                onClick={() => openReference(reference.id)}
+                key={ref.id}
+                onClick={() => openReference(ref.id)}
                 className="group w-full text-left px-2.5 py-2 rounded-lg text-xs text-ink-2 hover:text-ink hover:bg-panel transition-colors duration-fast truncate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-2"
               >
                 <Icon name="clipboard" size="xs" className="inline-block align-text-bottom mr-1 transition-colors duration-fast group-hover:text-accent" />
-                {reference.title}
+                {ref.title}
               </button>
             ))}
           </div>
         </div>
       )}
 
-      <button
-        type="button"
-        onClick={openTests}
-        className="mt-4 w-full text-left px-3 py-2.5 rounded-lg border border-accent/40 bg-accent/10 text-sm font-medium text-accent hover:bg-accent/15 hover:border-accent transition-colors duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-2"
-      >
-        <Icon name="checklist" size="xs" className="inline-block align-text-bottom mr-1.5" />
-        All Tests
-      </button>
+      {courseTests.length > 0 && (
+        <button
+          type="button"
+          onClick={() => openReference(courseTests[0].id)}
+          className="mt-3 w-full text-left px-3 py-2.5 rounded-lg border border-accent/40 bg-accent/10 text-sm font-medium text-accent hover:bg-accent/15 hover:border-accent transition-colors duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-2"
+        >
+          <Icon name="checklist" size="xs" className="inline-block align-text-bottom mr-1.5" />
+          {courseTests.length === 1 ? 'Test' : `Tests (${courseTests.length})`}
+        </button>
+      )}
     </aside>
   );
 }

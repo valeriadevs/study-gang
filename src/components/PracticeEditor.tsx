@@ -114,6 +114,16 @@ export function PracticeEditor({
     }
   }
 
+  function handleCopy() {
+    navigator.clipboard.writeText(code).then(() => {
+      setOutput('📋 Code copied to clipboard!\n\nPaste it into your IDE or online compiler.');
+      setOutputType('success');
+    }).catch(() => {
+      setOutput('⚠️ Could not copy. Select all text (Ctrl+A) and copy manually.');
+      setOutputType('error');
+    });
+  }
+
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       e.preventDefault();
@@ -129,6 +139,15 @@ export function PracticeEditor({
           <span>{title ?? `Practice · ${langLabel(lang)}`}</span>
         </span>
         <div className="flex gap-1.5">
+          <button
+            type="button"
+            onClick={handleCopy}
+            className="px-2.5 py-0.5 rounded text-xs border border-border text-ink-2 hover:text-ink hover:border-ink transition-colors"
+            title="Copy code to clipboard"
+          >
+            <Icon name="copy" size="xs" className="inline-block align-text-bottom mr-1" />
+            Copy
+          </button>
           <button
             type="button"
             onClick={handleReset}

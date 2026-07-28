@@ -2,7 +2,7 @@ import type { Reference } from '../../types';
 
 export const dbmsTests: Reference[] = [
   {
-    id: 'dbms-test-1', title: 'Test 1: DDL, DQL & Basic Queries', category: 'DBMS',
+    id: 'dbms-test-1', title: 'Test 1: DDL, DQL & Basic Queries', category: 'DBMS', courseId: 'dbms-8',
     description: 'CREATE, SELECT, WHERE, DISTINCT, data types, NULL handling. 20 questions â€” target 16+.',
     timeLimit: 30, passingScore: 70,
     attemptAfter: {
@@ -41,7 +41,7 @@ export const dbmsTests: Reference[] = [
   },
 
   {
-    id: 'dbms-test-2', title: 'Test 2: DML, Joins & Subqueries', category: 'DBMS',
+    id: 'dbms-test-2', title: 'Test 2: DML, Joins & Subqueries', category: 'DBMS', courseId: 'dbms-8',
     description: 'INSERT, UPDATE, DELETE, INNER/LEFT/RIGHT JOIN, subqueries, foreign keys. 20 questions.',
     timeLimit: 30, passingScore: 70,
     attemptAfter: {
@@ -81,7 +81,7 @@ export const dbmsTests: Reference[] = [
   },
 
   {
-    id: 'dbms-test-3', title: 'Test 3: Aggregates, Grouping & Theory', category: 'DBMS',
+    id: 'dbms-test-3', title: 'Test 3: Aggregates, Grouping & Theory', category: 'DBMS', courseId: 'dbms-8',
     description: 'COUNT/AVG/SUM, GROUP BY, HAVING, ACID, normalization. 20 questions.',
     timeLimit: 30, passingScore: 70,
     attemptAfter: {
@@ -120,7 +120,7 @@ export const dbmsTests: Reference[] = [
   },
 
   {
-    id: 'dbms-test-4', title: 'Test 4: Views, Indexes & Programming', category: 'DBMS',
+    id: 'dbms-test-4', title: 'Test 4: Views, Indexes & Programming', category: 'DBMS', courseId: 'dbms-8',
     description: 'Views, indexes, EXPLAIN, procedures, functions, triggers. 20 questions.',
     timeLimit: 30, passingScore: 70,
     attemptAfter: {
@@ -159,7 +159,7 @@ export const dbmsTests: Reference[] = [
   },
 
   {
-    id: 'dbms-test-5', title: 'Test 5: DBMS Full Course Review', category: 'DBMS',
+    id: 'dbms-test-5', title: 'Test 5: DBMS Full Course Review', category: 'DBMS', courseId: 'dbms-8',
     description: 'Mixed questions from all 10 days. Comprehensive end-of-course assessment. 20 questions.',
     timeLimit: 35, passingScore: 70,
     attemptAfter: {

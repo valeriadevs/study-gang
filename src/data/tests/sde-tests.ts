@@ -2,7 +2,7 @@ import type { Reference } from '../../types';
 
 export const sdeTests: Reference[] = [
   {
-    id: 'sde-test-1', title: 'Test 1: NumPy Fundamentals', category: 'SDE',
+    id: 'sde-test-1', title: 'Test 1: NumPy Fundamentals', category: 'SDE', courseId: 'sde-8',
     description: 'Array creation, operations, statistical functions, distributions. 20 questions.',
     timeLimit: 30, passingScore: 70,
     attemptAfter: {
@@ -42,7 +42,7 @@ export const sdeTests: Reference[] = [
   },
 
   {
-    id: 'sde-test-2', title: 'Test 2: Pandas & Data Wrangling', category: 'SDE',
+    id: 'sde-test-2', title: 'Test 2: Pandas & Data Wrangling', category: 'SDE', courseId: 'sde-8',
     description: 'Series, DataFrame, groupby, merge, pivot tables, data cleaning. 20 questions.',
     timeLimit: 30, passingScore: 70,
     attemptAfter: {
@@ -82,7 +82,7 @@ export const sdeTests: Reference[] = [
   },
 
   {
-    id: 'sde-test-3', title: 'Test 3: Statistics & Hypothesis Testing', category: 'SDE',
+    id: 'sde-test-3', title: 'Test 3: Statistics & Hypothesis Testing', category: 'SDE', courseId: 'sde-8',
     description: 'CLT, p-values, t-tests, Type I/II errors, distributions. 20 questions.',
     timeLimit: 30, passingScore: 70,
     attemptAfter: {
@@ -122,7 +122,7 @@ export const sdeTests: Reference[] = [
   },
 
   {
-    id: 'sde-test-4', title: 'Test 4: Big Data, Hadoop, Spark & ETL', category: 'SDE',
+    id: 'sde-test-4', title: 'Test 4: Big Data, Hadoop, Spark & ETL', category: 'SDE', courseId: 'sde-8',
     description: '5Vs, scaling, Hadoop ecosystem, MapReduce, Spark, ETL, data warehousing. 20 questions.',
     timeLimit: 30, passingScore: 70,
     attemptAfter: {
@@ -162,7 +162,7 @@ export const sdeTests: Reference[] = [
   },
 
   {
-    id: 'sde-test-5', title: 'Test 5: Visualization & SDE Full Review', category: 'SDE',
+    id: 'sde-test-5', title: 'Test 5: Visualization & SDE Full Review', category: 'SDE', courseId: 'sde-8',
     description: 'Matplotlib, Seaborn, plus mixed questions from all 10 days. 20 questions.',
     timeLimit: 35, passingScore: 70,
     attemptAfter: {

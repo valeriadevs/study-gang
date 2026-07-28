@@ -2,7 +2,7 @@ import type { Reference } from '../../types';
 
 export const javaAdvTests: Reference[] = [
   {
-    id: 'java-adv-test-1', title: 'Test 1: JDBC Core & Connection', category: 'Advanced Java',
+    id: 'java-adv-test-1', title: 'Test 1: JDBC Core & Connection', category: 'Advanced Java', courseId: 'java-adv',
     description: 'JDBC architecture, DriverManager, Connection, Statement, ResultSet. 20 questions.',
     timeLimit: 30, passingScore: 70,
     attemptAfter: {
@@ -42,7 +42,7 @@ export const javaAdvTests: Reference[] = [
   },
 
   {
-    id: 'java-adv-test-2', title: 'Test 2: PreparedStatement & CRUD', category: 'Advanced Java',
+    id: 'java-adv-test-2', title: 'Test 2: PreparedStatement & CRUD', category: 'Advanced Java', courseId: 'java-adv',
     description: 'PreparedStatement, SQL injection, CRUD patterns, ResultSet. 20 questions.',
     timeLimit: 30, passingScore: 70,
     attemptAfter: {
@@ -82,7 +82,7 @@ export const javaAdvTests: Reference[] = [
   },
 
   {
-    id: 'java-adv-test-3', title: 'Test 3: Transactions & Batch Processing', category: 'Advanced Java',
+    id: 'java-adv-test-3', title: 'Test 3: Transactions & Batch Processing', category: 'Advanced Java', courseId: 'java-adv',
     description: 'ACID in JDBC, commit/rollback, batch processing, connection lifecycle. 20 questions.',
     timeLimit: 30, passingScore: 70,
     attemptAfter: {
@@ -122,7 +122,7 @@ export const javaAdvTests: Reference[] = [
   },
 
   {
-    id: 'java-adv-test-4', title: 'Test 4: Multithreading & Concurrency', category: 'Advanced Java',
+    id: 'java-adv-test-4', title: 'Test 4: Multithreading & Concurrency', category: 'Advanced Java', courseId: 'java-adv',
     description: 'Thread creation, lifecycle, synchronization, ExecutorService. 20 questions.',
     timeLimit: 30, passingScore: 70,
     attemptAfter: {
@@ -162,7 +162,7 @@ export const javaAdvTests: Reference[] = [
   },
 
   {
-    id: 'java-adv-test-5', title: 'Test 5: Advanced Java Full Review', category: 'Advanced Java',
+    id: 'java-adv-test-5', title: 'Test 5: Advanced Java Full Review', category: 'Advanced Java', courseId: 'java-adv',
     description: 'Mixed questions from all 8 days. Comprehensive end-of-course assessment. 20 questions.',
     timeLimit: 35, passingScore: 70,
     attemptAfter: {

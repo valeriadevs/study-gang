@@ -5,7 +5,7 @@ export const phase4days: Day[] = [
   // DAY 11: CE-2 Checkpoint — Packages, Access, 2D Arrays, StringBuilder
   // ================================================================
   {
-    id: 'java-14-d11', number: 11,
+    id: 'java-14-d11', number: 12,
     title: 'CE-2 Checkpoint: Packages, Access & 2D Arrays',
     subtitle: 'Packages, Access Modifiers, Multi-Dim Arrays, StringBuilder', duration: 120,
     topics: ['Packages', 'Access Modifiers', 'Multi-Dim Arrays', 'StringBuilder'],
@@ -83,7 +83,7 @@ export const phase4days: Day[] = [
   // DAY 12: Exceptions & Wrapper Classes — The Error Survival Guide
   // ================================================================
   {
-    id: 'java-14-d12', number: 12, title: 'Exceptions & Wrapper Classes — The Error Survival Guide 🛡️', duration: 120,
+    id: 'java-14-d12', number: 13, title: 'Exceptions & Wrapper Classes — The Error Survival Guide 🛡️', duration: 120,
     topics: ['try-catch-finally', 'throw / throws', 'Custom Exceptions', 'try-with-resources', 'Autoboxing / Unboxing', 'Integer Cache'],
     blocks: [
       { type: 'callout', id: 'd12-intro', calloutType: 'info', title: '🛡️ Errors Will Happen. Be Ready.', content: 'Every program you write WILL encounter errors — missing files, bad user input, network failures, database crashes. The difference between a crash and a graceful recovery is **exception handling**. Today: catch errors, create your own exception types, use try-with-resources for automatic cleanup, and understand wrapper classes — the bridge between primitives and the object-oriented world of Collections.' },
