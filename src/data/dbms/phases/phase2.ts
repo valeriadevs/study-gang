@@ -251,7 +251,7 @@ VALUES
 
 -- TODO: Insert 5 students
 INSERT INTO students (id, name, branch, semester, gpa)
-VALUES (1, 'Vinay', 'AIML', 3, 8.5);
+VALUES (1, 'Vinayak', 'AIML', 3, 8.5);
 
 -- TODO: Query students sorted by GPA (highest first)
 -- TODO: Query AIML students sorted by name`, hint: 'ORDER BY gpa DESC. WHERE branch = \'AIML\' ORDER BY name. Use explicit column list in INSERT.' },

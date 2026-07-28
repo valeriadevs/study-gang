@@ -321,7 +321,7 @@ try (Connection conn = DriverManager.getConnection(url, user, pass);
 
     // INSERT (DML) via JDBC
     String insertSQL = "INSERT INTO students (name, branch) " +
-                       "VALUES ('Vinay', 'AIML')";
+                       "VALUES ('Vinayak', 'AIML')";
     int rows = stmt.executeUpdate(insertSQL);  // returns 1 (rows affected)
     System.out.println(rows + " row(s) inserted.");
 
@@ -492,7 +492,7 @@ ResultSet rs = pstmt.executeQuery();
       { type: 'quiz', id: 'ja5-quiz', title: 'Day 5 Quiz', questions: [
         { id: 'ja5-q1', question: 'What is the primary reason to use PreparedStatement over Statement?', options: ['It is shorter to write', 'It prevents SQL injection and is faster for repeated queries', 'It does not need a connection', 'It supports more SQL commands'], correctIndex: 1, explanation: 'PreparedStatement is safer (prevents SQL injection by escaping parameters) and faster (pre-compiled SQL, reused with different parameters).' },
         { id: 'ja5-q2', question: "What happens if user input is \"1; DROP TABLE users; --\" and you use Statement with string concatenation?", options: ['Nothing — it is treated as text', 'The DROP TABLE command executes — table is deleted', 'SQLException — invalid syntax', 'The semicolon is escaped automatically'], correctIndex: 1, explanation: 'With string concatenation, the malicious SQL becomes part of the query. The DROP TABLE command executes. This is exactly the SQL injection attack PreparedStatement prevents.' },
-        { id: 'ja5-q3', question: 'What does ps.setString(1, "Vinay") do?', options: ['Sets the first column to "Vinay"', 'Sets the first ? placeholder to "Vinay"', 'Sets the first row to "Vinay"', 'Sets the connection name to "Vinay"'], correctIndex: 1, explanation: 'setString(1, value) replaces the FIRST ? placeholder in the SQL string with the value "Vinay". Parameter indices are 1-based, matching the order of ? in the SQL.' },
+        { id: 'ja5-q3', question: 'What does ps.setString(1, "Vinayak") do?', options: ['Sets the first column to "Vinayak"', 'Sets the first ? placeholder to "Vinayak"', 'Sets the first row to "Vinayak"', 'Sets the connection name to "Vinayak"'], correctIndex: 1, explanation: 'setString(1, value) replaces the FIRST ? placeholder in the SQL string with the value "Vinayak". Parameter indices are 1-based, matching the order of ? in the SQL.' },
       ] },
       { type: 'flashcard', id: 'ja5-cards', title: 'Day 5 Flashcards', cards: [
         { id: 'ja5-f1', front: 'What is SQL injection and how to prevent it?', back: 'Attack where malicious SQL is injected through user input via string concatenation. Prevention: ALWAYS use PreparedStatement with ? placeholders. Never concatenate user input into SQL strings.', hint: 'User input becomes SQL code...' },

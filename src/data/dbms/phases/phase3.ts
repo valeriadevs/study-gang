@@ -119,7 +119,7 @@ HAVING COUNT(*) >= 2;  -- only owners with 2+ pets` },
     student VARCHAR(50), subject VARCHAR(30), marks INT
 );
 INSERT INTO grades VALUES
-('Vinay', 'Java', 85), ('Vinay', 'DBMS', 90), ('Vinay', 'SDE', 78),
+('Vinayak', 'Java', 85), ('Vinayak', 'DBMS', 90), ('Vinayak', 'SDE', 78),
 ('Riya', 'Java', 92), ('Riya', 'DBMS', 88),
 ('Amit', 'Java', 76), ('Amit', 'SDE', 82);
 

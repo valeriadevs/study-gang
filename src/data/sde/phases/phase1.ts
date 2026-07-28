@@ -179,7 +179,7 @@ print(s['b'])  # 20
 
 # DataFrame: 2D table (the main object you will use)
 df = pd.DataFrame({
-    'name': ['Vinay', 'Riya', 'Amit', 'Neha'],
+    'name': ['Vinayak', 'Riya', 'Amit', 'Neha'],
     'age': [21, 20, 22, 21],
     'gpa': [8.5, 9.2, 7.8, 9.5],
     'branch': ['AIML', 'CSE', 'AIML', 'ECE']
@@ -214,7 +214,7 @@ aiml_students = df[df['branch'] == 'AIML']
 smart_aiml = df[(df['branch'] == 'AIML') & (df['gpa'] > 8.0)]
 
 # .loc: select by LABEL (index/column names)
-print(df.loc[0, 'name'])           # single value: 'Vinay'
+print(df.loc[0, 'name'])           # single value: 'Vinayak'
 print(df.loc[0:2, ['name','gpa']]) # rows 0-2, name+gpa columns
 
 # .iloc: select by INTEGER POSITION
@@ -228,7 +228,7 @@ import numpy as np
 
 # Create data with missing values
 df = pd.DataFrame({
-    'name': ['Vinay', 'Riya', np.nan, 'Neha'],
+    'name': ['Vinayak', 'Riya', np.nan, 'Neha'],
     'age': [21, np.nan, 22, 21],
     'gpa': [8.5, 9.2, np.nan, 9.5]
 })
@@ -281,7 +281,7 @@ import numpy as np
 
 # Simulate messy student data
 df = pd.DataFrame({
-    'name': ['Vinay', 'Riya', np.nan, 'Neha', 'Amit'],
+    'name': ['Vinayak', 'Riya', np.nan, 'Neha', 'Amit'],
     'age': [21, np.nan, 22, 21, np.nan],
     'gpa': [8.5, 9.2, np.nan, 9.5, 7.8],
     'branch': ['AIML', 'CSE', 'AIML', 'ECE', 'AIML']
@@ -397,7 +397,7 @@ pivoted = df2.pivot(index='date', columns='city', values='temp')
       { type: 'code', id: 'sd3-merge-code', lang: 'python', title: 'Merge (JOIN) Operations', code: `# Two related DataFrames
 students = pd.DataFrame({
     'id': [1, 2, 3, 4],
-    'name': ['Vinay', 'Riya', 'Amit', 'Neha']
+    'name': ['Vinayak', 'Riya', 'Amit', 'Neha']
 })
 
 scores = pd.DataFrame({

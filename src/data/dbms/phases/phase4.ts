@@ -230,8 +230,8 @@ END //
 DELIMITER ;
 
 -- Use the function in SELECT
-SELECT FullName('Vinay', 'Kumar') AS name;
--- Vinay Kumar
+SELECT FullName('Vinayak', 'Kumar') AS name;
+-- Vinayak Kumar
 
 -- Function to calculate tax
 DELIMITER //

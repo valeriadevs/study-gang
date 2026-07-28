@@ -256,7 +256,7 @@ export const useStore = create<AppState>()(
       settingsOpen: false,
       lastSeenLevel: 1,
       gangFound: false,
-      userName: 'Vinayak',
+      userName: 'Vinayakak',
 
       goHome: () =>
         set({
@@ -624,7 +624,7 @@ export const useStore = create<AppState>()(
 
       openSettings: () => set({ settingsOpen: true }),
       closeSettings: () => set({ settingsOpen: false }),
-      setUserName: (name) => set({ userName: name.trim() || 'Vinayak' }),
+      setUserName: (name) => set({ userName: name.trim() || 'Vinayakak' }),
       resetProgress: () =>
         set({
           progress: {},
