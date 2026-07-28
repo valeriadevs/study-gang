@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useStore } from '../store/useStore';
 import { getDayById } from '../data/courses';
 import { Icon } from './Icon';
@@ -17,6 +17,11 @@ export function ChatAgent() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
+  // drag state
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [dragging, setDragging] = useState(false);
+  const dragRef = useRef<{ startX: number; startY: number; origX: number; origY: number }>({ startX: 0, startY: 0, origX: 0, origY: 0 });
+
   const selectedCourseId = useStore((s) => s.selectedCourseId);
   const selectedDayId = useStore((s) => s.selectedDayId);
   const courses = useStore((s) => s.courses);
@@ -33,9 +38,32 @@ export function ChatAgent() {
 
   useEffect(() => {
     if (open) {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      setPos({ x: vw - 480 - 20, y: vh - 560 - 20 });
       setTimeout(() => inputRef.current?.focus(), 200);
     }
   }, [open]);
+
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    setDragging(true);
+    dragRef.current = { startX: e.clientX, startY: e.clientY, origX: pos.x, origY: pos.y };
+  }, [pos]);
+
+  useEffect(() => {
+    if (!dragging) return;
+    const onMove = (e: MouseEvent) => {
+      const dx = e.clientX - dragRef.current.startX;
+      const dy = e.clientY - dragRef.current.startY;
+      const x = Math.max(0, Math.min(dragRef.current.origX + dx, window.innerWidth - 480));
+      const y = Math.max(0, Math.min(dragRef.current.origY + dy, window.innerHeight - 60));
+      setPos({ x, y });
+    };
+    const onUp = () => setDragging(false);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+    return () => { window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onUp); };
+  }, [dragging]);
 
   function buildContext(): string {
     const parts: string[] = [];
@@ -47,13 +75,15 @@ export function ChatAgent() {
     parts.push('');
     if (course) {
       parts.push(`Current course: ${course.name} — ${course.subtitle}`);
-      parts.push(`Course description: ${course.description ?? ''}`);
+      if (dayInfo) {
+        const d = dayInfo.day;
+        parts.push(`Currently on Day ${d.number}: ${d.title}`);
+        if (d.topics?.length) parts.push(`Topics: ${d.topics.join(', ')}`);
+        if (d.subtitle) parts.push(`Day subtitle: ${d.subtitle}`);
+      }
     }
-    if (dayInfo) {
-      const d = dayInfo.day;
-      parts.push(`Currently on Day ${d.number}: ${d.title}`);
-      if (d.topics?.length) parts.push(`Topics: ${d.topics.join(', ')}`);
-    }
+    if (view === 'reference') parts.push('The student is viewing reference/cheatsheet material.');
+    if (view === 'tests') parts.push('The student is taking tests.');
     if (view === 'home') {
       parts.push('The student is on the home page. Available courses: ' +
         courses.map((c) => `${c.name} (${c.subtitle})`).join(', '));
@@ -112,15 +142,23 @@ export function ChatAgent() {
 
   return (
     <div
+      style={{ left: pos.x, top: pos.y }}
       className={cn(
-        'fixed bottom-5 right-5 w-[380px] max-h-[520px] z-50',
+        'fixed w-[480px] z-50',
+        dragging ? 'cursor-grabbing' : '',
         'bg-bg-2 border border-border rounded-xl shadow-panel',
         'flex flex-col overflow-hidden',
         'animate-toast-in'
       )}
     >
-      {/* header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-bg/50">
+      {/* draggable header */}
+      <div
+        onMouseDown={onMouseDown}
+        className={cn(
+          'flex items-center justify-between px-4 py-3 border-b border-border bg-bg/50 select-none',
+          dragging ? 'cursor-grabbing' : 'cursor-grab'
+        )}
+      >
         <div className="flex items-center gap-2.5 min-w-0">
           <span className="w-8 h-8 rounded-lg bg-accent/15 text-accent grid place-items-center flex-shrink-0">
             <Icon name="sparkle" size="md" weight="Filled" />
@@ -136,6 +174,7 @@ export function ChatAgent() {
         </div>
         <button
           type="button"
+          onMouseDown={(e) => e.stopPropagation()}
           onClick={() => setOpen(false)}
           className="w-7 h-7 grid place-items-center rounded-md text-ink-3 hover:text-ink hover:bg-panel transition-colors duration-fast flex-shrink-0 ml-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           aria-label="Close assistant"
@@ -145,7 +184,7 @@ export function ChatAgent() {
       </div>
 
       {/* messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 min-h-0 bg-bg/40">
+      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 min-h-0 bg-bg/40" style={{ maxHeight: '400px' }}>
         {messages.length === 0 && (
           <div className="text-center py-10 px-2">
             <div className="w-12 h-12 rounded-xl bg-accent/10 text-accent grid place-items-center mx-auto mb-4">
@@ -154,9 +193,9 @@ export function ChatAgent() {
             <p className="text-sm font-semibold text-ink mb-1.5">
               {course ? 'I can see what you\'re studying' : 'Open a course to get started'}
             </p>
-            <p className="text-xs text-ink-2 leading-relaxed max-w-[280px] mx-auto">
+            <p className="text-xs text-ink-2 leading-relaxed max-w-[320px] mx-auto">
               {course
-                ? `Ask me anything about ${course.name}${dayInfo ? ` — especially Day ${dayInfo.day.number}: ${dayInfo.day.title}` : ''}.`
+                ? `Ask me anything about ${course.name}${dayInfo ? ` — I see you're on Day ${dayInfo.day.number}: ${dayInfo.day.title}` : '.'}`
                 : 'Pick a course from the tabs above and I\'ll automatically know what you\'re working on.'}
             </p>
           </div>
