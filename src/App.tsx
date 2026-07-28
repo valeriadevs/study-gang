@@ -7,6 +7,7 @@ import { ReferenceView } from './components/ReferenceView';
 import { TestsView } from './components/TestsView';
 import { SettingsModal } from './components/SettingsModal';
 import { CelebrationLayer } from './components/CelebrationLayer';
+import { ChatAgent } from './components/ChatAgent';
 import { layout } from './styles/tokens';
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
       </div>
       {settingsOpen && <SettingsModal />}
       <CelebrationLayer />
+      <ChatAgent />
     </div>
   );
 }
