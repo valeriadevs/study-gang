@@ -6,7 +6,20 @@ export const javaTests: Reference[] = [
   // ================================================================
   {
     id: 'java-test-1', title: 'Test 1: Java Fundamentals', category: 'Java',
-    description: 'JDK/JRE/JVM, primitives, Scanner, control flow, loops. 20 questions â€” target 16+.',    blocks: [{ type: 'quiz', id: 'java-test-1-quiz', title: 'Java Fundamentals (Days 1-4)', questions: [
+    description: 'JDK/JRE/JVM, primitives, Scanner, control flow, loops. 20 questions â€” target 16+.',
+    timeLimit: 30, passingScore: 70,
+    attemptAfter: {
+      days: 'Days 1-4',
+      level: 'Warm-up — should feel comfortable',
+      topics: [
+        'JDK / JRE / JVM differences',
+        'Primitives, variables, and type casting',
+        'Scanner input and printf output',
+        'if / else, switch, and ternary',
+        'for / while / do-while loops',
+      ],
+    },
+    blocks: [{ type: 'quiz', id: 'java-test-1-quiz', title: 'Java Fundamentals (Days 1-4)', questions: [
       { id: 'jt1-q1', question: 'Which component executes Java bytecode?', options: ['JDK', 'JRE', 'JVM', 'javac'], correctIndex: 2, explanation: 'JVM (Java Virtual Machine) executes bytecode. javac compiles, JDK is the dev kit, JRE is the runtime.' },
       { id: 'jt1-q2', question: 'What is the size of an int in Java?', options: ['2 bytes', '4 bytes', '8 bytes', 'Depends on JVM'], correctIndex: 1, explanation: 'int is always 4 bytes in Java. Platform-independent sizing is a core Java feature.' },
       { id: 'jt1-q3', question: 'What is the output of 5 / 2 in Java?', options: ['2.5', '2', '2.0', 'Compile error'], correctIndex: 1, explanation: 'Integer division truncates â€” both operands are int, so result is int (2). Use 5.0/2 for 2.5.' },
@@ -35,7 +48,21 @@ export const javaTests: Reference[] = [
   // ================================================================
   {
     id: 'java-test-2', title: 'Test 2: Methods, OOP & Polymorphism', category: 'Java',
-    description: 'Methods, arrays, Strings, classes, inheritance, polymorphism, abstraction. 20 questions.',    blocks: [{ type: 'quiz', id: 'java-test-2-quiz', title: 'Methods, OOP & Polymorphism (Days 5-10)', questions: [
+    description: 'Methods, arrays, Strings, classes, inheritance, polymorphism, abstraction. 20 questions.',
+    timeLimit: 30, passingScore: 70,
+    attemptAfter: {
+      days: 'Days 5-10',
+      level: 'Mid-game — OOP is the core of the course',
+      topics: [
+        'Methods, parameters, and overloading',
+        '1D and 2D arrays',
+        'String methods and immutability',
+        'Classes, constructors, and `this` / `super`',
+        'Inheritance, polymorphism, and abstract classes',
+        'Interfaces and access modifiers',
+      ],
+    },
+    blocks: [{ type: 'quiz', id: 'java-test-2-quiz', title: 'Methods, OOP & Polymorphism (Days 5-10)', questions: [
       { id: 'jt2-q1', question: 'Is Java pass-by-value or pass-by-reference?', options: ['Pass-by-reference', 'Pass-by-value for primitives, pass-by-reference for objects', 'Pass-by-value for everything', 'Depends on the JVM'], correctIndex: 2, explanation: 'Java is ALWAYS pass-by-value. For objects, it passes a COPY of the reference. Changing the reference inside a method does not affect the original.' },
       { id: 'jt2-q2', question: 'What is the return type of a constructor?', options: ['void', 'The class type', 'No return type â€” not even void', 'boolean'], correctIndex: 2, explanation: 'Constructors have NO return type. Adding void makes it a regular method, not a constructor. Same name as class, no return type.' },
       { id: 'jt2-q3', question: 'What happens if you write a parameterized constructor but NO default constructor?', options: ['Java provides a default automatically', 'Default constructor exists but is hidden', 'Default constructor disappears â€” new ClassName() fails', 'It works only in subclasses'], correctIndex: 2, explanation: 'Writing ANY constructor removes the default no-arg constructor. You must explicitly write a no-arg constructor if you need one.' },
@@ -65,6 +92,19 @@ export const javaTests: Reference[] = [
   {
     id: 'java-test-3', title: 'Test 3: Exceptions, Collections & I/O', category: 'Java',
     description: 'Packages, access modifiers, exceptions, file I/O, serialization, collections. 20 questions.',
+    timeLimit: 30, passingScore: 70,
+    attemptAfter: {
+      days: 'Days 11-14',
+      level: 'Bridge from OOP to "real" Java',
+      topics: [
+        'Packages and access modifiers',
+        'try / catch / finally and custom exceptions',
+        'File I/O with java.io',
+        'Serialization with Serializable',
+        'ArrayList, HashMap, and basic Collections',
+        'Sorting with Comparable and Comparator',
+      ],
+    },
     blocks: [{ type: 'quiz', id: 'java-test-3-quiz', title: 'Advanced Logic, Exceptions & Collections (Days 11-14)', questions: [
       { id: 'jt3-q1', question: 'Which access modifier allows access from a subclass in a DIFFERENT package?', options: ['private', 'default (no modifier)', 'protected', 'public'], correctIndex: 2, explanation: 'protected allows subclass access even from different packages â€” BUT only via inheritance (this.field), NOT via reference variable (obj.field).' },
       { id: 'jt3-q2', question: 'What happens during type erasure at runtime?', options: ['Generic types are preserved', 'Generic type info is removed â€” ArrayList<String> becomes ArrayList', 'An exception is thrown', 'Types are converted to Object'], correctIndex: 1, explanation: 'Type erasure removes generic type info at runtime. ArrayList<String> and ArrayList<Integer> are the same class. Compiler inserts casts.' },
@@ -95,6 +135,20 @@ export const javaTests: Reference[] = [
   {
     id: 'java-test-4', title: 'Test 4: Recursion, Generics & Streams', category: 'Java',
     description: 'Recursion, enums, generics, HashMap/TreeMap/HashSet, lambdas, streams. 20 questions.',
+    timeLimit: 30, passingScore: 70,
+    attemptAfter: {
+      days: 'Days 15-20',
+      level: 'Spicy — the modern Java toolkit',
+      topics: [
+        'Recursion and memoization',
+        'Enums and their built-in methods',
+        'Generics and wildcards (`? extends`, `? super`)',
+        'HashMap, TreeMap, HashSet, and equals/hashCode',
+        'Lambdas and functional interfaces',
+        'Stream pipeline operations',
+        'Inner and anonymous classes',
+      ],
+    },
     blocks: [{ type: 'quiz', id: 'java-test-4-quiz', title: 'Modern Java (Days 15-20)', questions: [
       { id: 'jt4-q1', question: 'What happens if a recursive method has no base case?', options: ['Returns 0', 'StackOverflowError', 'Compile error', 'Returns null'], correctIndex: 1, explanation: 'Without a base case, recursion never stops. The call stack grows until it exceeds the JVM limit (~1MB), causing StackOverflowError.' },
       { id: 'jt4-q2', question: 'Why is naive recursive Fibonacci O(2â¿)?', options: ['It uses too much memory', 'It recomputes the same subproblems exponentially many times', 'It uses a nested loop', 'It allocates arrays'], correctIndex: 1, explanation: 'fib(n) = fib(n-1) + fib(n-2) computes each subproblem redundantly. fib(2) is computed O(2â¿) times. Memoization reduces this to O(n).' },
@@ -125,6 +179,17 @@ export const javaTests: Reference[] = [
   {
     id: 'java-test-5', title: 'Test 5: Java Full Course Review', category: 'Java',
     description: 'Mixed questions from all 20 days. Comprehensive end-of-course assessment. 20 questions.',
+    timeLimit: 35, passingScore: 70,
+    attemptAfter: {
+      days: 'All 20 days',
+      level: 'Final boss — only after clearing Tests 1-4',
+      topics: [
+        'Everything from Tests 1-4',
+        'Threads, synchronization, and concurrency basics',
+        'volatile, wait/notify, and ExecutorService',
+        'Solid OOP and Collections intuition',
+      ],
+    },
     blocks: [{ type: 'quiz', id: 'java-test-5-quiz', title: 'Java Mastery â€” Full Course Review', questions: [
       { id: 'jt5-q1', question: 'Which of these is NOT a primitive type in Java?', options: ['int', 'boolean', 'String', 'char'], correctIndex: 2, explanation: 'String is a CLASS, not a primitive. The 8 primitives are: byte, short, int, long, float, double, char, boolean.' },
       { id: 'jt5-q2', question: 'What is the output of: System.out.println(10 + 20 + "Hello" + 10 + 20);', options: ['30Hello1020', '30Hello30', '1020Hello1020', '30Hello1020'], correctIndex: 0, explanation: 'Left-to-right evaluation. 10+20=30 (int addition). 30+"Hello"="30Hello" (string concat). "30Hello"+10="30Hello10". "30Hello10"+20="30Hello1020".' },

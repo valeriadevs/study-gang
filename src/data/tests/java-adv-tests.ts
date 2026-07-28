@@ -5,6 +5,18 @@ export const javaAdvTests: Reference[] = [
     id: 'java-adv-test-1', title: 'Test 1: JDBC Core & Connection', category: 'Advanced Java',
     description: 'JDBC architecture, DriverManager, Connection, Statement, ResultSet. 20 questions.',
     timeLimit: 30, passingScore: 70,
+    attemptAfter: {
+      days: 'Days 1-4',
+      level: 'Prereq: solid Java fundamentals + basic SQL',
+      topics: [
+        'Java fundamentals (classes, exceptions, try-with-resources)',
+        'MySQL basics: CREATE TABLE, SELECT, INSERT',
+        'JDBC URL format and the MySQL connector JAR',
+        'DriverManager.getConnection and 5-step workflow',
+        'Statement vs executeQuery vs executeUpdate',
+        'ResultSet: `next()`, 1-based column index, metadata',
+      ],
+    },
     blocks: [{ type: 'quiz', id: 'ja-test-1-quiz', title: 'JDBC Core & Connection (Days 1-4)', questions: [
       { id: 'jat1-q1', question: 'What does JDBC stand for?', options: ['Java Data Binary Connector', 'Java Database Connectivity', 'Java Development Base Component', 'Java Data Bridge Controller'], correctIndex: 1, explanation: 'JDBC = Java Database Connectivity. API that lets Java applications connect to and interact with databases.' },
       { id: 'jat1-q2', question: 'What is the JDBC connection URL format for MySQL?', options: ['mysql://localhost/db', 'jdbc:mysql://localhost:3306/dbname', 'jdbc:mysql://dbname:3306', 'http://localhost:3306/dbname'], correctIndex: 1, explanation: 'Format: jdbc:mysql://host:port/database. For local: jdbc:mysql://localhost:3306/mydb. Port 3306 is MySQL default.' },
@@ -33,6 +45,18 @@ export const javaAdvTests: Reference[] = [
     id: 'java-adv-test-2', title: 'Test 2: PreparedStatement & CRUD', category: 'Advanced Java',
     description: 'PreparedStatement, SQL injection, CRUD patterns, ResultSet. 20 questions.',
     timeLimit: 30, passingScore: 70,
+    attemptAfter: {
+      days: 'Day 5',
+      level: 'The "never concatenate SQL again" test',
+      topics: [
+        'Comfortable with Statement, Connection, ResultSet from Test 1',
+        '? placeholders and setXxx(index, value)',
+        'How PreparedStatement blocks SQL injection',
+        'DAO pattern: one class per entity, all CRUD methods',
+        'Reusing PreparedStatement across calls',
+        'java.sql.Date / Timestamp conversions',
+      ],
+    },
     blocks: [{ type: 'quiz', id: 'ja-test-2-quiz', title: 'PreparedStatement & CRUD (Day 5)', questions: [
       { id: 'jat2-q1', question: 'What is the PRIMARY benefit of PreparedStatement over Statement?', options: ['Shorter syntax', 'Prevents SQL injection + pre-compiled for repeated use', 'Does not need a connection', 'Works with more databases'], correctIndex: 1, explanation: 'PreparedStatement = SQL injection prevention (parameters escaped) + performance (pre-compiled SQL reused with different params).' },
       { id: 'jat2-q2', question: 'How do you set parameters in a PreparedStatement?', options: ['Concatenation: sql + value', 'Placeholders ? and setXxx(index, value) methods', 'Using format strings', 'Parameters are not supported'], correctIndex: 1, explanation: '? placeholders in SQL. ps.setString(1, value), ps.setInt(1, value), etc. Index is 1-BASED (first ? = 1).' },
@@ -61,6 +85,18 @@ export const javaAdvTests: Reference[] = [
     id: 'java-adv-test-3', title: 'Test 3: Transactions & Batch Processing', category: 'Advanced Java',
     description: 'ACID in JDBC, commit/rollback, batch processing, connection lifecycle. 20 questions.',
     timeLimit: 30, passingScore: 70,
+    attemptAfter: {
+      days: 'Days 5-6',
+      level: 'Where the bank-transfer bugs live',
+      topics: [
+        'ACID properties in a JDBC context',
+        'setAutoCommit(false), commit(), rollback()',
+        'Resource ordering: ResultSet → Statement → Connection',
+        'Savepoints for partial rollbacks',
+        'addBatch() / executeBatch() for bulk inserts',
+        'Connection pooling concept (HikariCP / c3p0)',
+      ],
+    },
     blocks: [{ type: 'quiz', id: 'ja-test-3-quiz', title: 'Transactions & Batch Processing (Days 5-6)', questions: [
       { id: 'jat3-q1', question: 'What does ACID stand for?', options: ['Atomicity, Consistency, Isolation, Durability', 'Access, Control, Integrity, Data', 'Automated, Consistent, Integrated, Distributed', 'Atomic, Concurrent, Indexed, Durable'], correctIndex: 0, explanation: 'ACID = Atomicity, Consistency, Isolation, Durability. Properties that guarantee reliable database transactions.' },
       { id: 'jat3-q2', question: 'What does Atomicity guarantee?', options: ['Transactions are fast', 'All-or-nothing â€” either ALL changes happen or NONE', 'Data is encrypted', 'Only one transaction runs at a time'], correctIndex: 1, explanation: 'Atomicity = transaction is indivisible. If any part fails, the ENTIRE transaction is rolled back. Debit+credit in transfer: both or neither.' },
@@ -89,6 +125,18 @@ export const javaAdvTests: Reference[] = [
     id: 'java-adv-test-4', title: 'Test 4: Multithreading & Concurrency', category: 'Advanced Java',
     description: 'Thread creation, lifecycle, synchronization, ExecutorService. 20 questions.',
     timeLimit: 30, passingScore: 70,
+    attemptAfter: {
+      days: 'Days 7-8',
+      level: 'The classic interview topic — read the JLS twice',
+      topics: [
+        'Thread vs Runnable: start() vs run()',
+        'Thread lifecycle: NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, TERMINATED',
+        'synchronized blocks and the monitor lock',
+        'volatile vs atomic (and why `count++` still races)',
+        'wait() / notify() / notifyAll() and the `while` loop',
+        'ExecutorService, Future, Callable vs Runnable',
+      ],
+    },
     blocks: [{ type: 'quiz', id: 'ja-test-4-quiz', title: 'Multithreading & Concurrency (Days 7-8)', questions: [
       { id: 'jat4-q1', question: 'What is the difference between start() and run()?', options: ['No difference', 'start() creates NEW thread + calls run(). run() just runs on CURRENT thread.', 'run() is deprecated', 'start() is for Runnable only'], correctIndex: 1, explanation: 'start() = new native OS thread, then JVM calls run(). run() directly = just a method call on the calling thread. No concurrency.' },
       { id: 'jat4-q2', question: 'Which is the PREFERRED way to create a thread?', options: ['Extend Thread', 'Implement Runnable', 'Use Callable directly', 'Use new Thread() without task'], correctIndex: 1, explanation: 'Runnable = task (composition). Extending Thread prevents extending anything else. Runnable works with ExecutorService. Use lambda: new Thread(() -> task).' },
@@ -116,7 +164,18 @@ export const javaAdvTests: Reference[] = [
   {
     id: 'java-adv-test-5', title: 'Test 5: Advanced Java Full Review', category: 'Advanced Java',
     description: 'Mixed questions from all 8 days. Comprehensive end-of-course assessment. 20 questions.',
-    timeLimit: 30, passingScore: 70,
+    timeLimit: 35, passingScore: 70,
+    attemptAfter: {
+      days: 'All 8 days',
+      level: 'Final boss — only after clearing Tests 1-4',
+      topics: [
+        'Everything from Tests 1-4',
+        'Isolation levels: READ_UNCOMMITTED → SERIALIZABLE',
+        'DatabaseMetaData and ResultSetMetaData',
+        'Deadlock, lock ordering, and daemon threads',
+        'Project: MySQL + JDBC + Swing mini-app workflow',
+      ],
+    },
     blocks: [{ type: 'quiz', id: 'ja-test-5-quiz', title: 'Advanced Java â€” Full Course Review', questions: [
       { id: 'jat5-q1', question: 'What is the full JDBC connection URL for a local MySQL database named "library_db"?', options: ['mysql://localhost/library_db', 'jdbc:mysql://localhost:3306/library_db', 'jdbc:mysql://library_db:3306', 'http://localhost:3306/library_db'], correctIndex: 1, explanation: 'Format: jdbc:mysql://host:port/database. Localhost = 127.0.0.1. Default MySQL port = 3306.' },
       { id: 'jat5-q2', question: 'Which JDBC statement type prevents SQL injection?', options: ['Statement', 'PreparedStatement', 'CallableStatement', 'All of them'], correctIndex: 1, explanation: 'PreparedStatement escapes parameters automatically. Statement concatenates strings â€” vulnerable. CallableStatement is for stored procedures.' },

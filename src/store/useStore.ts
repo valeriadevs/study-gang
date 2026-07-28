@@ -35,12 +35,15 @@ interface AppState {
   lastSeenLevel: number;
   /** Persisted flag so the gang easter egg only celebrates once. */
   gangFound: boolean;
+  /** Display name used on the home greeting. Editable from Settings. */
+  userName: string;
 
   goHome: () => void;
   selectCourse: (id: string) => void;
   selectDay: (courseId: string, dayId: string) => void;
   openReference: (id: string) => void;
   closeReference: () => void;
+  openTests: () => void;
 
   toggleTask: (courseId: string, taskId: string) => void;
   toggleDay: (courseId: string, dayId: string) => void;
@@ -55,6 +58,7 @@ interface AppState {
 
   openSettings: () => void;
   closeSettings: () => void;
+  setUserName: (name: string) => void;
   resetProgress: () => void;
 }
 
@@ -252,6 +256,7 @@ export const useStore = create<AppState>()(
       settingsOpen: false,
       lastSeenLevel: 1,
       gangFound: false,
+      userName: 'Vinayak',
 
       goHome: () =>
         set({
@@ -284,6 +289,8 @@ export const useStore = create<AppState>()(
       openReference: (id) =>
         set({ view: 'reference', referenceId: id, selectedDayId: null }),
       closeReference: () => set({ view: 'home', referenceId: null }),
+      openTests: () =>
+        set({ view: 'tests', referenceId: null, selectedDayId: null }),
 
       toggleTask: (courseId, taskId) =>
         set((state) => {
@@ -617,6 +624,7 @@ export const useStore = create<AppState>()(
 
       openSettings: () => set({ settingsOpen: true }),
       closeSettings: () => set({ settingsOpen: false }),
+      setUserName: (name) => set({ userName: name.trim() || 'Vinayak' }),
       resetProgress: () =>
         set({
           progress: {},
@@ -635,6 +643,7 @@ export const useStore = create<AppState>()(
         interactionStats: state.interactionStats,
         lastSeenLevel: state.lastSeenLevel,
         gangFound: state.gangFound,
+        userName: state.userName,
       }),
       merge: (persistedState, currentState) => {
         const persisted = persistedState as Partial<AppState>;

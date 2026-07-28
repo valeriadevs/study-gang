@@ -4,6 +4,7 @@ import { Sidebar } from './components/Sidebar';
 import { HomeView } from './components/HomeView';
 import { CourseView } from './components/CourseView';
 import { ReferenceView } from './components/ReferenceView';
+import { TestsView } from './components/TestsView';
 import { SettingsModal } from './components/SettingsModal';
 import { CelebrationLayer } from './components/CelebrationLayer';
 import { layout } from './styles/tokens';
@@ -31,6 +32,7 @@ export default function App() {
           {view === 'home' && <HomeView />}
           {view === 'course' && <CourseView />}
           {view === 'reference' && <ReferenceView />}
+          {view === 'tests' && <TestsView />}
         </main>
       </div>
       {settingsOpen && <SettingsModal />}

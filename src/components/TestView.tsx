@@ -77,6 +77,7 @@ export function TestView({ reference }: TestViewProps) {
   }
 
   if (!started) {
+    const hint = reference.attemptAfter;
     return (
       <div className="p-8 mx-auto fade-in" style={{ maxWidth: layout.readingMaxWidth }}>
         <nav className="text-sm text-ink-2 mb-2 flex items-center gap-1.5">
@@ -108,6 +109,30 @@ export function TestView({ reference }: TestViewProps) {
               <span>Pass: <strong>{passingScore}%</strong></span>
             </div>
           </div>
+
+          {hint && (
+            <div className="surface p-4 my-6 text-left mx-auto max-w-md border-accent/30">
+              <div className="flex items-center gap-2 text-accent font-bold mb-2">
+                <Icon name="sparkle" size="sm" weight="Filled" />
+                <span>Attempt after</span>
+              </div>
+              {hint.level && (
+                <p className="text-sm text-ink-2 italic mb-2">{hint.level}</p>
+              )}
+              {hint.days && (
+                <div className="flex items-center gap-1.5 text-xs text-ink-2 mb-2">
+                  <Icon name="calendarDays" size="xs" className="text-ink-3" />
+                  <span>{hint.days}</span>
+                </div>
+              )}
+              <p className="text-xs text-ink-3 mb-1.5">You should be comfortable with:</p>
+              <ul className="text-sm text-ink-2 space-y-1 list-disc pl-5 marker:text-ink-3">
+                {hint.topics.map((topic) => (
+                  <li key={topic} className="leading-snug">{topic}</li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           <div className="surface p-4 my-6 text-sm text-ink-2 mx-auto max-w-md text-left space-y-2">
             <p className="font-bold text-ink">Test Rules:</p>

@@ -5,6 +5,18 @@ export const sdeTests: Reference[] = [
     id: 'sde-test-1', title: 'Test 1: NumPy Fundamentals', category: 'SDE',
     description: 'Array creation, operations, statistical functions, distributions. 20 questions.',
     timeLimit: 30, passingScore: 70,
+    attemptAfter: {
+      days: 'Days 1-2',
+      level: 'Warm-up — vectorized thinking',
+      topics: [
+        'np.array, np.arange, np.linspace, np.zeros / ones',
+        'Element-wise ops vs matrix multiplication (`*` vs `@`)',
+        'Indexing, slicing, and `axis=0/1`',
+        'Basic stats: mean, median, std, percentile',
+        'Distributions: `randn`, `normal`, seeding with `np.random.seed`',
+        'First touch on Pandas DataFrames and reading CSV',
+      ],
+    },
     blocks: [{ type: 'quiz', id: 'sde-test-1-quiz', title: 'NumPy Fundamentals (Days 1-2)', questions: [
       { id: 'st1-q1', question: 'Why is NumPy faster than Python lists for numerical operations?', options: ['Uses GPUs', 'Contiguous memory + compiled C code (vectorized)', 'Written in Java', 'Lists are interpreted differently'], correctIndex: 1, explanation: 'NumPy arrays are contiguous blocks of fixed-type memory. Operations are vectorized and run in compiled C, not interpreted Python loops.' },
       { id: 'st1-q2', question: 'What does np.arange(0, 10, 2) produce?', options: ['[0, 2, 4, 6, 8]', '[0, 2, 4, 6, 8, 10]', '[2, 4, 6, 8]', '[0, 1, 2, ..., 9]'], correctIndex: 0, explanation: 'arange(start, stop, step). Stop is EXCLUSIVE: 0,2,4,6,8. Does not include 10.' },
@@ -33,6 +45,18 @@ export const sdeTests: Reference[] = [
     id: 'sde-test-2', title: 'Test 2: Pandas & Data Wrangling', category: 'SDE',
     description: 'Series, DataFrame, groupby, merge, pivot tables, data cleaning. 20 questions.',
     timeLimit: 30, passingScore: 70,
+    attemptAfter: {
+      days: 'Days 2-3',
+      level: 'Where most data work actually happens',
+      topics: [
+        'Series vs DataFrame, `loc` vs `iloc`',
+        'Filtering with boolean masks and `(cond1) & (cond2)`',
+        'groupby + agg, merge, concat, pivot_table',
+        'Missing values: dropna, fillna, interpolate',
+        'to_datetime, sort_values, duplicated / drop_duplicates',
+        'Intro to hypothesis testing and p-values',
+      ],
+    },
     blocks: [{ type: 'quiz', id: 'sde-test-2-quiz', title: 'Pandas & Data Wrangling (Days 2-3)', questions: [
       { id: 'st2-q1', question: 'What is the difference between a Series and a DataFrame?', options: ['No difference', 'Series = 1D labeled array. DataFrame = 2D labeled data structure.', 'DataFrame = multiple Series', 'Series is deprecated'], correctIndex: 1, explanation: 'Series: one-dimensional labeled array (single column). DataFrame: two-dimensional (multiple columns). A DataFrame is essentially a collection of Series.' },
       { id: 'st2-q2', question: 'How do you select a single column from a DataFrame?', options: ['df[row]', 'df[\'column_name\']', 'df.column_name', 'BOTH B and C work'], correctIndex: 3, explanation: 'Both df[\'col\'] and df.col work. df.col is convenient but fails if column name has spaces, conflicts with method names, or has special characters.' },
@@ -61,6 +85,18 @@ export const sdeTests: Reference[] = [
     id: 'sde-test-3', title: 'Test 3: Statistics & Hypothesis Testing', category: 'SDE',
     description: 'CLT, p-values, t-tests, Type I/II errors, distributions. 20 questions.',
     timeLimit: 30, passingScore: 70,
+    attemptAfter: {
+      days: 'Day 4',
+      level: 'The math that backs every data decision',
+      topics: [
+        'Population vs sample, σ vs s, μ vs x̄',
+        'Central Limit Theorem and standard error (σ/√n)',
+        'Null / alternative hypotheses and p-values',
+        'Type I vs Type II errors, α and power',
+        't-tests: 1-sample, independent, paired',
+        'Q-Q plots and the normality check',
+      ],
+    },
     blocks: [{ type: 'quiz', id: 'sde-test-3-quiz', title: 'Statistics & Hypothesis Testing (Day 4)', questions: [
       { id: 'st3-q1', question: 'What does the null hypothesis (H0) typically state?', options: ['There IS an effect', 'There is NO effect / NO difference', 'The sample is biased', 'The population standard deviation is known'], correctIndex: 1, explanation: 'H0 = "no effect" or "no difference" â€” the default position. H1 (alternative) = "there IS an effect." We test whether data provides evidence against H0.' },
       { id: 'st3-q2', question: 'If p-value = 0.001 at Î± = 0.05, what do you conclude?', options: ['Fail to reject H0', 'Reject H0 â€” very strong evidence against null', 'Accept H0', 'Sample size is too small'], correctIndex: 1, explanation: 'p < 0.01 = strong evidence. p < 0.001 = very strong. This means the observed result is very unlikely under H0.' },
@@ -89,6 +125,18 @@ export const sdeTests: Reference[] = [
     id: 'sde-test-4', title: 'Test 4: Big Data, Hadoop, Spark & ETL', category: 'SDE',
     description: '5Vs, scaling, Hadoop ecosystem, MapReduce, Spark, ETL, data warehousing. 20 questions.',
     timeLimit: 30, passingScore: 70,
+    attemptAfter: {
+      days: 'Days 5-8',
+      level: 'Big-picture — when "pandas on a laptop" is not enough',
+      topics: [
+        '5 Vs of Big Data and horizontal vs vertical scaling',
+        'HDFS blocks, NameNode / DataNode, replication factor',
+        'MapReduce phases and data locality',
+        'Spark RDDs and why in-memory is faster',
+        'OLTP vs OLAP, star schema, fact vs dimension',
+        'ETL vs ELT and Airflow for orchestration',
+      ],
+    },
     blocks: [{ type: 'quiz', id: 'sde-test-4-quiz', title: 'Big Data Architecture & ETL (Days 5-8)', questions: [
       { id: 'st4-q1', question: 'Which of the 5 Vs refers to data SPEED?', options: ['Volume', 'Velocity', 'Variety', 'Veracity'], correctIndex: 1, explanation: 'Velocity = speed of data generation and processing. Volume = scale. Variety = different formats. Veracity = quality/trustworthiness. Value = business worth.' },
       { id: 'st4-q2', question: 'What is the key advantage of horizontal scaling over vertical scaling?', options: ['Faster single queries', 'Near-linear cost growth and no physical ceiling', 'Better ACID compliance', 'Less complex'], correctIndex: 1, explanation: 'Horizontal = adding more commodity machines (theoretically unlimited). Vertical = bigger single machine (hits physical ceiling). Big Data requires horizontal.' },
@@ -116,7 +164,18 @@ export const sdeTests: Reference[] = [
   {
     id: 'sde-test-5', title: 'Test 5: Visualization & SDE Full Review', category: 'SDE',
     description: 'Matplotlib, Seaborn, plus mixed questions from all 10 days. 20 questions.',
-    timeLimit: 30, passingScore: 70,
+    timeLimit: 35, passingScore: 70,
+    attemptAfter: {
+      days: 'All 10 days',
+      level: 'Final boss — only after clearing Tests 1-4',
+      topics: [
+        'Everything from Tests 1-4',
+        'Matplotlib: plot, scatter, hist, subplot, tight_layout',
+        'Seaborn: boxplot with `hue`, heatmap of `df.corr()`',
+        'Histogram vs bar chart, violin vs boxplot',
+        'End-to-end pipeline: collect → clean → explore → model → communicate',
+      ],
+    },
     blocks: [{ type: 'quiz', id: 'sde-test-5-quiz', title: 'Visualization & SDE Full Course Review', questions: [
       { id: 'st5-q1', question: 'What does plt.plot(x, y, \'r--\') create?', options: ['A blue solid line', 'A RED DASHED line', 'A scatter plot', 'A histogram'], correctIndex: 1, explanation: 'Format string: \'r--\' = red, dashed line. \'b-\' = blue solid. \'g:\' = green dotted. \'ko\' = black circles.' },
       { id: 'st5-q2', question: 'Which plot type is best for showing the relationship between two numeric variables?', options: ['Bar chart', 'Scatter plot', 'Histogram', 'Pie chart'], correctIndex: 1, explanation: 'Scatter plots show (x, y) pairs. Each point = one observation. Patterns reveal correlation, clusters, and outliers.' },

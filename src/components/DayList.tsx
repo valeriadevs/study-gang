@@ -14,6 +14,7 @@ export function DayList({ courseId }: DayListProps) {
   const selectedDayId = useStore((state) => state.selectedDayId);
   const selectDay = useStore((state) => state.selectDay);
   const openReference = useStore((state) => state.openReference);
+  const openTests = useStore((state) => state.openTests);
   const goHome = useStore((state) => state.goHome);
 
   const course = courses.find((item) => item.id === courseId);
@@ -159,6 +160,15 @@ export function DayList({ courseId }: DayListProps) {
           </div>
         </div>
       )}
+
+      <button
+        type="button"
+        onClick={openTests}
+        className="mt-4 w-full text-left px-3 py-2.5 rounded-lg border border-accent/40 bg-accent/10 text-sm font-medium text-accent hover:bg-accent/15 hover:border-accent transition-colors duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-2"
+      >
+        <Icon name="checklist" size="xs" className="inline-block align-text-bottom mr-1.5" />
+        All Tests
+      </button>
     </aside>
   );
 }

@@ -12,6 +12,8 @@ export function SettingsModal() {
   const courses = useStore((state) => state.courses);
   const achievements = useStore((state) => state.achievements);
   const interactionStats = useStore((state) => state.interactionStats);
+  const userName = useStore((state) => state.userName);
+  const setUserName = useStore((state) => state.setUserName);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const metrics = getGlobalMetrics(courses, progress);
@@ -99,6 +101,34 @@ export function SettingsModal() {
               isLast
             />
           </div>
+        </section>
+
+        {/* Section: Profile */}
+        <section aria-labelledby="settings-profile-heading" className="mb-5">
+          <h3
+            id="settings-profile-heading"
+            className="text-xs uppercase tracking-wider text-ink-3 font-bold mb-2"
+          >
+            Profile
+          </h3>
+          <label
+            htmlFor="settings-name-input"
+            className="block text-sm text-ink-2 mb-1.5"
+          >
+            Display name
+          </label>
+          <input
+            id="settings-name-input"
+            type="text"
+            value={userName}
+            onChange={(event) => setUserName(event.target.value)}
+            maxLength={32}
+            placeholder="Your name"
+            className="w-full px-3 py-2 rounded-lg bg-bg-2 border border-border text-ink text-sm placeholder:text-ink-3 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent"
+          />
+          <p className="text-xs text-ink-3 mt-1.5">
+            Used in the home greeting. Leave blank to fall back to the default.
+          </p>
         </section>
 
         {/* Section: Achievements */}

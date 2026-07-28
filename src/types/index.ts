@@ -108,6 +108,16 @@ export interface Reference {
   blocks?: ContentBlock[];
   timeLimit?: number;
   passingScore?: number;
+  /**
+   * Guidance for tests/quizzes about when to attempt them. `days` is the day
+   * range covered, `topics` is a short list of pre-requisite topics, and
+   * `level` is a free-form readiness hint shown alongside the card.
+   */
+  attemptAfter?: {
+    days?: string;
+    topics: string[];
+    level?: string;
+  };
 }
 
 export interface Progress {
@@ -148,4 +158,4 @@ export interface Celebration {
   achievementIds?: string[];
 }
 
-export type View = 'home' | 'course' | 'reference';
+export type View = 'home' | 'course' | 'reference' | 'tests';

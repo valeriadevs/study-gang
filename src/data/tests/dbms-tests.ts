@@ -5,6 +5,17 @@ export const dbmsTests: Reference[] = [
     id: 'dbms-test-1', title: 'Test 1: DDL, DQL & Basic Queries', category: 'DBMS',
     description: 'CREATE, SELECT, WHERE, DISTINCT, data types, NULL handling. 20 questions â€” target 16+.',
     timeLimit: 30, passingScore: 70,
+    attemptAfter: {
+      days: 'Days 1-3',
+      level: 'Warm-up — first time with SQL',
+      topics: [
+        'MySQL setup (XAMPP / CLI) and logging in',
+        'CREATE TABLE and SQL data types (INT, VARCHAR, DATE)',
+        'SELECT, WHERE, ORDER BY, LIMIT, DISTINCT',
+        'NULL handling and the `IS NULL` operator',
+        'Pattern matching with LIKE and membership with IN / BETWEEN',
+      ],
+    },
     blocks: [{ type: 'quiz', id: 'dbms-test-1-quiz', title: 'DDL, DQL & Basic Queries (Days 1-3)', questions: [
       { id: 'dt1-q1', question: 'Which category does CREATE TABLE belong to?', options: ['DML', 'DDL', 'DQL', 'DCL'], correctIndex: 1, explanation: 'DDL = Data Definition Language. CREATE, ALTER, DROP, TRUNCATE define database structure.' },
       { id: 'dt1-q2', question: 'How do you check if a column value is NULL?', options: ['WHERE col = NULL', 'WHERE col IS NULL', 'WHERE col == NULL', 'WHERE col EQUALS NULL'], correctIndex: 1, explanation: 'NULL means "unknown" â€” cannot be compared with =. Always use IS NULL or IS NOT NULL.' },
@@ -33,6 +44,18 @@ export const dbmsTests: Reference[] = [
     id: 'dbms-test-2', title: 'Test 2: DML, Joins & Subqueries', category: 'DBMS',
     description: 'INSERT, UPDATE, DELETE, INNER/LEFT/RIGHT JOIN, subqueries, foreign keys. 20 questions.',
     timeLimit: 30, passingScore: 70,
+    attemptAfter: {
+      days: 'Days 4-5',
+      level: 'Core CRUD + first joins',
+      topics: [
+        'INSERT, UPDATE, DELETE (and the WHERE-or-else trap)',
+        'FOREIGN KEY and referential integrity',
+        'ON DELETE CASCADE / SET NULL',
+        'INNER JOIN, LEFT JOIN, RIGHT JOIN',
+        'Subqueries and the `IN (SELECT ...)` pattern',
+        'Self-joins and correlated subqueries',
+      ],
+    },
     blocks: [{ type: 'quiz', id: 'dbms-test-2-quiz', title: 'DML, Joins & Subqueries (Days 4-5)', questions: [
       { id: 'dt2-q1', question: 'Which command adds new rows to a table?', options: ['ADD', 'INSERT INTO', 'UPDATE', 'CREATE ROW'], correctIndex: 1, explanation: 'INSERT INTO adds new rows. UPDATE modifies existing rows. DELETE removes rows. CREATE TABLE defines structure.' },
       { id: 'dt2-q2', question: 'What happens if you run UPDATE without WHERE?', options: ['Nothing â€” it is invalid', 'ALL rows are updated', 'The first row is updated', 'An error is thrown'], correctIndex: 1, explanation: 'UPDATE without WHERE updates EVERY row in the table. Always test with SELECT first to verify which rows will be affected.' },
@@ -61,6 +84,17 @@ export const dbmsTests: Reference[] = [
     id: 'dbms-test-3', title: 'Test 3: Aggregates, Grouping & Theory', category: 'DBMS',
     description: 'COUNT/AVG/SUM, GROUP BY, HAVING, ACID, normalization. 20 questions.',
     timeLimit: 30, passingScore: 70,
+    attemptAfter: {
+      days: 'Days 6-8',
+      level: 'Analytics mindset + the theory backbone',
+      topics: [
+        'Aggregate functions: COUNT, SUM, AVG, MIN, MAX',
+        'GROUP BY and the WHERE vs HAVING split',
+        'ACID properties (Atomicity, Consistency, Isolation, Durability)',
+        '1NF / 2NF / 3NF and transitive dependencies',
+        'AUTO_INCREMENT, ALTER TABLE, TRUNCATE',
+      ],
+    },
     blocks: [{ type: 'quiz', id: 'dbms-test-3-quiz', title: 'Aggregates, Grouping & Theory (Days 6-8)', questions: [
       { id: 'dt3-q1', question: 'What is the difference between COUNT(*) and COUNT(column)?', options: ['No difference', 'COUNT(*) counts all rows. COUNT(column) counts only non-NULL values.', 'COUNT(column) is faster', 'COUNT(*) counts only NULLs'], correctIndex: 1, explanation: 'COUNT(*) counts every row regardless of NULL. COUNT(column) skips NULL values. Know this for exams.' },
       { id: 'dt3-q2', question: 'What is the difference between WHERE and HAVING?', options: ['No difference', 'WHERE filters rows BEFORE grouping. HAVING filters groups AFTER aggregation.', 'HAVING is faster', 'WHERE is for SELECT only'], correctIndex: 1, explanation: 'WHERE â†’ GROUP BY â†’ HAVING â†’ SELECT â†’ ORDER BY. HAVING can use aggregates (COUNT>5). WHERE cannot.' },
@@ -89,6 +123,17 @@ export const dbmsTests: Reference[] = [
     id: 'dbms-test-4', title: 'Test 4: Views, Indexes & Programming', category: 'DBMS',
     description: 'Views, indexes, EXPLAIN, procedures, functions, triggers. 20 questions.',
     timeLimit: 30, passingScore: 70,
+    attemptAfter: {
+      days: 'Days 9-10',
+      level: 'Power tools — the ones that impress in interviews',
+      topics: [
+        'Views and the read-only virtual table idea',
+        'Indexes, composite keys, and the leftmost prefix rule',
+        'Reading EXPLAIN output (type=ALL is the red flag)',
+        'Stored procedures vs functions',
+        'BEFORE / AFTER triggers and OLD / NEW',
+      ],
+    },
     blocks: [{ type: 'quiz', id: 'dbms-test-4-quiz', title: 'Views, Indexes & Programming (Days 9-10)', questions: [
       { id: 'dt4-q1', question: 'Does a view store data?', options: ['Yes â€” it is a physical copy', 'No â€” it is a stored query that runs when accessed', 'Only if you specify MATERIALIZED', 'Views store indexes only'], correctIndex: 1, explanation: 'Views are VIRTUAL â€” they store the SELECT statement, not data. Each query on a view runs the underlying SELECT. MySQL does not support materialized views.' },
       { id: 'dt4-q2', question: 'What is the main benefit of an index?', options: ['Reduces disk space', 'Speeds up SELECT queries on indexed columns', 'Reduces memory usage', 'Prevents duplicate data'], correctIndex: 1, explanation: 'Indexes create a B-tree structure that allows O(log n) lookup instead of O(n) full table scan. Dramatic speed improvements for large tables.' },
@@ -116,7 +161,18 @@ export const dbmsTests: Reference[] = [
   {
     id: 'dbms-test-5', title: 'Test 5: DBMS Full Course Review', category: 'DBMS',
     description: 'Mixed questions from all 10 days. Comprehensive end-of-course assessment. 20 questions.',
-    timeLimit: 30, passingScore: 70,
+    timeLimit: 35, passingScore: 70,
+    attemptAfter: {
+      days: 'All 10 days',
+      level: 'Final boss — only after clearing Tests 1-4',
+      topics: [
+        'Everything from Tests 1-4',
+        'Query execution order (FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY)',
+        'Transaction lifecycle and isolation levels',
+        'mysqldump, GRANT, and security basics',
+        'Cross-subject: a Java main() ↔ SQL flow sense check',
+      ],
+    },
     blocks: [{ type: 'quiz', id: 'dbms-test-5-quiz', title: 'DBMS Speedrun â€” Full Course Review', questions: [
       { id: 'dt5-q1', question: 'Which SQL statement removes ALL rows from a table but keeps the structure?', options: ['DELETE FROM pet;', 'TRUNCATE TABLE pet;', 'DROP TABLE pet;', 'REMOVE FROM pet;'], correctIndex: 1, explanation: 'TRUNCATE removes all rows quickly and resets auto-increment. DELETE also works but is slower. DROP removes structure too.' },
       { id: 'dt5-q2', question: 'What is the difference between DROP and DELETE?', options: ['No difference', 'DROP removes TABLE structure + data. DELETE removes ROWS only.', 'DELETE is faster', 'DROP keeps the table structure'], correctIndex: 1, explanation: 'DROP = removes the table entirely (structure + data). DELETE = removes rows, table structure remains. TRUNCATE = removes all rows, structure remains.' },

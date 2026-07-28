@@ -71,8 +71,10 @@ export function HomeView() {
   const selectCourse = useStore((state) => state.selectCourse);
   const selectDay = useStore((state) => state.selectDay);
   const openReference = useStore((state) => state.openReference);
+  const openTests = useStore((state) => state.openTests);
   const celebrateNoReason = useStore((state) => state.celebrateNoReason);
   const celebrateEasterEgg = useStore((state) => state.celebrateEasterEgg);
+  const userName = useStore((state) => state.userName);
 
   const metrics = getGlobalMetrics(courses, progress);
   const level = getLevelInfo(calculateXp(metrics));
@@ -144,7 +146,7 @@ export function HomeView() {
               id="home-hero-title"
               className="text-h1 font-display mb-2"
             >
-              Welcome back, Vinay
+              Welcome back, {userName}
             </h1>
             <p className="text-body-lg text-ink-2 max-w-2xl leading-relaxed">
               {metrics.doneTasks === 0
@@ -264,10 +266,22 @@ export function HomeView() {
 
       {references.length > 0 && (
         <>
-          <h2 className="text-lg font-bold mb-3 flex items-center gap-2">
-            <Icon name="clipboard" size="sm" className="text-accent" />
-            Quick Reference
-          </h2>
+          <div className="flex items-center justify-between gap-3 mb-3 mt-7">
+            <h2 className="text-lg font-bold flex items-center gap-2">
+              <Icon name="clipboard" size="sm" className="text-accent" />
+              Quick Reference
+            </h2>
+            <button
+              type="button"
+              onClick={openTests}
+              className="chip border-accent/40 text-accent hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              aria-label="View all tests from every course"
+            >
+              <Icon name="checklist" size="xs" />
+              All Tests
+              <Icon name="arrowRight" size="xs" />
+            </button>
+          </div>
           <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-3">
             {references.map((reference) => (
               <button
