@@ -61,6 +61,9 @@ export function PracticeEditor({
   // Live mirror of `suggestOpen` so keydown handlers can read the true
   // open state without depending on React's render timing.
   const suggestOpenRef = useRef(false);
+  // Last prefix the dropdown filtered on — only reset the highlight when
+  // this changes, not on every keystroke.
+  const lastSuggestPrefixRef = useRef<string | null>(null);
   const selectionStartRef = useRef<number | null>(null);
 
   const lineCount = code.split('\n').length;
@@ -203,13 +206,21 @@ export function PracticeEditor({
     const liveWord = currentWord(live, start);
     const wasOpen = suggestOpenRef.current;
 
-    // Open when typing a word char (letter/digit/dot).
-    if (
-      !e.ctrlKey && !e.metaKey && !e.altKey &&
-      liveWord && !e.shiftKey
-    ) {
+    // Open when typing a word char (letter/digit/dot) — NOT on arrow keys,
+    // so arrows only ever navigate an already-open dropdown.
+    const isTypingChar = !e.ctrlKey && !e.metaKey && !e.altKey &&
+      !e.shiftKey && liveWord &&
+      (e.key.length === 1 || e.key === 'Backspace' || e.key === 'Delete');
+    if (isTypingChar) {
       setSuggestOpen(true);
-      setSuggestIndex(0);
+      // Reset the highlight ONLY when the prefix changed — not on every
+      // keystroke — so arrow navigation isn't undone mid-stream.
+      if (lastSuggestPrefixRef.current !== liveWord) {
+        setSuggestIndex(0);
+        lastSuggestPrefixRef.current = liveWord;
+      }
+    } else if (liveWord) {
+      lastSuggestPrefixRef.current = liveWord;
     }
 
     // Escape closes the dropdown.
@@ -217,6 +228,7 @@ export function PracticeEditor({
       setSuggestOpen(false);
       setSuggestIndex(0);
       setCaretPos(null);
+      lastSuggestPrefixRef.current = null;
     }
 
     // Compute the live filtered list for THIS keystroke, so Tab/Enter/arrows
@@ -226,16 +238,18 @@ export function PracticeEditor({
       : [];
 
     if (liveSuggestions.length > 0 && (wasOpen || e.key === 'Tab' || e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
+      // Clamp the highlight to the live list (it may have shrunk).
+      const idx = Math.min(suggestIndex, liveSuggestions.length - 1);
       // Tab accepts the highlighted suggestion.
       if (e.key === 'Tab') {
         e.preventDefault();
-        acceptSuggestion(liveSuggestions[suggestIndex].label);
+        acceptSuggestion(liveSuggestions[idx].label);
         return;
       }
       // Enter accepts when the dropdown is open.
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
-        acceptSuggestion(liveSuggestions[suggestIndex].label);
+        acceptSuggestion(liveSuggestions[idx].label);
         return;
       }
       // ArrowUp / ArrowDown navigate the list.
@@ -256,6 +270,7 @@ export function PracticeEditor({
       setSuggestOpen(false);
       setSuggestIndex(0);
       setCaretPos(null);
+      lastSuggestPrefixRef.current = null;
     }
 
     // Tab / Shift+Tab: insert or remove an indentation level.
