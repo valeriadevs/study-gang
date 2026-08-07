@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useCallback } from 'react';
+import { useState, useMemo, useRef, useCallback, useEffect } from 'react';
 import { highlight, langLabel } from '../utils/syntax';
 import { getSuggestions } from '../utils/suggestions';
 import { cn } from '../utils/helpers';
@@ -58,6 +58,9 @@ export function PracticeEditor({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const gutterRef = useRef<HTMLDivElement>(null);
   const preRef = useRef<HTMLPreElement>(null);
+  // Live mirror of `suggestOpen` so keydown handlers can read the true
+  // open state without depending on React's render timing.
+  const suggestOpenRef = useRef(false);
   const selectionStartRef = useRef<number | null>(null);
 
   const lineCount = code.split('\n').length;
@@ -77,6 +80,11 @@ export function PracticeEditor({
     () => (suggestOpen && liveWord !== null ? getSuggestions(code, lang, liveWord) : []),
     [code, lang, suggestOpen, liveWord]
   );
+
+  // Keep the live ref in sync with the open state (for keydown handlers).
+  useEffect(() => {
+    suggestOpenRef.current = suggestOpen;
+  }, [suggestOpen]);
 
   function updateCode(next: string) {
     setCode(next);
@@ -158,11 +166,14 @@ export function PracticeEditor({
   function acceptSuggestion(label: string) {
     const ta = textareaRef.current;
     if (!ta) return;
+    // Read the LIVE DOM value + caret — never the (stale) `code` closure.
     const start = ta.selectionStart;
-    // Measure the word at the caret directly — never trust a lagging state.
-    const word = currentWord(code, start);
-    const prefixLen = word ? word.length : 0;
-    const next = code.slice(0, start - prefixLen) + label + code.slice(start);
+    const live = ta.value;
+    // Measure the word at the caret directly from the live text.
+    let i = start - 1;
+    while (i >= 0 && /[A-Za-z0-9_.]/.test(live[i])) i -= 1;
+    const prefixLen = start - (i + 1);
+    const next = live.slice(0, start - prefixLen) + label + live.slice(start);
     updateCode(next);
     const cursor = start - prefixLen + label.length;
     requestAnimationFrame(() => {
@@ -178,6 +189,8 @@ export function PracticeEditor({
     const ta = e.currentTarget;
     const start = ta.selectionStart;
     const end = ta.selectionEnd;
+    // Read the LIVE value — `code` closure is one render behind.
+    const live = ta.value;
 
     // Ctrl/Cmd + Enter runs the code.
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
@@ -186,53 +199,60 @@ export function PracticeEditor({
       return;
     }
 
-    // --- Autocomplete handling ---
-    const word = currentWord(code, start);
+    // --- Autocomplete handling (always reads live DOM, never stale state) ---
+    const liveWord = currentWord(live, start);
+    const wasOpen = suggestOpenRef.current;
 
-    // Open suggestions when typing a letter/digit/dot.
+    // Open when typing a word char (letter/digit/dot).
     if (
       !e.ctrlKey && !e.metaKey && !e.altKey &&
-      word && !e.shiftKey && !e.altKey
+      liveWord && !e.shiftKey
     ) {
       setSuggestOpen(true);
       setSuggestIndex(0);
     }
 
-    // Escape closes the dropdown (without inserting anything).
+    // Escape closes the dropdown.
     if (e.key === 'Escape') {
       setSuggestOpen(false);
       setSuggestIndex(0);
       setCaretPos(null);
     }
 
-    if (suggestions.length > 0 && suggestOpen) {
+    // Compute the live filtered list for THIS keystroke, so Tab/Enter/arrows
+    // work even on the keypress that just opened the dropdown.
+    const liveSuggestions = liveWord
+      ? getSuggestions(live, lang, liveWord)
+      : [];
+
+    if (liveSuggestions.length > 0 && (wasOpen || e.key === 'Tab' || e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
       // Tab accepts the highlighted suggestion.
       if (e.key === 'Tab') {
         e.preventDefault();
-        acceptSuggestion(suggestions[suggestIndex].label);
+        acceptSuggestion(liveSuggestions[suggestIndex].label);
         return;
       }
-      // Enter accepts when the dropdown is open (instead of inserting a newline).
+      // Enter accepts when the dropdown is open.
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
-        acceptSuggestion(suggestions[suggestIndex].label);
+        acceptSuggestion(liveSuggestions[suggestIndex].label);
         return;
       }
       // ArrowUp / ArrowDown navigate the list.
       if (e.key === 'ArrowDown') {
         e.preventDefault();
-        setSuggestIndex((i) => (i + 1) % suggestions.length);
+        setSuggestIndex((i) => (i + 1) % liveSuggestions.length);
         return;
       }
       if (e.key === 'ArrowUp') {
         e.preventDefault();
-        setSuggestIndex((i) => (i - 1 + suggestions.length) % suggestions.length);
+        setSuggestIndex((i) => (i - 1 + liveSuggestions.length) % liveSuggestions.length);
         return;
       }
     }
 
     // Close suggestions when the caret moves off a word (e.g. a space or newline).
-    if (!word && suggestOpen) {
+    if (!liveWord && suggestOpenRef.current) {
       setSuggestOpen(false);
       setSuggestIndex(0);
       setCaretPos(null);
@@ -485,7 +505,7 @@ export function PracticeEditor({
             autoCorrect="off"
             autoComplete="off"
             aria-label={`${title ?? 'Practice'} code editor`}
-            className="absolute inset-0 w-full h-full bg-transparent text-transparent caret-accent font-mono text-sm leading-relaxed p-4 resize-none outline-none whitespace-pre-wrap break-all focus-visible:ring-2 focus-visible:ring-accent"
+            className="absolute inset-0 w-full h-full bg-transparent text-transparent caret-accent font-mono text-sm leading-relaxed px-4 py-3.5 border-0 resize-none outline-none whitespace-pre-wrap break-all focus-visible:ring-2 focus-visible:ring-accent"
           />
 
           {/* Autocomplete dropdown — positioned at the caret */}
