@@ -360,15 +360,28 @@ export function ChatAgent() {
             )}
           </div>
         </div>
-        <button
-          type="button"
-          onClick={() => setOpen(false)}
-          className="w-7 h-7 grid place-items-center rounded-md text-ink-3 hover:text-ink hover:bg-panel transition-colors duration-fast flex-shrink-0 ml-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          aria-label="Hide assistant panel"
-          title="Hide panel"
-        >
-          <Icon name="close" size="sm" />
-        </button>
+        <div className="flex items-center gap-1 flex-shrink-0 ml-2">
+          {messages.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setMessages([])}
+              className="w-7 h-7 grid place-items-center rounded-md text-ink-3 hover:text-danger hover:bg-danger/10 transition-colors duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              aria-label="Clear chat history"
+              title="Clear chat"
+            >
+              <Icon name="refresh" size="sm" />
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={() => setOpen(false)}
+            className="w-7 h-7 grid place-items-center rounded-md text-ink-3 hover:text-ink hover:bg-panel transition-colors duration-fast flex-shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            aria-label="Hide assistant panel"
+            title="Hide panel"
+          >
+            <Icon name="close" size="sm" />
+          </button>
+        </div>
       </div>
 
       {/* messages */}
