@@ -5,8 +5,8 @@ import { loadEnv } from 'vite';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  const API_KEY = env.OPENROUTER_API_KEY;
-  const API_URL = 'https://api.unorouter.com/v1/chat/completions';
+  const API_KEY = env.MINIMAX_API_KEY;
+  const API_URL = 'https://api.minimax.io/v1/chat/completions';
 
   return {
     plugins: [react()],
@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
       open: true,
       proxy: {
         '/api/chat': {
-          target: 'https://api.unorouter.com',
+          target: 'https://api.minimax.io',
           changeOrigin: true,
           rewrite: () => '/v1/chat/completions',
           configure: (proxy) => {

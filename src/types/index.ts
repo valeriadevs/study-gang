@@ -122,6 +122,21 @@ export interface Reference {
   };
 }
 
+export interface TestResult {
+  /** Reference/test id, e.g. "jt1". */
+  testId: string;
+  /** Test title for display. */
+  title: string;
+  /** Score out of total questions. */
+  score: number;
+  total: number;
+  /** Percent score (0-100). */
+  percent: number;
+  passed: boolean;
+  /** ISO timestamp of submission. */
+  date: string;
+}
+
 export interface Progress {
   tasks: Record<string, boolean>;
   days: Record<string, boolean>;
@@ -131,6 +146,8 @@ export interface Progress {
   studyDates?: string[];
   /** Milestones (25/50/75/100) that have already been celebrated for this course. */
   milestonesCelebrated?: number[];
+  /** Test attempt history, newest first. */
+  testResults?: TestResult[];
 }
 
 export interface InteractionStats {

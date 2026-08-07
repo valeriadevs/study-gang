@@ -6,6 +6,7 @@ import type {
   InteractionStats,
   InteractionType,
   Progress,
+  TestResult,
   View,
 } from '../types';
 import {
@@ -37,18 +38,24 @@ interface AppState {
   gangFound: boolean;
   /** Display name used on the home greeting. Editable from Settings. */
   userName: string;
+  /** Whether the AI chat sidebar panel is open. */
+  chatOpen: boolean;
+  /** Whether the left day/phase navigation sidebar is collapsed. */
+  sidebarCollapsed: boolean;
 
   goHome: () => void;
   selectCourse: (id: string) => void;
   selectDay: (courseId: string, dayId: string) => void;
   openReference: (id: string) => void;
-  closeReference: () => void;
   openTests: () => void;
+  setChatOpen: (open: boolean) => void;
+  toggleSidebar: () => void;
 
   toggleTask: (courseId: string, taskId: string) => void;
   toggleDay: (courseId: string, dayId: string) => void;
   setNote: (courseId: string, dayId: string, note: string) => void;
   addMinutes: (courseId: string, minutes: number, studyHour?: number) => void;
+  recordTestResult: (courseId: string, result: TestResult) => void;
   recordInteraction: (type: InteractionType) => void;
   celebrateCourse: (courseId: string) => void;
   celebrateTimer: (courseId: string, minutes: number) => void;
@@ -156,9 +163,10 @@ function evaluateAchievements(
   if (!fallback && newlyUnlocked.length > 0) {
     const first = ACHIEVEMENT_DEFINITIONS.find((item) => item.id === newlyUnlocked[0]);
     if (first) {
+      const extraCount = newlyUnlocked.length - 1;
       fallback = makeCelebration({
         kind: 'achievement',
-        title: `${first.title} unlocked`,
+        title: extraCount > 0 ? `${first.title} +${extraCount} more unlocked` : `${first.title} unlocked`,
         message: first.description,
         iconName: first.icon,
       });
@@ -205,19 +213,22 @@ function detectLevelUp(
   interactionStats: InteractionStats,
   studyHour: number | undefined,
   lastSeenLevel: number
-): Celebration | null {
+): { level: number; celebration: Celebration } | null {
   const metrics = getGlobalMetrics(courseList, progress);
   const level = getLevelInfo(calculateXp(metrics)).level;
   if (level <= lastSeenLevel) return null;
-  return makeCelebration({
-    kind: 'achievement',
-    title: `Level ${level} unlocked`,
-    message: lastSeenLevel === 0
-      ? 'Your study XP has a new home. Level up unlocks new perks of focus.'
-      : `You levelled up from ${lastSeenLevel} to ${level}. Tiny consistent sessions really do add up.`,
-    iconName: 'medalLevel',
-    achievementIds: [],
-  });
+  return {
+    level,
+    celebration: makeCelebration({
+      kind: 'achievement',
+      title: `Level ${level} unlocked`,
+      message: lastSeenLevel === 0
+        ? 'Your study XP has a new home. Level up unlocks new perks of focus.'
+        : `You levelled up from ${lastSeenLevel} to ${level}. Tiny consistent sessions really do add up.`,
+      iconName: 'medalLevel',
+      achievementIds: [],
+    }),
+  };
 }
 
 function prependCelebration(
@@ -257,6 +268,8 @@ export const useStore = create<AppState>()(
       lastSeenLevel: 1,
       gangFound: false,
       userName: 'Vinayakak',
+      chatOpen: false,
+      sidebarCollapsed: false,
 
       goHome: () =>
         set({
@@ -286,9 +299,11 @@ export const useStore = create<AppState>()(
         });
       },
 
+      setChatOpen: (open) => set({ chatOpen: open }),
+      toggleSidebar: () => set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed })),
+
       openReference: (id) =>
         set({ view: 'reference', referenceId: id, selectedDayId: null }),
-      closeReference: () => set({ view: 'home', referenceId: null }),
       openTests: () =>
         set({ view: 'tests', referenceId: null, selectedDayId: null }),
 
@@ -363,7 +378,7 @@ export const useStore = create<AppState>()(
             state.celebration
           );
 
-          const levelCelebration = detectLevelUp(
+          const levelUp = detectLevelUp(
             state.courses,
             nextProgress,
             state.interactionStats,
@@ -372,19 +387,20 @@ export const useStore = create<AppState>()(
           );
 
           const composed = prependCelebration(
-            prependCelebration(levelCelebration, milestoneCelebration),
+            prependCelebration(levelUp?.celebration ?? null, milestoneCelebration),
             evaluated.celebration
           );
 
-          const nextLevel = getLevelInfo(
-            calculateXp(getGlobalMetrics(state.courses, nextProgress))
-          ).level;
+          // Advance lastSeenLevel only when the level-up toast is actually
+          // shown, so it cannot be permanently swallowed by a higher-priority
+          // celebration (it will fire again on the next study action).
+          const nextLevel = levelUp ? levelUp.level : state.lastSeenLevel;
 
           return {
             progress: nextProgress,
             achievements: evaluated.achievements,
             celebration: composed,
-            lastSeenLevel: Math.max(state.lastSeenLevel, nextLevel),
+            lastSeenLevel: nextLevel,
           };
         }),
 
@@ -456,7 +472,7 @@ export const useStore = create<AppState>()(
             state.celebration
           );
 
-          const levelCelebration = detectLevelUp(
+          const levelUp = detectLevelUp(
             state.courses,
             nextProgress,
             state.interactionStats,
@@ -465,19 +481,17 @@ export const useStore = create<AppState>()(
           );
 
           const composed = prependCelebration(
-            prependCelebration(levelCelebration, milestoneCelebration),
+            prependCelebration(levelUp?.celebration ?? null, milestoneCelebration),
             evaluated.celebration
           );
 
-          const nextLevel = getLevelInfo(
-            calculateXp(getGlobalMetrics(state.courses, nextProgress))
-          ).level;
+          const nextLevel = levelUp ? levelUp.level : state.lastSeenLevel;
 
           return {
             progress: nextProgress,
             achievements: evaluated.achievements,
             celebration: composed,
-            lastSeenLevel: Math.max(state.lastSeenLevel, nextLevel),
+            lastSeenLevel: nextLevel,
           };
         }),
 
@@ -523,6 +537,33 @@ export const useStore = create<AppState>()(
             [courseId]: nextCp,
           };
           const hour = studyHour ?? new Date().getHours();
+          const evaluated = evaluateAchievements(
+            state.courses,
+            nextProgress,
+            state.achievements,
+            state.interactionStats,
+            hour,
+            undefined,
+            state.celebration
+          );
+          return {
+            progress: nextProgress,
+            achievements: evaluated.achievements,
+            celebration: evaluated.celebration,
+          };
+        }),
+
+      recordTestResult: (courseId, result) =>
+        set((state) => {
+          const cp = state.progress[courseId] ?? emptyProgress();
+          const existing = cp.testResults ?? [];
+          const testResults = [result, ...existing].slice(0, 50);
+          const nextCp = markStudyDate({ ...cp, testResults });
+          const nextProgress = {
+            ...state.progress,
+            [courseId]: nextCp,
+          };
+          const hour = new Date().getHours();
           const evaluated = evaluateAchievements(
             state.courses,
             nextProgress,
@@ -644,6 +685,7 @@ export const useStore = create<AppState>()(
         lastSeenLevel: state.lastSeenLevel,
         gangFound: state.gangFound,
         userName: state.userName,
+        sidebarCollapsed: state.sidebarCollapsed,
       }),
       merge: (persistedState, currentState) => {
         const persisted = persistedState as Partial<AppState>;

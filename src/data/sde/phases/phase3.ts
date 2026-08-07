@@ -221,6 +221,53 @@ price_b = 50 + np.cumsum(np.random.normal(0.5, 1.5, 30))
 # TODO: Add legend, grid, title "Stock Price Comparison"
 # TODO: Add horizontal line at initial price (baseline)
 # TODO: Fill area between the two lines`, hint: 'plt.plot(days,price_a,label=\'Stock A\'). plt.plot(days,price_b,label=\'Stock B\'). plt.axhline(y=100,color=\'gray\',linestyle=\':\'). plt.fill_between(days,price_a,price_b,alpha=0.3,where=price_a>price_b,color=\'green\'). plt.fill_between(days,price_a,price_b,alpha=0.3,where=price_a<=price_b,color=\'red\').' },
+      { type: 'practice', id: 'sd9-p3', lang: 'python', title: 'Practice: Chart Type Selector', starter: `# THINKING EXERCISE — answer in comments. No code needed.
+
+# For each scenario, pick the BEST chart type and explain why:
+#   choices: line, bar, scatter, histogram, pie, boxplot
+
+# 1. Stock price over 6 months
+# 2. Number of students in each branch
+# 3. Relationship between study hours and exam marks
+# 4. Distribution of exam scores
+# 5. Market share of 5 companies (parts of a whole)
+# 6. Comparing salary distributions across 3 cities
+
+# For #2, write the ONE-LINE matplotlib code to draw it.
+# For #4, write the ONE-LINE code to draw it.`, hint: '1. line. 2. bar: plt.bar(branches, counts). 3. scatter. 4. histogram: plt.hist(scores, bins=20). 5. pie. 6. boxplot. The chart should make the insight obvious.' },
+      { type: 'practice', id: 'sd9-p4', lang: 'python', title: 'Practice: Subplot Grid Master', starter: `import numpy as np
+import matplotlib.pyplot as plt
+np.random.seed(42)
+
+x = np.linspace(0, 10, 100)
+data = np.random.normal(50, 15, 1000)
+cats = ['A', 'B', 'C', 'D']
+counts = [25, 40, 15, 20]
+
+# TODO: create a 1x3 figure (3 plots side by side)
+# Plot 1: line plot of sin(x)
+# Plot 2: histogram of data (30 bins)
+# Plot 3: bar chart of cats vs counts
+# Add a title to EACH subplot.
+# Use plt.tight_layout() and plt.show().`, hint: 'fig, axes = plt.subplots(1, 3, figsize=(15, 4)). axes[0].plot(x, np.sin(x)). axes[1].hist(data, bins=30). axes[2].bar(cats, counts). Each axes[i].set_title(...).' },
+      { type: 'practice', id: 'sd9-p5', lang: 'python', title: 'Practice: Style Explorer', starter: `import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+
+# TODO 1: list available styles: print(plt.style.available)
+# TODO 2: create a function plot_sine(style_name) that:
+#         - applies plt.style.use(style_name)
+#         - plots x vs y with a title and labels
+#         - calls plt.show()
+# TODO 3: call it with 'ggplot', 'fivethirtyeight',
+#         'dark_background', and 'grayscale'
+# TODO 4: which style do you like best for a presentation?
+#         (answer in a comment)
+# TODO 5: for your favorite, save the figure:
+#         plt.savefig('sine.png', dpi=150, bbox_inches='tight')
+#         BEFORE plt.show()`, hint: 'plt.style.use(name) changes the theme globally. Savefig must come before show(). bbox_inches=\'tight\' prevents clipping. fivethirtyeight and ggplot are popular for slides.' },
     ],
     tasks: [
       { id: 'sde-8-d9-t1', text: 'Create line, bar, scatter, and histogram plots with proper labels, titles, and legends.', tag: 'lab' },
@@ -439,6 +486,69 @@ df['Salary'] = (
 # 2. Plot heatmap with annotations
 # 3. Which feature has the STRONGEST correlation with Salary?
 # 4. Create a pairplot colored by Education_Level`, hint: 'corr = df.corr(). sns.heatmap(corr, annot=True, cmap=\'coolwarm\', center=0). Strongest: Experience_Years should be highest. Pairplot: sns.pairplot(df, vars=df.columns, hue=\'Education_Level\', palette=\'viridis\').' },
+      { type: 'practice', id: 'sd10-p3', lang: 'python', title: 'Practice: Boxplot Interpreter', starter: `import seaborn as sns
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+df = pd.DataFrame({
+    'Branch': ['AIML']*100 + ['CSE']*100 + ['ECE']*100,
+    'Marks': np.concatenate([
+        np.random.normal(72, 12, 100),
+        np.random.normal(78, 10, 100),
+        np.random.normal(65, 20, 100),   # high variance branch
+    ])
+})
+
+# TODO 1: create the boxplot: sns.boxplot(data=df, x='Branch', y='Marks')
+# TODO 2: answer in comments:
+#   - which branch has the highest MEDIAN?
+#   - which branch has the MOST VARIANCE (longest box)?
+#   - which branch has outliers?
+#   - what do the whiskers represent?
+# TODO 3: add a violinplot of the same data. What extra
+#         information does the violin show?`, hint: 'CSE has highest median (~78). ECE has the longest box (std=20) and likely outliers. Whiskers extend to ~1.5×IQR. Violin adds the density shape — you see the full distribution, not just quartiles.' },
+      { type: 'practice', id: 'sd10-p4', lang: 'python', title: 'Practice: Correlation vs Causation', starter: `import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+np.random.seed(42)
+
+# Ice cream sales vs drowning incidents — both rise in summer!
+months = np.arange(12)
+ice_cream = 100 + months * 15 + np.random.normal(0, 10, 12)
+drownings = 80 + months * 10 + np.random.normal(0, 8, 12)
+
+df = pd.DataFrame({'Month': months, 'Ice_Cream': ice_cream, 'Drownings': drownings})
+
+# TODO 1: compute correlation between Ice_Cream and Drownings
+# TODO 2: scatter plot of the two variables
+# TODO 3: the correlation will be HIGH and POSITIVE.
+#         Does eating ice cream cause drownings? Explain in comments.
+# TODO 4: what is the hidden variable here? (the confounder)
+# TODO 5: how would a real data scientist verify the real cause?`, hint: 'corr = df[[\'Ice_Cream\',\'Drownings\']].corr() — expect ~0.95+. Confounder: summer heat (or season). Correlation ≠ causation. Verify with experiments or controlling for the confounder.' },
+      { type: 'practice', id: 'sd10-p5', lang: 'python', title: 'Practice: KDE Comparison', starter: `import seaborn as sns
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+np.random.seed(42)
+
+# Three groups with different distributions
+df = pd.DataFrame({
+    'group': ['A']*200 + ['B']*200 + ['C']*200,
+    'value': np.concatenate([
+        np.random.normal(50, 5, 200),    # tight, centered
+        np.random.normal(60, 15, 200),   # wide, shifted right
+        np.random.exponential(10, 200),  # skewed!
+    ])
+})
+
+# TODO 1: histogram with hue='group' (sns.histplot)
+# TODO 2: overlay KDE curves for each group (sns.kdeplot)
+# TODO 3: which group is SKEWED? How can you tell from the KDE?
+# TODO 4: which group has the tightest spread?
+# TODO 5: what does the KDE show that the histogram hides?`, hint: 'sns.histplot(data=df, x=\'value\', hue=\'group\'). sns.kdeplot(data=df, x=\'value\', hue=\'group\', fill=True, alpha=0.3). Group C (exponential) is skewed — the KDE tail extends right. A is tightest. KDE smooths noise into a continuous curve.' },
     ],
     tasks: [
       { id: 'sde-8-d10-t1', text: 'Create boxplots to compare exam marks across branches. Identify which branch has the highest median and most variance.', tag: 'lab' },

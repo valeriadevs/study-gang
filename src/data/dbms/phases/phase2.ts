@@ -117,6 +117,58 @@ CREATE TABLE products (
 -- 1. Products priced between 500 and 2000
 -- 2. Products in 'Electronics' or 'Books' category with stock > 10
 -- 3. Product names starting with 'S' or 'P'`, hint: 'BETWEEN 500 AND 2000. Use (cat=\'Elec\' OR cat=\'Books\') AND stock>10. Use LIKE with OR: name LIKE \'S%\' OR name LIKE \'P%\'.' },
+      { type: 'practice', id: 'db3-p3', lang: 'sql', title: 'Practice: LIKE Pattern Lab', starter: `-- Using pet(name, owner, species, sex, birth, death).
+-- Write a LIKE query for each pattern:
+
+-- 1. Names that START with 'B'          (B...)
+-- 2. Names that END with 'y'            (...y)
+-- 3. Names that CONTAIN 'ar' anywhere   (...ar...)
+-- 4. Names that are EXACTLY 4 characters (use _ _ _ _)
+-- 5. Names that start with B AND end with y  (B...y)
+-- 6. Names that do NOT contain 'a'
+-- 7. Owner names starting with 'H' or 'G'
+
+-- For each, write a comment saying what it matches.
+-- Test #4 carefully: how many underscores do you need?`, hint: 'LIKE \'B%\'. LIKE \'%y\'. LIKE \'%ar%\'. LIKE \'____\' (4 underscores). LIKE \'B%y\'. NOT LIKE \'%a%\'. (owner LIKE \'H%\' OR owner LIKE \'G%\').' },
+      { type: 'practice', id: 'db3-p4', lang: 'sql', title: 'Practice: Logical Operator Puzzle', starter: `-- For each expression, decide TRUE / FALSE / UNKNOWN (NULL).
+-- The pet data: species='dog', sex='f', birth='2019-05-01'
+
+-- 1. species = 'dog' AND sex = 'f'
+-- 2. species = 'dog' OR sex = 'm'
+-- 3. NOT species = 'cat'
+-- 4. (species = 'dog' OR species = 'cat') AND sex = 'f'
+-- 5. species = 'dog' OR (species = 'cat' AND sex = 'f')
+-- 6. birth > '2020-01-01' AND species = 'dog'
+-- 7. death = NULL   (death is actually NULL!)
+-- 8. death IS NULL
+
+-- Questions 4 vs 5: do they give the SAME result? Why?
+-- Question 7 vs 8: why does 7 return nothing but 8 works?
+-- Answer in comments, then verify with a real query.`, hint: '1 T, 2 T, 3 T, 4 T, 5 T (both true here — pick data where they differ!). 6 F, 7 UNKNOWN (never matches), 8 T. NULL comparisons with = are always UNKNOWN.' },
+      { type: 'practice', id: 'db3-p5', lang: 'sql', title: 'Practice: NOT IN Trap', starter: `-- The classic NULL trap with NOT IN!
+
+-- Suppose owners has: ('Harold', 'Gwen', 'Diane', NULL)
+-- (one owner's name is unknown/NULL)
+
+-- Q1: What does this return? Why might it be missing rows?
+--   SELECT name FROM pet
+--   WHERE owner NOT IN ('Harold', 'Gwen');
+
+-- Q2: Now consider:
+--   SELECT name FROM pet
+--   WHERE owner NOT IN ('Harold', 'Gwen', NULL);
+--   Predict: does it return ANY rows?
+
+-- Q3: Run both. Explain in comments why NOT IN with a NULL
+--     in the list returns NOTHING.
+--     (hint: owner = NULL is UNKNOWN, so the NOT IN check
+--      can never be TRUE for those rows)
+
+-- Q4: The SAFE fix — use NOT EXISTS instead:
+--   SELECT name FROM pet p
+--   WHERE NOT EXISTS (
+--       SELECT 1 FROM owners o WHERE o.name = p.owner
+--   );`, hint: 'Q1: returns pets whose owner is not Harold/Gwen — but ONLY if owner is not NULL. Q2: NOT IN with NULL in the list returns 0 rows. NOT EXISTS is the safe alternative that handles NULLs correctly.' },
     ],
     tasks: [
       { id: 'dbms-8-d3-t1', text: 'Write queries using AND, OR, NOT on the pet table. Mix them with parentheses.', tag: 'lab' },
@@ -255,6 +307,54 @@ VALUES (1, 'Vinayak', 'AIML', 3, 8.5);
 
 -- TODO: Query students sorted by GPA (highest first)
 -- TODO: Query AIML students sorted by name`, hint: 'ORDER BY gpa DESC. WHERE branch = \'AIML\' ORDER BY name. Use explicit column list in INSERT.' },
+      { type: 'practice', id: 'db4-p3', lang: 'sql', title: 'Practice: Sorting Mastery', starter: `-- Using pet(name, owner, species, sex, birth, death).
+-- Write ORDER BY queries for:
+
+-- 1. All pets sorted by name (A to Z)
+-- 2. All pets sorted by birth date, NEWEST first
+-- 3. All pets sorted by species, then by name within species
+-- 4. All pets sorted by species DESC, then birth ASC
+-- 5. Dogs sorted by birth (oldest first) — WHERE + ORDER BY
+-- 6. The 3 pets born most recently (ORDER BY birth DESC LIMIT 3)
+-- 7. Pets 4th-6th youngest (skip 3, show 3: LIMIT 3 OFFSET 3)
+
+-- For #3, predict the output order BEFORE running.`, hint: 'ORDER BY name. ORDER BY birth DESC. ORDER BY species, name. ORDER BY species DESC, birth. WHERE species=\'dog\' ORDER BY birth. LIMIT 3. LIMIT 3 OFFSET 3 (or LIMIT 3,3).' },
+      { type: 'practice', id: 'db4-p4', lang: 'sql', title: 'Practice: Insert Detective', starter: `-- For each INSERT, predict what happens (works / error / what gets stored).
+-- The pet table: pet(name, owner, species, sex, birth, death)
+-- Assume pet has NO auto-increment and all columns are nullable.
+
+-- 1. INSERT INTO pet (name, species) VALUES ('Tweety', 'bird');
+--    What do owner, sex, birth, death become?
+
+-- 2. INSERT INTO pet VALUES ('Max', 'Alice', 'dog', 'm', '2019-01-01', NULL);
+--    Does this work? What is risky about it?
+
+-- 3. INSERT INTO pet (name, species, sex) VALUES ('Buddy', 'dog');
+--    Does this work? Why or why not?
+
+-- 4. INSERT INTO pet (name, owner, species, sex, birth, death)
+--    VALUES ('Luna', 'Gwen', 'cat', 'f', '2020-06-01', NULL),
+--           ('Oreo', 'Diane', 'rabbit', 'm', '2021-03-15', NULL);
+--    How many rows does this insert?
+
+-- Answer in comments, then run each against your real table.`, hint: '1: other columns become NULL. 2: works but depends on column order — dangerous. 3: ERROR — 3 columns listed but 2 values given. 4: inserts 2 rows in one statement.' },
+      { type: 'practice', id: 'db4-p5', lang: 'sql', title: 'Practice: Multi-Row Insert Challenge', starter: `-- Create a simple products table and bulk-insert 10 rows.
+CREATE TABLE products (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    category VARCHAR(20),
+    price DECIMAL(6,2),
+    stock INT
+);
+
+-- TODO 1: insert 10 products in ONE statement (multi-row VALUES).
+--         Include: 2 electronics, 2 books, 2 clothing, 2 food, 2 toys.
+--         Mix prices from 49.99 to 4999.00, stock 0-100.
+-- TODO 2: verify with SELECT COUNT(*) — should be 10.
+-- TODO 3: top 3 most expensive products (ORDER BY price DESC LIMIT 3)
+-- TODO 4: products with 0 stock, sorted by name
+-- TODO 5: products priced between 100 and 1000, sorted by price ASC`,
+hint: 'INSERT INTO products (id, name, category, price, stock) VALUES (1, ...), (2, ...), ... (10, ...);. Multi-row insert = one statement, many rows. COUNT(*) verifies.' },
     ],
     tasks: [
       { id: 'dbms-8-d4-t1', text: 'Insert 10+ rows into the pet table. Use both explicit and multi-row INSERT syntax.', tag: 'lab' },
@@ -530,6 +630,48 @@ SELECT owner_id, name FROM owners WHERE name IN ('Gwen', 'Rahul');
 
 -- CONFIRM: Count pets per owner. Gwen should now have 0. 
 -- Rahul should have his original pets + Gwen's former pets.`, hint: 'UPDATE pet SET owner_id = (SELECT owner_id FROM owners WHERE name=\'Rahul\') WHERE owner_id = (SELECT owner_id FROM owners WHERE name=\'Gwen\'). COUNT first, COUNT after, verify both.' },
+      { type: 'practice', id: 'db5-p4', lang: 'sql', title: 'Practice: UPDATE Safety Drill', starter: `-- Scenario: The pet shelter changed its naming policy.
+-- All pets named 'Fluffy' must now be called 'Fluff'.
+
+-- STEP 1 — SEE first (the golden rule!):
+SELECT name, owner FROM pet WHERE name = 'Fluffy';
+
+-- STEP 2 — COUNT to verify how many rows will change:
+SELECT COUNT(*) FROM pet WHERE name = 'Fluffy';
+
+-- STEP 3 — WRITE the safe UPDATE (single row, use a unique condition):
+-- UPDATE pet SET name = 'Fluff' WHERE name = 'Fluffy' AND owner = 'Harold';
+
+-- TODO 1: write STEP 3 with a condition that ONLY targets ONE pet
+--         (name + owner together)
+-- TODO 2: now write the UPDATE that renames ALL 'Fluffy' pets
+-- TODO 3: why is STEP 1 + STEP 2 so important before an UPDATE?
+--         (answer in a comment)
+-- TODO 4: what happens if you forget the WHERE clause entirely?`,
+hint: 'Uniquely target: WHERE name=\'Fluffy\' AND owner=\'Harold\'. All: WHERE name=\'Fluffy\'. Without WHERE, EVERY row is updated — the classic disaster. SELECT + COUNT first = always.' },
+      { type: 'practice', id: 'db5-p5', lang: 'sql', title: 'Practice: JOIN Choice Quiz', starter: `-- Tables: pets(pet_id, name, species, owner_id)
+--          owners(owner_id, name, phone)
+
+-- For each request, pick INNER, LEFT, RIGHT (or none) and write it:
+
+-- 1. Show every pet WITH its owner's name.
+--    Only pets that have an owner.         -> ______ JOIN
+
+-- 2. Show ALL pets, even strays with no owner.
+--    (owner columns show NULL for strays)  -> ______ JOIN
+
+-- 3. Show ALL owners, even those with zero pets.
+--    (pet columns show NULL)               -> ______ JOIN
+
+-- 4. Show only the STRAYS (pets with no owner).
+--    (LEFT JOIN + WHERE right.id IS NULL)
+
+-- 5. Show only owners with NO pets.
+--    (swap tables: owners LEFT JOIN pets + WHERE pets.id IS NULL)
+
+-- Write the full query for #4 and #5. For #1-3 write just the
+-- JOIN keyword. Explain your choice for #1 in a comment.`,
+hint: '1 INNER. 2 LEFT. 3 RIGHT (or owners LEFT JOIN pets). 4: FROM pets p LEFT JOIN owners o ON p.owner_id=o.owner_id WHERE o.owner_id IS NULL. 5: FROM owners o LEFT JOIN pets p ON p.owner_id=o.owner_id WHERE p.pet_id IS NULL.' },
     ],
     tasks: [
       { id: 'dbms-8-d5-t1', text: 'Write INNER JOIN + LEFT JOIN on owners→pets. Explain which rows appear in each.', tag: 'lab' },

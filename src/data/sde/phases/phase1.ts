@@ -152,6 +152,50 @@ np.random.seed(42)
 
 # For each, print: mean, std, min, max
 # Compare: are the sample statistics close to the distribution parameters?`, hint: 'np.random.uniform(0, 100, 1000), np.random.normal(50, 10, 1000), np.random.binomial(10, 0.5, 1000). Sample stats converge to population parameters as n increases.' },
+      { type: 'practice', id: 'sd1-p3', lang: 'python', title: 'Practice: 2D Matrix Explorer', starter: `import numpy as np
+
+# Create a 4x3 matrix of random integers 10-99
+mat = np.random.randint(10, 100, size=(4, 3))
+print("Matrix:")
+print(mat)
+
+# TODO 1: print the shape
+# TODO 2: print the element at row 2, column 1
+# TODO 3: print the entire first row, then the entire last column
+# TODO 4: print the mean of EACH COLUMN (axis=0)
+# TODO 5: print the mean of EACH ROW (axis=1)
+# TODO 6: print the overall max value and its position (argmax)`, hint: 'mat.shape, mat[2,1], mat[0], mat[:, -1], mat.mean(axis=0), mat.mean(axis=1), mat.max(), np.unravel_index(mat.argmax(), mat.shape).' },
+      { type: 'practice', id: 'sd1-p4', lang: 'python', title: 'Practice: Outlier Hunter', starter: `import numpy as np
+
+# Salary data — one person earns way more than everyone else
+salaries = np.array([30, 35, 40, 45, 50, 55, 60, 65, 500])  # in thousands
+
+# TODO 1: print mean and median — which is higher? why?
+# TODO 2: remove the outlier (500) using boolean indexing
+# TODO 3: print the new mean and median — how did they change?
+# TODO 4: use np.percentile to find the 25th, 50th, 75th percentiles
+# TODO 5: compute IQR = Q3 - Q1. Which values are beyond
+#         Q1 - 1.5*IQR or Q3 + 1.5*IQR? (the classic outlier rule)`, hint: 'mean is pulled up by 500, median is robust. Filter: salaries[salaries < 200]. IQR rule: outliers = values < Q1-1.5*IQR or > Q3+1.5*IQR. 500 is the only outlier.' },
+      { type: 'practice', id: 'sd1-p5', lang: 'python', title: 'Practice: Array Speed Test', starter: `import numpy as np
+import time
+
+# Compare Python list vs NumPy for a big computation
+n = 2_000_000
+py_list = list(range(n))
+np_arr = np.arange(n)
+
+# TODO 1: time a Python loop that computes x**2 for every element
+start = time.time()
+# squared_py = [x**2 for x in py_list]
+# print("List:", time.time() - start)
+
+# TODO 2: time the same with NumPy (vectorized)
+start = time.time()
+# squared_np = np_arr ** 2
+# print("NumPy:", time.time() - start)
+
+# TODO 3: how many times faster is NumPy? print the ratio
+# TODO 4: also compare: sum of all elements (list vs np.sum)`, hint: 'Uncomment the code. NumPy should be 10-100x faster. ratio = list_time / numpy_time. For sum: sum(py_list) vs np_arr.sum().' },
     ],
     tasks: [
       { id: 'sde-8-d1-t1', text: 'Create a NumPy array of 100 random integers. Calculate mean, median, std, var, min, max, percentiles.', tag: 'lab' },
@@ -309,6 +353,59 @@ df = pd.DataFrame({
 # 2. Show only rows where revenue > 1000
 # 3. Select only product and revenue columns for those rows
 # 4. Find the date with the highest revenue`, hint: '1. df[\'revenue\'] = df[\'quantity\'] * df[\'price\']. 2. df[df[\'revenue\'] > 1000]. 3. .loc with column list. 4. df.loc[df[\'revenue\'].idxmax(), \'date\'].' },
+      { type: 'practice', id: 'sd2-p3', lang: 'python', title: 'Practice: .loc vs .iloc Showdown', starter: `import pandas as pd
+
+df = pd.DataFrame({
+    'name': ['Vinayak', 'Riya', 'Amit', 'Neha', 'Kiran'],
+    'gpa': [8.5, 9.2, 7.8, 9.5, 8.0],
+    'branch': ['AIML', 'CSE', 'AIML', 'ECE', 'AIML']
+})
+print(df)
+
+# TODO 1: predict the output of each, then run:
+print(df.loc[0:2])          # rows with labels 0,1,2 — how many?
+print(df.iloc[0:2])         # positions 0,1 — how many?
+print(df.loc[0, 'name'])    # ?
+print(df.iloc[0, 1])        # ?
+
+# TODO 2: use .loc to select rows 1-3 and columns name+gpa
+# TODO 3: use .iloc to select the same rows/columns by position
+# TODO 4: in comments, explain the inclusive/exclusive difference`, hint: 'loc[0:2] = 3 rows (labels 0,1,2). iloc[0:2] = 2 rows (positions 0,1). loc[0,\'name\']=\'Vinayak\'. iloc[0,1]=8.5.' },
+      { type: 'practice', id: 'sd2-p4', lang: 'python', title: 'Practice: Data Types Detective', starter: `import pandas as pd
+import numpy as np
+
+df = pd.DataFrame({
+    'age': ['21', '22', '23', '24'],       # strings, not numbers!
+    'score': ['85.5', '90', 'bad', '78.2'], # one bad value
+    'joined': ['2026-01-01', '2026-02-15', '2026-03-10', '2026-04-01'],
+    'active': [True, False, True, True]
+})
+
+# TODO 1: print df.dtypes — which columns are wrong?
+# TODO 2: convert age to int with astype(int)
+# TODO 3: convert score with pd.to_numeric(errors='coerce')
+#         what happens to 'bad'?
+# TODO 4: convert joined to datetime with pd.to_datetime
+# TODO 5: print dtypes again. extract the YEAR from joined
+#         (df['year'] = df['joined'].dt.year)`, hint: 'age is object → astype(int). score: errors=\'coerce\' turns \'bad\' into NaN. joined → pd.to_datetime(). Then .dt.year works on datetime columns.' },
+      { type: 'practice', id: 'sd2-p5', lang: 'python', title: 'Practice: Filtering Mastery', starter: `import pandas as pd
+import numpy as np
+
+df = pd.DataFrame({
+    'name': ['V', 'R', 'A', 'N', 'K', 'S'],
+    'branch': ['AIML', 'CSE', 'AIML', 'ECE', 'AIML', 'CSE'],
+    'gpa': [8.5, 9.2, 7.8, 9.5, 6.5, 8.0],
+    'backlog': [0, 0, 1, 0, 2, 0]
+})
+
+# TODO 1: all AIML students
+# TODO 2: all students with gpa >= 8.5
+# TODO 3: AIML students with gpa >= 8.0  (AND)
+# TODO 4: CSE students OR gpa < 7.0      (OR)
+# TODO 5: all students with NO backlog   (NOT: ~)
+# TODO 6: count how many match each filter
+# TODO 7: students whose name starts with 'A' or 'R'
+#         (hint: df['name'].str.startswith(...))`, hint: 'Use (df.branch==\'AIML\') & (df.gpa>=8.0). For OR use |. For NOT use ~. str accessor: df[df.name.str.startswith(("A","R"))]. Count with .shape[0] or len().' },
     ],
     tasks: [
       { id: 'sde-8-d2-t1', text: 'Load/create a DataFrame. Use .loc and .iloc to select rows and columns. Demonstrate the inclusive/exclusive difference.', tag: 'lab' },
@@ -471,6 +568,50 @@ scores = pd.DataFrame({
 # 2. Left merge: all students (NaN for no scores)
 # 3. Calculate average marks per student
 # 4. Which student is missing from the merge? Why?`, hint: '1. students.merge(scores, left_on=\'id\', right_on=\'sid\'). 2. Add how=\'left\'. 3. Groupby after merge. 4. Student id=4 has no scores — appears in left merge with NaN.' },
+      { type: 'practice', id: 'sd3-p3', lang: 'python', title: 'Practice: GroupBy Challenge', starter: `import pandas as pd
+
+df = pd.DataFrame({
+    'branch': ['AIML','CSE','AIML','ECE','AIML','CSE','ECE','ECE'],
+    'sem': [1, 1, 2, 1, 3, 2, 2, 3],
+    'marks': [85, 92, 78, 95, 88, 80, 70, 91],
+    'hours': [20, 25, 15, 30, 22, 18, 12, 28]
+})
+
+# TODO 1: mean marks per branch
+# TODO 2: for each branch: count, min, max marks (use .agg with a list)
+# TODO 3: sum of hours per branch AND sem (group by TWO columns)
+# TODO 4: average marks per branch per sem (pivot_table)
+# TODO 5: which branch has the highest average marks?
+#         which (branch, sem) combo has the highest average?`, hint: 'df.groupby(\'branch\')[\'marks\'].mean(). .agg([\'count\',\'min\',\'max\']). groupby([\'branch\',\'sem\'])[\'hours\'].sum(). pivot_table(df, values=\'marks\', index=\'branch\', columns=\'sem\').' },
+      { type: 'practice', id: 'sd3-p4', lang: 'python', title: 'Practice: Merge Types Explorer', starter: `import pandas as pd
+
+left = pd.DataFrame({'id': [1, 2, 3], 'name': ['A', 'B', 'C']})
+right = pd.DataFrame({'id': [2, 3, 4], 'score': [90, 85, 95]})
+
+# TODO 1: inner merge — which ids appear? how many rows?
+# TODO 2: left merge — which rows have NaN score?
+# TODO 3: right merge — which rows have NaN name?
+# TODO 4: outer merge — how many rows total?
+# TODO 5: print each result and write a comment: "kept rows = ..."`, hint: 'inner: ids 2,3 (2 rows). left: ids 1,2,3 — id 1 has NaN. right: ids 2,3,4 — id 4 has NaN. outer: ids 1,2,3,4 (4 rows).' },
+      { type: 'practice', id: 'sd3-p5', lang: 'python', title: 'Practice: Transform vs Aggregate', starter: `import pandas as pd
+
+df = pd.DataFrame({
+    'branch': ['AIML','CSE','AIML','ECE','AIML','CSE'],
+    'score': [85, 92, 78, 95, 88, 80]
+})
+
+# TODO 1: agg — mean score per branch (1 row per branch)
+branch_mean = df.groupby('branch')['score'].mean()
+print(branch_mean)
+
+# TODO 2: transform — mean score per branch, but SAME shape as df
+#         (each row gets its branch's mean)
+df['branch_mean'] = df.groupby('branch')['score'].transform('mean')
+print(df)
+
+# TODO 3: add a column 'diff_from_branch_mean' = score - branch_mean
+# TODO 4: in comments: what is the difference between agg and transform?
+#         when would you use each?`, hint: 'transform returns the same length as the original df — every row gets its group\'s value. agg returns one row per group. diff = df[\'score\'] - df[\'branch_mean\'].' },
     ],
     tasks: [
       { id: 'sde-8-d3-t1', text: 'Group a DataFrame by category and compute mean, sum, min, max, and count for multiple columns.', tag: 'lab' },
@@ -601,6 +742,55 @@ sample = np.random.normal(980, 50, 40)
 # 2. Run a one-sample t-test against 1000
 # 3. Interpret the p-value at α=0.05
 # 4. Should you believe the company's claim?`, hint: 'H0: μ=1000. H1: μ<1000 (one-tailed). Use stats.ttest_1samp(sample, 1000). Divide p by 2 for one-tailed. If p/2 < 0.05, reject H0 — bulbs last less than claimed.' },
+      { type: 'practice', id: 'sd4-p3', lang: 'python', title: 'Practice: Confidence Interval Builder', starter: `import numpy as np
+from scipy import stats
+np.random.seed(42)
+
+# Sample of 50 students' GPAs
+sample = np.random.normal(8.2, 0.8, 50)
+
+# TODO 1: compute sample mean and std
+# TODO 2: compute the 95% confidence interval for the mean using
+#         stats.t.interval(0.95, df=len(sample)-1, loc=mean, scale=se)
+#         where se = std / sqrt(n)  (standard error)
+# TODO 3: compute the 99% CI — is it wider or narrower?
+# TODO 4: in comments: what does "95% confidence" actually mean?
+# TODO 5: if the sample doubled to n=100 (same mean/std), what
+#         happens to the CI width? (try it)`, hint: 'se = sample.std(ddof=1) / np.sqrt(len(sample)). ci = stats.t.interval(0.95, df=49, loc=mean, scale=se). 99% is WIDER. Bigger n → narrower CI (smaller standard error).' },
+      { type: 'practice', id: 'sd4-p4', lang: 'python', title: 'Practice: Two-Sample t-test', starter: `import numpy as np
+from scipy import stats
+np.random.seed(42)
+
+# Two teaching methods: compare final exam scores
+method_a = np.random.normal(72, 10, 40)
+method_b = np.random.normal(78, 10, 40)
+
+# TODO 1: print both means — which looks higher?
+# TODO 2: run an INDEPENDENT two-sample t-test:
+#         stats.ttest_ind(method_a, method_b)
+# TODO 3: interpret the p-value at alpha=0.05
+# TODO 4: is the difference STATISTICALLY significant?
+# TODO 5: what if method_b had mean 74 instead? (change and re-run)
+#         does the conclusion change? why?`, hint: 'stats.ttest_ind(a, b). If p < 0.05, reject H0 (no difference) — the methods differ significantly. Smaller mean difference → larger p-value → likely fail to reject.' },
+      { type: 'practice', id: 'sd4-p5', lang: 'python', title: 'Practice: Error Types Scenarios', starter: `# THINKING EXERCISE — no code needed. Answer in comments.
+
+# Scenario 1: Medical test for a disease.
+#   H0: patient is healthy.  H1: patient has the disease.
+#   The test says "positive" (reject H0).
+#   A) What is a Type I error here? (false positive)
+#   B) What is a Type II error here? (false negative)
+#   C) Which is worse for the patient? Why?
+
+# Scenario 2: A/B testing a new website layout.
+#   H0: new layout is no better.  H1: new layout increases sales.
+#   The test says "not significant" (fail to reject H0).
+#   A) What Type of error might you be making?
+#   B) What is the consequence?
+
+# Scenario 3:
+#   You set alpha = 0.05. You run 20 hypothesis tests.
+#   How many FALSE POSITIVES do you EXPECT by chance alone?
+#   (answer: 20 * 0.05 = 1 — the multiple comparisons problem!)`, hint: 'Type I = false positive (reject true H0). Type II = false negative (fail to reject false H0). In medical testing, Type II can be worse (missed disease). With 20 tests at alpha=0.05, expect ~1 false positive.' },
     ],
     tasks: [
       { id: 'sde-8-d4-t1', text: 'Demonstrate the CLT: take means of samples from a non-normal distribution. Show the means become normal as n increases.', tag: 'lab' },

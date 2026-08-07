@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useCallback } from 'react';
 import { highlight, langLabel } from '../utils/syntax';
 import { cn } from '../utils/helpers';
 import { useStore } from '../store/useStore';
@@ -14,6 +14,19 @@ interface PracticeEditorProps {
 }
 
 const STORAGE_KEY = 'practice-editor';
+
+/** Insert `str` into `code` at `start`, returning the new code and cursor position. */
+function insertAt(code: string, start: number, str: string): { code: string; cursor: number } {
+  const next = code.slice(0, start) + str + code.slice(start);
+  return { code: next, cursor: start + str.length };
+}
+
+/** Match a closing bracket against the previous non-whitespace char. */
+function isClosingPair(code: string, caret: number, open: string, close: string): boolean {
+  let i = caret - 1;
+  while (i >= 0 && /\s/.test(code[i])) i -= 1;
+  return code[i] === open;
+}
 
 export function PracticeEditor({
   dayId,
@@ -37,21 +50,158 @@ export function PracticeEditor({
     'idle'
   );
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const gutterRef = useRef<HTMLDivElement>(null);
+  const selectionStartRef = useRef<number | null>(null);
+
+  const lineCount = code.split('\n').length;
+  const lineNumbers = useMemo(
+    () => Array.from({ length: lineCount }, (_, i) => i + 1),
+    [lineCount]
+  );
 
   const highlighted = useMemo(() => highlight(code, lang), [code, lang]);
 
-  function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    const newVal = e.target.value;
-    setCode(newVal);
+  function updateCode(next: string) {
+    setCode(next);
     try {
-      localStorage.setItem(storageKey, newVal);
+      localStorage.setItem(storageKey, next);
     } catch {
       // ignore quota errors
     }
   }
 
+  // Keep the line-number gutter in sync with the textarea scroll.
+  const syncGutter = useCallback(() => {
+    const ta = textareaRef.current;
+    const gutter = gutterRef.current;
+    if (ta && gutter) {
+      gutter.scrollTop = ta.scrollTop;
+    }
+  }, []);
+
+  function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    selectionStartRef.current = e.target.selectionStart;
+    updateCode(e.target.value);
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+    const ta = e.currentTarget;
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+
+    // Ctrl/Cmd + Enter runs the code.
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      e.preventDefault();
+      run();
+      return;
+    }
+
+    // Tab / Shift+Tab: insert or remove an indentation level.
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const selStart = ta.selectionStart;
+      const selEnd = ta.selectionEnd;
+      let next: string;
+      let cursor: number;
+
+      if (e.shiftKey) {
+        // Remove up to 2 leading spaces from the current line.
+        const lineStart = code.lastIndexOf('\n', selStart - 1) + 1;
+        const before = code.slice(lineStart, selStart);
+        const remove = before.startsWith('  ')
+          ? 2
+          : before.startsWith(' ') ? 1 : 0;
+        next = code.slice(0, lineStart) + before.slice(remove) + code.slice(selStart);
+        cursor = selStart - remove;
+      } else {
+        next = code.slice(0, selStart) + '  ' + code.slice(selEnd);
+        cursor = selStart + 2;
+      }
+
+      updateCode(next);
+      requestAnimationFrame(() => {
+        ta.selectionStart = cursor;
+        ta.selectionEnd = cursor;
+      });
+      return;
+    }
+
+    // Enter: auto-indent the new line to match the current line's leading whitespace.
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      const lineStart = code.lastIndexOf('\n', start - 1) + 1;
+      const lineEnd = code.indexOf('\n', start);
+      const line = code.slice(lineStart, lineEnd === -1 ? code.length : lineEnd);
+      const indent = line.match(/^[\t ]*/)?.[0] ?? '';
+      const { code: next, cursor } = insertAt(code, start, '\n' + indent);
+      updateCode(next);
+      requestAnimationFrame(() => {
+        ta.selectionStart = cursor;
+        ta.selectionEnd = cursor;
+      });
+      return;
+    }
+
+    // Smart bracket closing: typing an opening bracket inserts the matching close.
+    const openers: Record<string, string> = {
+      '(': ')', '[': ']', '{': '}',
+    };
+    if (openers[e.key]) {
+      e.preventDefault();
+      const close = openers[e.key];
+      const { code: next, cursor } = insertAt(code, start, e.key + close);
+      updateCode(next);
+      requestAnimationFrame(() => {
+        ta.selectionStart = cursor - 1;
+        ta.selectionEnd = cursor - 1;
+      });
+      return;
+    }
+
+    // Smart delete: backspace on an empty bracket pair removes both.
+    const pairs: Record<string, string> = {
+      ')': '(', ']': '[', '}': '{',
+    };
+    if (e.key === 'Backspace' && start === end && start > 0) {
+      const close = code[start];
+      const open = pairs[close];
+      if (open && code[start - 1] === open) {
+        e.preventDefault();
+        const next = code.slice(0, start - 1) + code.slice(start + 1);
+        updateCode(next);
+        requestAnimationFrame(() => {
+          ta.selectionStart = start - 1;
+          ta.selectionEnd = start - 1;
+        });
+        return;
+      }
+    }
+
+    // Auto-skip: typing a closing bracket when one already exists just moves the caret.
+    if ([')', ']', '}'].includes(e.key) && start === end) {
+      if (code[start] === e.key) {
+        e.preventDefault();
+        ta.selectionStart = start + 1;
+        ta.selectionEnd = start + 1;
+        return;
+      }
+    }
+
+    // Typing a quote over an existing quote auto-skips it.
+    if ((e.key === '"' || e.key === "'" || e.key === '`') && start === end) {
+      if (code[start] === e.key) {
+        e.preventDefault();
+        ta.selectionStart = start + 1;
+        ta.selectionEnd = start + 1;
+        return;
+      }
+    }
+
+    selectionStartRef.current = start;
+  }
+
   function handleReset() {
-    setCode(starter);
+    updateCode(starter);
     setOutput('');
     setOutputType('idle');
     try {
@@ -124,13 +274,6 @@ export function PracticeEditor({
     });
   }
 
-  function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-      e.preventDefault();
-      run();
-    }
-  }
-
   return (
     <div className="bg-code border border-border rounded-lg overflow-hidden">
       <div className="flex justify-between items-center px-3.5 py-2 bg-panel-2 border-b border-border text-xs">
@@ -167,23 +310,41 @@ export function PracticeEditor({
         </div>
       </div>
 
-      {/* Editable code area with highlight overlay */}
-      <div className="relative">
-        <pre
-          className="m-0 px-4 py-3.5 font-mono text-sm leading-relaxed pointer-events-none whitespace-pre-wrap break-all"
+      {/* Editable code area with highlight overlay + line-number gutter */}
+      <div className="relative flex">
+        {/* gutter */}
+        <div
+          ref={gutterRef}
           aria-hidden
+          className="select-none overflow-hidden bg-panel-2/60 border-r border-border text-right font-mono text-sm leading-relaxed px-2 py-3.5 text-ink-3/70"
+          style={{ minWidth: '3ch', width: `${Math.max(3, String(lineCount).length + 1)}ch` }}
         >
-          <code dangerouslySetInnerHTML={{ __html: highlighted }} />
-        </pre>
-        <textarea
-          ref={textareaRef}
-          value={code}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          spellCheck={false}
-          aria-label={`${title ?? 'Practice'} code editor`}
-          className="absolute inset-0 w-full h-full bg-transparent text-transparent caret-accent font-mono text-sm leading-relaxed p-4 resize-none outline-none whitespace-pre-wrap break-all focus-visible:ring-2 focus-visible:ring-accent"
-        />
+          {lineNumbers.map((n) => (
+            <div key={n}>{n}</div>
+          ))}
+        </div>
+
+        <div className="relative flex-1">
+          <pre
+            className="m-0 px-4 py-3.5 font-mono text-sm leading-relaxed pointer-events-none whitespace-pre-wrap break-all"
+            aria-hidden
+          >
+            <code dangerouslySetInnerHTML={{ __html: highlighted }} />
+          </pre>
+          <textarea
+            ref={textareaRef}
+            value={code}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            onScroll={syncGutter}
+            spellCheck={false}
+            autoCapitalize="off"
+            autoCorrect="off"
+            autoComplete="off"
+            aria-label={`${title ?? 'Practice'} code editor`}
+            className="absolute inset-0 w-full h-full bg-transparent text-transparent caret-accent font-mono text-sm leading-relaxed p-4 resize-none outline-none whitespace-pre-wrap break-all focus-visible:ring-2 focus-visible:ring-accent"
+          />
+        </div>
       </div>
 
       {hint && (

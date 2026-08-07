@@ -128,6 +128,45 @@ INSERT INTO grades VALUES
 -- 2. Each student's highest and lowest mark
 -- 3. Subjects where average > 80 (HAVING)
 -- 4. Each student's total and average marks`, hint: '1. GROUP BY subject, AVG(marks). 2. GROUP BY student, MAX() and MIN(). 3. GROUP BY subject HAVING AVG(marks) > 80. 4. GROUP BY student, SUM() and AVG().' },
+      { type: 'practice', id: 'db6-p3', lang: 'sql', title: 'Practice: COUNT Star vs Column', starter: `-- Using the pet table, predict THEN run:
+
+-- Q1: How many rows total?
+SELECT COUNT(*) FROM pet;
+
+-- Q2: How many pets have a KNOWN death date?
+SELECT COUNT(death) FROM pet;
+
+-- Q3: How many pets have a NULL death date (alive)?
+SELECT COUNT(*) FROM pet WHERE death IS NULL;
+
+-- Q4: Add 2 more pets WITHOUT death dates, then re-run Q1-Q3.
+--     Which numbers changed? Which did not?
+
+-- Q5: What does COUNT(DISTINCT species) return?
+SELECT COUNT(DISTINCT species) FROM pet;
+
+-- Q6: In comments: when would COUNT(col) differ from COUNT(*)?
+--     (think: what if the column has NULLs?)`, hint: 'COUNT(*) = all rows. COUNT(death) = rows where death is not NULL. Adding alive pets increases COUNT(*) and COUNT(*) WHERE death IS NULL but NOT COUNT(death).' },
+      { type: 'practice', id: 'db6-p4', lang: 'sql', title: 'Practice: GROUP BY Report Builder', starter: `-- Build a mini report from the pet table:
+
+-- 1. Pets per species, most common first (GROUP BY + ORDER BY count DESC)
+-- 2. Pets per owner (GROUP BY owner)
+-- 3. Species with MORE than 2 pets (HAVING COUNT(*) > 2)
+-- 4. Average birth year per species (AVG(YEAR(birth)))
+-- 5. Owners with exactly 1 pet
+-- 6. Oldest and newest pet per species (MIN/MAX birth)
+
+-- Write all six queries. For each, comment what the result means.`, hint: '1: GROUP BY species ORDER BY COUNT(*) DESC. 3: HAVING COUNT(*)>2. 5: GROUP BY owner HAVING COUNT(*)=1. 6: GROUP BY species with MIN(birth), MAX(birth).' },
+      { type: 'practice', id: 'db6-p5', lang: 'sql', title: 'Practice: Age Calculation Lab', starter: `-- Using the pet table:
+
+-- 1. Show each pet's age in YEARS (TIMESTAMPDIFF + CURDATE())
+-- 2. Show each pet's age in MONTHS
+-- 3. Deceased pets: show their LIFESPAN (birth to death)
+-- 4. The AVERAGE age of all pets
+-- 5. The OLDEST pet's name (ORDER BY age DESC LIMIT 1)
+-- 6. Average age per species
+
+-- Add an AS alias to every calculated column.`, hint: 'TIMESTAMPDIFF(YEAR, birth, CURDATE()). Lifespan: TIMESTAMPDIFF(YEAR, birth, death). Avg: AVG(TIMESTAMPDIFF(...)). Oldest: ORDER BY age DESC LIMIT 1.' },
     ],
     tasks: [
       { id: 'dbms-8-d6-t1', text: 'Write queries using COUNT, AVG, MIN, MAX on the pet table. Run COUNT(*) vs COUNT(death) and explain the difference.', tag: 'lab' },
@@ -214,6 +253,114 @@ CREATE TABLE employees (
 CREATE TABLE books (
     -- your columns here
 );`, hint: 'Use INT PRIMARY KEY AUTO_INCREMENT for PKs. For FKs: FOREIGN KEY (col) REFERENCES other_table(col). Make sure types match (both INT).' },
+      { type: 'practice', id: 'db7-p2', lang: 'sql', title: 'Practice: Normalize This Schema', starter: `-- Your friend designed a single table for a school. It is a mess.
+-- Your job: split it into 3NF.
+
+CREATE TABLE report_card (
+    student_id INT,
+    student_name VARCHAR(50),
+    course_id INT,
+    course_name VARCHAR(50),
+    teacher VARCHAR(50),
+    marks INT,
+    PRIMARY KEY (student_id, course_id)
+);
+
+-- Problems:
+-- 1. student_name depends on student_id only (partial dependency → 2NF)
+-- 2. course_name, teacher depend on course_id only (partial dependency)
+-- 3. teacher depends on course_name (transitive dependency → 3NF)
+
+-- TODO 1: create students(student_id PK, student_name)
+-- TODO 2: create courses(course_id PK, course_name, teacher)
+-- TODO 3: create enrollments(student_id FK, course_id FK, marks)
+--         (composite PK: both FKs)
+-- TODO 4: in comments, label which normal form each fix addresses`, hint: 'students: student_id INT PRIMARY KEY, student_name VARCHAR(50). courses: course_id INT PRIMARY KEY, course_name VARCHAR(50), teacher VARCHAR(50). enrollments: student_id INT, course_id INT, marks INT, PRIMARY KEY (student_id, course_id), FOREIGN KEY (student_id) REFERENCES students(student_id), FOREIGN KEY (course_id) REFERENCES courses(course_id). Splitting removes partial deps (2NF) and the transitive teacher→course_name dep (3NF).' },
+      { type: 'practice', id: 'db7-p3', lang: 'sql', title: 'Practice: ACID in Action', starter: `-- ACID WALKTHROUGH — run each step and observe.
+-- This is a thinking exercise using a bank transfer.
+
+CREATE TABLE accounts (
+    id INT PRIMARY KEY,
+    name VARCHAR(30),
+    balance DECIMAL(10,2)
+);
+
+INSERT INTO accounts VALUES (1, 'Riya', 1000.00), (2, 'Amit', 500.00);
+
+-- STEP 1 — ATOMICITY:
+-- Run this transfer. What if the second UPDATE fails?
+-- (try it: change id=2 to id=99 in the second UPDATE)
+START TRANSACTION;
+UPDATE accounts SET balance = balance - 200 WHERE id = 1;
+UPDATE accounts SET balance = balance + 200 WHERE id = 2;
+COMMIT;
+
+-- STEP 2 — fix it with ROLLBACK:
+START TRANSACTION;
+UPDATE accounts SET balance = balance - 200 WHERE id = 1;
+UPDATE accounts SET balance = balance + 200 WHERE id = 99;  -- fails!
+ROLLBACK;  -- both changes undone — money is safe
+
+-- STEP 3 — DURABILITY:
+-- after COMMIT, restart MySQL. Is the change still there?
+
+-- TODO: explain in comments which ACID property each step demonstrates`, hint: 'Step 1 shows why atomicity matters — a partial transfer loses money. Step 2: ROLLBACK undoes the debit when the credit fails. Step 3: COMMIT makes the change durable — it survives a restart (write-ahead log).' },
+      { type: 'practice', id: 'db7-p4', lang: 'sql', title: 'Practice: FK Constraint Explorer', starter: `-- Create a departments + employees pair with a foreign key.
+CREATE TABLE departments (
+    dept_id INT PRIMARY KEY AUTO_INCREMENT,
+    dept_name VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY AUTO_INCREMENT,
+    emp_name VARCHAR(50) NOT NULL,
+    dept_id INT,
+    FOREIGN KEY (dept_id) REFERENCES departments(dept_id)
+);
+
+INSERT INTO departments (dept_name) VALUES ('CSE'), ('ECE'), ('ME');
+INSERT INTO employees (emp_name, dept_id) VALUES
+('Vinayak', 1), ('Riya', 1), ('Amit', 2);
+
+-- TODO 1: try inserting an employee with dept_id=99.
+--         What error do you get? Why? (comment)
+-- TODO 2: try deleting department 1 (which has employees).
+--         What happens? Why? (comment)
+-- TODO 3: insert an employee with dept_id=NULL — does it work?
+--         Why does that make sense for a FK?
+-- TODO 4: add ON DELETE CASCADE version (create table copy)
+--         and delete dept 1 — what happens to its employees?`, hint: 'dept_id=99 → FK constraint fails (no such parent). Deleting dept 1 → blocked while employees reference it (or CASCADE deletes them). NULL FK = allowed, means "no department."' },
+      { type: 'practice', id: 'db7-p5', lang: 'sql', title: 'Practice: NF Violation Spotter', starter: `-- For each table, identify which normal form is violated
+-- and write the FIXED schema (split into proper tables).
+
+-- TABLE A:
+CREATE TABLE students_courses (
+    student_id INT,
+    student_name VARCHAR(50),
+    course_list VARCHAR(200)   -- "Java, DBMS, SDE" — multiple values!
+);
+-- Violation: ______ NF (non-atomic column)
+
+-- TABLE B:
+CREATE TABLE enrollments (
+    student_id INT,
+    course_id INT,
+    student_name VARCHAR(50),   -- depends only on student_id
+    marks INT,
+    PRIMARY KEY (student_id, course_id)
+);
+-- Violation: ______ NF (partial dependency)
+
+-- TABLE C:
+CREATE TABLE employees2 (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    dept_id INT,
+    dept_name VARCHAR(50)       -- depends on dept_id, not emp_id
+);
+-- Violation: ______ NF (transitive dependency)
+
+-- TODO: write the fixed schema for each (1, 2, or 3 tables).`, hint: 'A: 1NF — split course_list into a separate table. B: 2NF — move student_name to a students table. C: 3NF — move dept_name to a departments table. Fix = normalize.' },
     ],
     tasks: [
       { id: 'dbms-8-d7-t1', text: 'Write CREATE TABLE for a library system (books, members, borrowings) with PRIMARY KEY and FOREIGN KEY constraints.', tag: 'lab' },
@@ -311,6 +458,55 @@ mysql>  -- back to clean state` },
 -- TODO: Write CREATE TABLE for all three with proper constraints
 -- TODO: Insert sample data (2 customers, 3 orders, 5 order_items)
 -- TODO: Write a query: total spent per customer (JOIN + GROUP BY)`, hint: 'Customers PK: customer_id INT AUTO_INCREMENT. Orders FK: FOREIGN KEY(customer_id) REFERENCES customers(customer_id). To join: SELECT c.name, SUM(o.total_amount) FROM customers c JOIN orders o ON c.id=o.customer_id GROUP BY c.id.' },
+      { type: 'practice', id: 'db8-p3', lang: 'sql', title: 'Practice: ALTER TABLE Workshop', starter: `-- Create a table, then modify it step by step with ALTER TABLE.
+CREATE TABLE inventory (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50),
+    stock INT
+);
+
+-- TODO 1: ADD a column: price DECIMAL(6,2)
+-- TODO 2: ADD a column: category VARCHAR(20) AFTER name
+-- TODO 3: MODIFY the stock column to BIGINT
+-- TODO 4: RENAME the column name -> product_name
+--   (MySQL: ALTER TABLE inventory RENAME COLUMN name TO product_name;)
+-- TODO 5: CHANGE column stock to qty_available with type INT NOT NULL DEFAULT 0
+-- TODO 6: DROP the category column
+-- TODO 7: verify each step with DESCRIBE inventory
+-- TODO 8: RENAME the whole table to products`, hint: 'ADD: ALTER TABLE t ADD COLUMN price DECIMAL(6,2). MODIFY: ALTER TABLE t MODIFY stock BIGINT. CHANGE: ALTER TABLE t CHANGE stock qty_available INT NOT NULL DEFAULT 0. DROP: ALTER TABLE t DROP COLUMN category. RENAME TABLE inventory TO products.' },
+      { type: 'practice', id: 'db8-p4', lang: 'sql', title: 'Practice: MySQL Prompt States', starter: `-- KNOW YOUR PROMPTS — the ST-1 exam loves these.
+-- Match each prompt to its meaning:
+
+-- 1. mysql>        a) waiting for closing single quote
+-- 2. ->            b) ready for a new query
+-- 3. '>            c) waiting for closing double quote
+-- 4. ">            d) multi-line query continuation
+
+-- Answers (write in comments): 1=__, 2=__, 3=__, 4=__
+
+-- TODO 1: type an unclosed string: SELECT 'hello;  (no closing quote)
+--         what prompt appears? how do you escape?
+-- TODO 2: cancel a broken query with \\c
+-- TODO 3: write a 3-line query and observe the -> prompts
+-- TODO 4: how do you exit the mysql monitor? (\\q or exit)
+
+-- PREDICT: you typed:  SELECT * FROM pet WHERE name = 'Buddy
+-- without the closing quote. What prompt do you see?`, hint: '1=b, 2=d, 3=a, 4=c. Unclosed quote → \'> prompt. \\c cancels. \\q or exit quits. Missing closing quote → \'> — type the quote then ; to finish, or \\c to cancel.' },
+      { type: 'practice', id: 'db8-p5', lang: 'sql', title: 'Practice: Exam Speed Drill', starter: `-- 10-minute drill. Write each query from memory — no peeking at notes.
+-- Use the pet table.
+
+-- 1. All pets, sorted by birth date oldest first
+-- 2. Count of pets per species (highest first)
+-- 3. Pets whose owner is Harold, sorted by name
+-- 4. Average age of all pets
+-- 5. Species with MORE than 2 pets
+-- 6. Pets born between 2016 and 2020
+-- 7. Names starting with 'B' and ending with 'y'
+-- 8. Number of pets with a known death date
+-- 9. Youngest pet overall (just the birth date)
+-- 10. Owners with exactly 2 pets
+
+-- Score yourself: 9-10 = exam ready. 6-8 = review Day 2-6. <6 = redo the labs.`, hint: '1 ORDER BY birth. 2 GROUP BY species ORDER BY COUNT(*) DESC. 4 AVG(TIMESTAMPDIFF(YEAR,birth,CURDATE())). 5 HAVING COUNT(*)>2. 6 BETWEEN. 7 LIKE \'B%y\'. 8 COUNT(death). 9 MAX(birth). 10 HAVING COUNT(*)=2.' },
     ],
     tasks: [
       { id: 'dbms-8-d8-t1', text: 'Complete the timed ST-1 simulation. Score yourself honestly. Review weak areas.', tag: 'review' },

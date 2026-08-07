@@ -11,8 +11,8 @@ interface TestViewProps {
 
 export function TestView({ reference }: TestViewProps) {
   const questions = (reference.blocks?.[0]?.questions ?? []) as QuizQuestion[];
-  const timeLimit = (reference as any).timeLimit ?? 30; // minutes
-  const passingScore = (reference as any).passingScore ?? 70; // percent
+  const timeLimit = reference.timeLimit ?? 30; // minutes
+  const passingScore = reference.passingScore ?? 70; // percent
 
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -21,7 +21,14 @@ export function TestView({ reference }: TestViewProps) {
   const [started, setStarted] = useState(false);
 
   const openReference = useStore((s) => s.openReference);
+  const openTests = useStore((s) => s.openTests);
   const recordInteraction = useStore((s) => s.recordInteraction);
+  const recordTestResult = useStore((s) => s.recordTestResult);
+  const progress = useStore((s) => (reference.courseId ? s.progress[reference.courseId] : undefined));
+  const testHistory = progress?.testResults?.filter((r) => r.testId === reference.id) ?? [];
+  const bestResult = testHistory.length > 0
+    ? testHistory.reduce((best, r) => (r.percent > best.percent ? r : best), testHistory[0])
+    : null;
 
   // Timer
   useEffect(() => {
@@ -66,6 +73,18 @@ export function TestView({ reference }: TestViewProps) {
     questions.forEach((q) => {
       if (answers[q.id] === q.correctIndex) recordInteraction('quizCorrect');
     });
+    // Persist the result so it survives reloads
+    if (reference.courseId) {
+      recordTestResult(reference.courseId, {
+        testId: reference.id,
+        title: reference.title,
+        score,
+        total: questions.length,
+        percent: scorePercent,
+        passed,
+        date: new Date().toISOString(),
+      });
+    }
   }
 
   function handleRetry() {
@@ -94,6 +113,37 @@ export function TestView({ reference }: TestViewProps) {
           </div>
           <h1 className="text-[28px] font-bold mb-2">{reference.title}</h1>
           <p className="text-ink-2 mb-2">{reference.description}</p>
+
+          {testHistory.length > 0 && (
+            <div className="surface p-4 my-6 mx-auto max-w-md text-left">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-bold text-ink flex items-center gap-2">
+                  <Icon name="chartBar" size="sm" className="text-accent" />
+                  Previous attempts
+                </span>
+                <span className="text-xs text-ink-3 tabular-nums">{testHistory.length} total</span>
+              </div>
+              {bestResult && (
+                <div className={cn(
+                  'mb-2 px-3 py-2 rounded-lg border text-sm flex items-center justify-between',
+                  bestResult.passed ? 'bg-success/10 border-success/30 text-success' : 'bg-danger/10 border-danger/30 text-danger'
+                )}>
+                  <span className="font-medium">Best: {bestResult.score}/{bestResult.total} ({bestResult.percent}%)</span>
+                  <span className="text-xs">{bestResult.passed ? 'Passed' : 'Not passed'}</span>
+                </div>
+              )}
+              <ul className="space-y-1 max-h-32 overflow-y-auto pr-1">
+                {testHistory.slice(0, 10).map((r, i) => (
+                  <li key={i} className="flex items-center justify-between text-xs text-ink-2 py-0.5">
+                    <span>{new Date(r.date).toLocaleDateString()} {new Date(r.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                    <span className={cn('font-semibold tabular-nums', r.passed ? 'text-success' : 'text-danger')}>
+                      {r.score}/{r.total} · {r.percent}%
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           <div className="flex items-center justify-center gap-8 my-6 text-sm">
             <div className="flex items-center gap-2 text-ink-2">
@@ -196,7 +246,7 @@ export function TestView({ reference }: TestViewProps) {
             <button type="button" onClick={handleRetry} className="px-5 py-2 rounded-lg border border-border text-ink hover:border-accent transition-colors duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
               Retry Test
             </button>
-            <button type="button" onClick={() => { setStarted(false); handleRetry(); }} className="px-5 py-2 rounded-lg border border-border text-ink hover:border-accent transition-colors duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+            <button type="button" onClick={openTests} className="px-5 py-2 rounded-lg border border-border text-ink hover:border-accent transition-colors duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
               Back to Tests
             </button>
           </div>

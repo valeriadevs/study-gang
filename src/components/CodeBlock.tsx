@@ -158,14 +158,6 @@ export function CodeBlock({ code, lang, title, typewriter = false }: CodeBlockPr
               </>
             )}
           </button>
-          <button
-            onClick={() => {
-              try { navigator.clipboard.writeText(code); } catch {}
-            }}
-            className="px-2.5 py-0.5 rounded text-xs border border-border text-ink-2 hover:text-ink hover:border-ink transition-colors ml-1"
-          >
-            type it
-          </button>
         </div>
       </div>
       <pre className="m-0 px-4 py-3.5 overflow-x-auto font-mono text-sm leading-relaxed">

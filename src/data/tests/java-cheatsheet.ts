@@ -5,9 +5,9 @@ export const javaCheatsheet: Reference = {
   title: 'Java Mastery Cheat Sheet',
   category: 'Java',
   courseId: 'java-14',
-  description: 'All 20 days of key concepts, syntax, and exam essentials on one page.',
+  description: 'All 29 days of key concepts, syntax, and exam essentials on one page.',
   blocks: [
-    { type: 'heading', id: 'cs-fundamentals', level: 2, content: 'Fundamentals (Days 1-4)' },
+    { type: 'heading', id: 'cs-fundamentals', level: 2, content: 'Fundamentals (Days 1-5)' },
     { type: 'table', id: 'cs-primitive-table', headers: ['Type', 'Size', 'Range', 'Example', 'Note'], rows: [
       ['byte', '1 byte', '-128 to 127', 'byte b = 100;', 'Rare'],
       ['short', '2 bytes', '±32,767', 'short s = 30000;', 'Rare'],
@@ -22,7 +22,7 @@ export const javaCheatsheet: Reference = {
     { type: 'code', id: 'cs-control', lang: 'java', title: 'Control Flow', code: '// if-else\nif (marks >= 90) grade = "S";\nelse if (marks >= 80) grade = "A";\nelse grade = "F";\n\n// switch (works on: byte, short, int, char, String, enum)\nswitch (choice) {\n    case 1: doThing(); break;  // ⚠️ don\'t forget break!\n    default: System.out.println("Invalid");\n}\n\n// Loops\nfor (int i = 0; i < 10; i++) { }      // known count\nwhile (condition) { }                   // unknown count\ndo { } while (condition);               // runs at least once (exit-controlled)' },
     { type: 'callout', id: 'cs-traps', calloutType: 'warn', title: 'Common Traps (Days 1-4)', content: '• **Integer division**: `5 / 2 = 2` (not 2.5). Use `5.0 / 2` for decimal.\n• **Scanner newline trap**: after `nextInt()`/`nextDouble()`, add `sc.nextLine()` to clear the buffer.\n• **Local variables MUST be initialized**. Only instance variables get defaults (0, false, null).\n• **`arr.length`** (field, no parens) vs **`str.length()`** (method, with parens) vs **`list.size()`** (method).' },
 
-    { type: 'heading', id: 'cs-methods', level: 2, content: 'Methods & Data (Days 5-6)' },
+    { type: 'heading', id: 'cs-methods', level: 2, content: 'Methods & Data (Days 6-8)' },
     { type: 'code', id: 'cs-methods-code', lang: 'java', title: 'Method Basics', code: '// Anatomy\npublic static int add(int a, int b) {   // signature = add(int, int)\n    return a + b;                        // non-void MUST return\n}\n\npublic static void greet(String name) {  // void = no return\n    System.out.println("Hi " + name);\n    // return; // optional early exit\n}' },
     { type: 'callout', id: 'cs-passby', calloutType: 'warn', title: 'Java is ALWAYS Pass-by-Value', content: 'Primitives: the VALUE is copied — changing parameter does NOT change original.\nObjects: the REFERENCE is copied — you can modify the object\'s contents (like array elements) but CANNOT reassign the original reference.\n\nThis is the #1 CE-1 trick question.' },
     { type: 'table', id: 'cs-string-table', headers: ['Method', 'What It Does'], rows: [
@@ -39,7 +39,7 @@ export const javaCheatsheet: Reference = {
     ] },
     { type: 'callout', id: 'cs-immutable', calloutType: 'warn', title: 'Strings are Immutable', content: 'Any "modification" creates a NEW String. `==` compares references (memory). `.equals()` compares content. ALWAYS use `.equals()` for string comparison.' },
 
-    { type: 'heading', id: 'cs-oop', level: 2, content: 'OOP (Days 7-10)' },
+    { type: 'heading', id: 'cs-oop', level: 2, content: 'OOP (Days 9-14)' },
     { type: 'table', id: 'cs-constructor-table', headers: ['Rule', 'Detail'], rows: [
       ['Same name as class', 'No return type — not even void'],
       ['Default constructor', 'Auto-provided if NO constructors defined. Disappears once you write ANY.'],
@@ -70,7 +70,7 @@ export const javaCheatsheet: Reference = {
       ['public', '✅', '✅', '✅', '✅'],
     ] },
 
-    { type: 'heading', id: 'cs-advanced', level: 2, content: 'Advanced Concepts (Days 11-14)' },
+    { type: 'heading', id: 'cs-advanced', level: 2, content: 'Advanced Concepts (Days 15-20)' },
     { type: 'code', id: 'cs-exceptions', lang: 'java', title: 'Exceptions', code: '// throw = ACTION (inside method): creates and throws an exception NOW\n// throws = DECLARATION (method signature): warns callers\n\nclass InsufficientFundsException extends Exception {\n    InsufficientFundsException(String msg) { super(msg); }\n}\n\nvoid withdraw(double amt) throws InsufficientFundsException {\n    if (amt > balance) throw new InsufficientFundsException("Too much!");\n    balance -= amt;\n}\n\n// try-catch-finally\ntry (Scanner sc = new Scanner(new File("data.txt"))) {  // try-with-resources\n    // use sc — auto-closed\n} catch (IOException e) {\n    System.out.println("File error: " + e.getMessage());\n}\n// finally ALWAYS runs (except System.exit())' },
     { type: 'table', id: 'cs-collections', headers: ['Collection', 'Ordering', 'Duplicates', 'Get/Put', 'Null', 'Use When'], rows: [
       ['ArrayList', 'Insertion', '✅', 'O(1) by index', '✅', 'Indexed access, duplicates OK'],
@@ -83,7 +83,7 @@ export const javaCheatsheet: Reference = {
     { type: 'code', id: 'cs-comparable', lang: 'java', title: 'Comparable vs Comparator', code: '// Comparable — natural ordering (ONE sort order)\nclass Student implements Comparable<Student> {\n    public int compareTo(Student other) {\n        return this.rollNo - other.rollNo;  // negative = before, 0 = equal, positive = after\n    }\n}\nCollections.sort(list);\n\n// Comparator — custom ordering (MANY sort orders, no class modification)\nstudents.sort((a, b) -> Double.compare(b.gpa, a.gpa));  // GPA descending (lambda)\nstudents.sort(Comparator.comparing(s -> s.name).thenComparingInt(s -> s.rollNo));' },
     { type: 'code', id: 'cs-serial', lang: 'java', title: 'Serialization', code: 'class Book implements Serializable {\n    private static final long serialVersionUID = 1L;\n    String title;\n    transient String password;  // NOT serialized — gets default (null) on load\n}\n// Serialize:\nObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("book.ser"));\noos.writeObject(book);\n// Deserialize:\nObjectInputStream ois = new ObjectInputStream(new FileInputStream("book.ser"));\nBook b = (Book) ois.readObject();  // cast required!' },
 
-    { type: 'heading', id: 'cs-modern', level: 2, content: 'Modern Java (Days 15-20)' },
+    { type: 'heading', id: 'cs-modern', level: 2, content: 'Advanced Java (Days 21-29)' },
     { type: 'code', id: 'cs-recursion', lang: 'java', title: 'Recursion', code: '// Two essential parts:\n// 1. BASE CASE — stops recursion. Missing = StackOverflowError.\n// 2. RECURSIVE CASE — calls self with smaller input.\n\nstatic int factorial(int n) {\n    if (n <= 1) return 1;              // base case\n    return n * factorial(n - 1);       // recursive case\n}\n\nstatic int gcd(int a, int b) {\n    if (b == 0) return a;\n    return gcd(b, a % b);              // tail-recursive, O(log min(a,b))\n}' },
     { type: 'code', id: 'cs-enums', lang: 'java', title: 'Enums', code: 'enum Planet {\n    MERCURY(3.3e23, 2.4e6), EARTH(5.9e24, 6.3e6);  // constants first!\n    \n    private final double mass, radius;\n    Planet(double m, double r) { mass = m; radius = r; }  // constructor ALWAYS private\n    double surfaceGravity() { return 6.67e-11 * mass / (radius * radius); }\n}\n// Built-in: values(), valueOf("MERCURY"), ordinal(), name()' },
     { type: 'code', id: 'cs-generics', lang: 'java', title: 'Generics', code: '// Generic class\nclass Box<T> {\n    private T value;\n    public T get() { return value; }\n    public void set(T v) { value = v; }\n}\nBox<String> s = new Box<>();\n\n// Generic method\npublic static <T extends Comparable<T>> T max(T a, T b) {\n    return a.compareTo(b) > 0 ? a : b;\n}\n\n// Wildcards — PECS: Producer Extends, Consumer Super\nvoid process(List<? extends Number> nums) { }  // can READ, cannot WRITE\nvoid addMore(List<? super Integer> list) { }   // can WRITE, read as Object\n\n// Type erasure: generic info removed at runtime for backward compatibility\n// ArrayList<String> and ArrayList<Integer> are the SAME class at runtime!' },

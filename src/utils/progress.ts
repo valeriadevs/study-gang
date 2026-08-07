@@ -170,7 +170,7 @@ export const ACHIEVEMENT_DEFINITIONS: readonly AchievementDefinition[] = [
   {
     id: 'java-jester',
     title: 'Java Jester',
-    description: 'Conquered the Java 14-day mastery.',
+    description: 'Conquered the Java 22-day mastery.',
     icon: 'maskHappy',
     hint: 'Complete the Java course',
     condition: (metrics) => Boolean(metrics.courseMetrics['java-14']?.complete),

@@ -48,6 +48,38 @@ chunk_size = len(data) // nodes
 # Process each chunk locally (count, sum, avg per chunk)
 # Combine results to get global count, sum, avg
 # This is a simplified MapReduce!`, hint: 'chunks = [data[i:i+chunk_size] for i in range(0, len(data), chunk_size)]. For each: len(chunk), sum(chunk), sum(chunk)/len(chunk). Combine by summing counts and sums, compute global avg.' },
+      { type: 'practice', id: 'sd5-p2', lang: 'python', title: 'Practice: Simulate Replication & Fault Tolerance', starter: `# Simulate: 3 replicas of every data block.
+# If one node dies, the others must still have all the data.
+
+import random
+
+# 10 "blocks" of data, each stored on 3 nodes (replication factor 3)
+blocks = list(range(10))
+replicas = {b: random.sample(range(1, 6), 3) for b in blocks}  # node 1-5
+
+# TODO 1: print which nodes hold block 0
+# TODO 2: simulate node 3 dying — remove it from every replica list
+# TODO 3: check every block still has >= 1 replica. Which block(s)
+#         would be LOST if node 3 died?
+# TODO 4: if any block has 0 replicas, print "DATA LOSS at block X"
+# TODO 5: why does replication factor 3 survive losing 1 node?
+#         (answer in a comment)`, hint: 'filter replicas: {b: [n for n in nodes if n != 3] for b, nodes in replicas.items()}. A block is lost if its replica list is empty. RF=3 survives any single node failure — the other 2 replicas remain.' },
+      { type: 'practice', id: 'sd5-p3', lang: 'python', title: 'Practice: Vertical vs Horizontal Scaling Model', starter: `# Model the cost of vertical vs horizontal scaling.
+
+# Vertical: ONE big server. Cost grows super-linearly.
+#   server 1: 8 cores, cost 100
+#   server 2: 16 cores, cost 250   (2x power, 2.5x cost!)
+#   server 3: 32 cores, cost 650   (4x power, 6.5x cost!)
+
+# Horizontal: many small servers. Cost grows linearly.
+#   each node: 8 cores, cost 100
+
+# TODO 1: define a function vertical_cost(cores) using the table above
+# TODO 2: define horizontal_cost(cores) = (cores // 8) * 100
+# TODO 3: print a comparison table for 8, 16, 32, 64, 128 cores
+# TODO 4: at what core count does horizontal become CHEAPER?
+# TODO 5: what are the NON-cost downsides of vertical scaling?
+#         (answer in a comment: single point of failure? ceiling?)`, hint: 'vertical_cost: piecewise {8:100, 16:250, 32:650, 64:?, 128:?} — extrapolate. horizontal_cost(128) = 1600. Vertical hits a physical ceiling; horizontal also avoids single point of failure.' },
     ],
     tasks: [
       { id: 'sde-8-d5-t1', text: 'Write the 5 Vs of Big Data with one-line explanations and real-world examples for each.', tag: 'review' },
@@ -165,6 +197,71 @@ data = [random.randint(1, 1000) for _ in range(100_000)]
 
 # TODO: Time both approaches for 10 filtering+transforming steps
 # Show the in-memory approach is faster`, hint: 'Disk: create new list after each operation. Memory: chain in a single list comprehension or generator. Use time.time() to measure.' },
+      { type: 'practice', id: 'sd6-p3', lang: 'python', title: 'Practice: Word Count with MapReduce', starter: `# Implement the classic MapReduce word count, phase by phase.
+
+texts = [
+    "data is the new oil",
+    "oil and data both need refining",
+    "big data is big business"
+]
+
+# TODO 1: MAP — write a function that splits text into (word, 1) pairs
+def mapper(text):
+    pairs = []
+    # your code here
+    return pairs
+
+# TODO 2: apply mapper to every text and flatten the results
+mapped = []  # extend with each text's pairs
+
+# TODO 3: SHUFFLE — group counts by word using a dict
+grouped = {}
+
+# TODO 4: REDUCE — sum the counts per word
+reduced = {}  # word -> total count
+
+# TODO 5: print words sorted by count (descending)
+#         expected: data:3, oil:2, big:2, ...`, hint: 'mapper: for word in text.split(): pairs.append((word, 1)). Shuffle: grouped.setdefault(word, []).append(count). Reduce: sum. Sort: sorted(reduced.items(), key=lambda x: -x[1]).' },
+      { type: 'practice', id: 'sd6-p4', lang: 'python', title: 'Practice: HDFS Block Simulator', starter: `# Simulate how HDFS splits a file into 128MB blocks
+# and replicates each block 3 times across nodes.
+
+file_size_mb = 500   # a 500 MB file
+block_size_mb = 128
+replication = 3
+num_nodes = 5
+
+# TODO 1: compute how many blocks the file splits into
+#         (round UP: use math.ceil)
+import math
+num_blocks = 0  # your code
+
+# TODO 2: compute total storage used = blocks * replication * block_size
+#         (why is it more than the file size?)
+
+# TODO 3: assign each block to 3 different nodes (cycle through nodes)
+#         print "Block 0 -> nodes [0, 1, 2]" etc.
+
+# TODO 4: if node 3 dies, which blocks lose a replica?
+#         is any block lost entirely?`, hint: 'num_blocks = math.ceil(500/128) = 4. Storage = 4*3*128 = 1536 MB — 3x replication overhead. Assign: nodes[(b*3 + i) % num_nodes] for replica i in 0..2.' },
+      { type: 'practice', id: 'sd6-p5', lang: 'python', title: 'Practice: Spark vs MapReduce Reasoning', starter: `# THINKING EXERCISE — answer in comments. No code needed.
+
+# A company runs a 5-step machine learning pipeline:
+#   load -> clean -> feature-engineer -> train -> evaluate
+# Each step reads the PREVIOUS step's output.
+
+# Q1: With Hadoop MapReduce, what happens between steps?
+#     (where does intermediate data live?)
+
+# Q2: With Spark, what happens between steps?
+
+# Q3: Which is faster for this ML pipeline and WHY?
+
+# Q4: For a ONE-pass job (read a file, count words, write result),
+#     is Spark still 10-100x faster? Why or why not?
+
+# Q5: Fill in the blank:
+#     Spark's secret weapon is keeping data in ______ across steps.
+#     MapReduce writes to ______ between map and reduce.`, hint: 'Q1: writes to disk. Q2: stays in RAM. Q3: Spark — no disk I/O between iterations. Q4: No — for one pass, the gap narrows (still faster but not 10-100x). Q5: memory / disk.' },
     ],
     tasks: [
       { id: 'sde-8-d6-t1', text: 'Draw the Hadoop ecosystem. Explain HDFS, MapReduce, and YARN roles.', tag: 'review' },
@@ -286,6 +383,56 @@ raw = pd.DataFrame({
 # - At least 3 DIMENSION tables
 # - List the columns for each table
 # - Write the SQL/Pandas query for "daily revenue by category"`, hint: 'FACT: sales_fact (date_key, product_key, customer_key, units, revenue). DIM: dim_date, dim_product (with category), dim_customer (with region). Query: merge fact with dims, groupby date+category, sum revenue.' },
+      { type: 'practice', id: 'sd7-p3', lang: 'python', title: 'Practice: ETL Quality Checks', starter: `import pandas as pd
+import numpy as np
+
+# Raw orders with every kind of problem
+raw = pd.DataFrame({
+    'order_id': [1, 2, 2, 3, 4, 5],        # duplicate order 2!
+    'date': ['2026-01-01', '2026-01-02', '2026-01-02', 'bad', '2026-01-04', '2026-01-05'],
+    'qty': [5, 3, 3, 10, -2, 0],            # negative and zero qty
+    'price': [100, 200, 200, None, 150, 50]
+})
+
+# TODO 1: drop duplicate rows (keep first)
+# TODO 2: drop rows with invalid dates (pd.to_datetime errors='coerce')
+# TODO 3: drop rows with qty <= 0
+# TODO 4: fill missing price with the median
+# TODO 5: add revenue column
+# TODO 6: print how many rows were removed in each step
+#         (compare .shape[0] before/after each filter)`, hint: 'raw.drop_duplicates(subset=[\'order_id\']). date: pd.to_datetime(raw[\'date\'], errors=\'coerce\').dropna() — then filter by valid index. qty: raw[raw.qty > 0]. Track row counts as you go.' },
+      { type: 'practice', id: 'sd7-p4', lang: 'python', title: 'Practice: OLTP vs OLAP Classifier', starter: `# CLASSIFICATION EXERCISE — answer in comments. No code.
+
+# For each scenario, say OLTP or OLAP and WHY:
+#
+# 1. A bank processing a withdrawal at an ATM
+# 2. A CEO viewing quarterly revenue by region
+# 3. A shopping cart inserting an order
+# 4. A data analyst running a query over 5 years of sales
+# 5. A hospital recording a patient's appointment
+# 6. A marketing team analyzing customer churn trends
+
+# For each answer, circle which schema fits:
+#   - normalized (3NF)  -> OLTP
+#   - denormalized (star) -> OLAP
+
+# Bonus: name ONE tool for each side.
+#   OLTP examples: MySQL, PostgreSQL, Oracle
+#   OLAP examples: Snowflake, Redshift, BigQuery`, hint: '1-3, 5 = OLTP (transactions, normalized). 4, 6 = OLAP (analytics, star schema). Remember: OLTP runs the business, OLAP analyzes the business.' },
+      { type: 'practice', id: 'sd7-p5', lang: 'python', title: 'Practice: Warehouse Query Builder', starter: `# Given this star schema:
+#   fact_sales: date_key, product_key, store_key, units, revenue
+#   dim_date:   date_key, day, month, quarter, year
+#   dim_product: product_key, name, category
+#   dim_store:  store_key, name, city, region
+
+# Write the pandas-style join+groupby for each business question.
+# Use this shape: merged = fact.merge(dim, on=...).merge(...)
+
+# TODO 1: total revenue by product category
+# TODO 2: total units sold by region
+# TODO 3: monthly revenue for Q3 2026
+# TODO 4: top 5 products by revenue
+# TODO 5: revenue per store per quarter (pivot_table)`, hint: 'merge fact with dim_product on product_key for category. merge with dim_store on store_key for region. merge with dim_date for month/quarter. Then groupby + sum, or pivot_table(values=\'revenue\', index=\'store\', columns=\'quarter\').' },
     ],
     tasks: [
       { id: 'sde-8-d7-t1', text: 'Build a mini ETL pipeline: extract from CSV/data, transform (clean+aggregate), load to a new DataFrame.', tag: 'lab' },
@@ -352,6 +499,41 @@ df.loc[np.random.choice(n, 5), 'hours_studied'] = 999  # outlier!
 # STEP 3: TRANSFORM — add grade column (A/B/C/D/F based on marks)
 # STEP 4: ANALYZE — avg marks by branch, correlation hours vs marks
 # STEP 5: State a hypothesis and test it`, hint: 'Clean: fillna(median), clip hours to 60. Grade: pd.cut or np.select. Analyze: groupby branch marks.mean(), df[[\'hours\',\'marks\']].corr(). Hypothesis: "AIML students score higher" — t-test between AIML and non-AIML.' },
+      { type: 'practice', id: 'sd8-p2', lang: 'text', title: 'Practice: Design a Star Schema', starter: `# SCHEMA DESIGN EXERCISE — plan on paper or in comments.
+# Scenario: A retail chain wants an analytics warehouse.
+# Facts: every sale (product, store, date, quantity, revenue).
+
+# TODO 1: identify the MEASUREMENTS (facts) — what is numeric?
+#         (e.g. quantity_sold, revenue)
+# TODO 2: identify the DIMENSIONS — the "by what?" axes
+#         (e.g. product, store, date, customer?)
+# TODO 3: draw the star: fact table in the center, dimensions around it.
+#         For each dimension list 2-3 attributes.
+# TODO 4: write the CREATE TABLE for the FACT table only
+#         (fact_sales: sale_id PK, FKs to each dimension, measures)
+# TODO 5: which table would a "total revenue by store" query join?`, hint: 'Fact: sale_id, product_id FK, store_id FK, date_id FK, quantity, revenue. Dimensions: product(name, category), store(city, region), date(day, month, year). Revenue-by-store: join fact_sales to store dimension, GROUP BY store.city, SUM(revenue).' },
+      { type: 'practice', id: 'sd8-p3', lang: 'python', title: 'Practice: Mock ST-1 Timed Drill', starter: `# ST-1 MOCK — 15 minutes, no notes. Write code for all three.
+
+# Q1 (NumPy): create a 5x3 array of random integers 0-100.
+#            print the mean of each COLUMN and the overall max.
+
+import numpy as np
+
+# Q2 (Pandas): load this data, fill missing with column median,
+#             group by 'branch' and show mean 'marks'.
+
+import pandas as pd
+df = pd.DataFrame({
+    'branch': ['AIML','CSE','AIML','ECE','CSE','AIML'],
+    'marks':  [80, 70, None, 90, 65, 85],
+})
+
+# Q3 (Stats): a sample has mean 52, std 10, n=25.
+#            test H0: population mean = 50 (use scipy.stats).
+#            print the t-statistic and p-value. conclude.
+
+from scipy import stats
+sample = np.random.normal(52, 10, 25)`, hint: 'Q1: arr.mean(axis=0), arr.max(). Q2: df[\'marks\']=df[\'marks\'].fillna(df[\'marks\'].median()); df.groupby(\'branch\')[\'marks\'].mean(). Q3: stats.ttest_1samp(sample, 50); p<0.05 reject H0.' },
     ],
     tasks: [
       { id: 'sde-8-d8-t1', text: 'Build the end-to-end pipeline: ingest messy data → clean → transform → analyze → report findings.', tag: 'lab' },

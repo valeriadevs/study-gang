@@ -45,6 +45,107 @@ export const javaAdvDays: Day[] = [
         { id: 'ja1-f2', front: 'CE-2 vs CE-3 differences?', back: 'CE-2 (30 Oct): 25 marks, PreparedStatement, ResultSet, CRUD. CE-3 (27 Nov): 25 marks, transactions, connection pooling, multithreading. Both have 1×10-mark coding question that CE-1 lacks.', hint: 'Both 25 marks, different topics...' },
         { id: 'ja1-f3', front: '75% attendance rule — what happens if below?', back: 'DEBARRED from End Semester Exam. Cannot sit for it regardless of internal marks. Track your attendance weekly. At 3 classes/week, you can miss ~8 classes max.', hint: 'Mandatory minimum...' },
       ] },
+      { type: 'practice', id: 'ja1-p1', lang: 'text', title: 'Practice: Plan Your CE Strategy', starter: `// COURSE ADMIN PLANNER — fill this out like a study plan.
+// This is a planning exercise, not a coding exercise.
+// Answer each question in comments or on paper.
+
+// 1. CE-1 is 17 days from course start (10 Oct).
+//    Write a 4-week prep plan: what will you revise in each week?
+//    Week 1: ?
+//    Week 2: ?
+//    Week 3: ?
+//    Week 4: ?
+
+// 2. CE-1 = 5 MCQs (5 marks) + 3 coding tasks (15 marks).
+//    Which is worth more? Where should most of your prep time go?
+
+// 3. You can miss at most ~8 classes (75% rule).
+//    Track your current attendance: how many classes have you attended?
+//    How many can you still miss safely?
+
+// 4. Project idea: write ONE problem statement for a JDBC + GUI app
+//    you would actually build. One sentence only.`, hint: 'The 3 coding tasks are 75% of CE-1 marks — practice JDBC boilerplate until it is muscle memory. Attendance: count attended/total classes; you can miss at most 25% of total.' },
+      { type: 'practice', id: 'ja1-p2', lang: 'bash', title: 'Practice: Set Up Your Java Environment', starter: `# Your first command-line warm-up for this course.
+# Run each command and note the output.
+
+# 1. Confirm Java is installed (JDK 17 or 21 recommended)
+java -version
+
+# 2. Confirm the compiler is available
+javac -version
+
+# 3. Check where Java lives
+where java        # Windows
+# which java      # macOS / Linux
+
+# 4. Create a folder for this course and cd into it
+mkdir advanced-java
+cd advanced-java
+
+# 5. Write, compile, and run a "hello" program:
+#    echo 'public class Hello { public static void main(String[] a) { System.out.println("Ready for Advanced Java"); } }' > Hello.java
+#    javac Hello.java
+#    java Hello
+
+# TODO: if javac is missing, install a JDK (17 or 21) and retry.`, hint: 'You need BOTH java (runtime) and javac (compiler). If javac is missing, install a JDK — the runtime alone (JRE) is not enough to compile. Expect output: "Ready for Advanced Java".' },
+      { type: 'practice', id: 'ja1-p3', lang: 'text', title: 'Practice: Marks Calculator', starter: `// EVALUATION MATH — do the calculations in comments.
+
+// CE-1 = 20 marks: 5 MCQs (1 each) + 3 coding (5 each)
+// CE-2 = 25 marks: 5 MCQs (1 each) + 2 coding (5 each) + 1 coding (10)
+// CE-3 = 25 marks: 5 MCQs (1 each) + 2 coding (5 each) + 1 coding (10)
+
+// Q1: You score 4/5 MCQs and 2.5/3 coding in CE-1.
+//     What is your CE-1 total? (4 + 12.5 = 16.5 → rounded how?)
+
+// Q2: What is the MAXIMUM total from the 3 CEs combined?
+//     (20 + 25 + 25 = ?)
+
+// Q3: You get 18/20 in CE-1, 20/25 in CE-2, 22/25 in CE-3.
+//     Total? Percentage? (out of 70)
+
+// Q4: The 10-mark coding question is worth what % of CE-2?
+
+// Q5: If you skip ALL MCQs (5 marks) in CE-3, what is the
+//     best you can still score? Is that a pass?`, hint: 'Q1: 16.5/20. Q2: 70. Q3: 60/70 = 85.7%. Q4: 10/25 = 40%. Q5: 20/25 = 80% — still passing, but never skip MCQs!' },
+      { type: 'practice', id: 'ja1-p4', lang: 'text', title: 'Practice: Attendance Tracker', starter: `// ATTENDANCE PLANNER — answer in comments.
+
+// Rules: 3 classes/week. 75% minimum. ~11 weeks total.
+
+// Q1: Total classes in the semester? (11 weeks × 3)
+
+// Q2: How many classes can you miss and still hit 75%?
+//     (total × 0.25 = max misses)
+
+// Q3: It is Week 5 (15 classes done). You have missed 5.
+//     What is your current attendance %?
+//     (attended = 10, so 10/15 = ?)
+
+// Q4: In the remaining 6 weeks (18 classes), how many can you
+//     still miss while staying above 75% overall?
+//     (hint: total misses allowed - 5 already missed)
+
+// Q5: Write a plan: which classes are "safe to skip" this week
+//     and which are NOT? (labs vs theory, CE review classes...)`, hint: 'Q1: 33 classes. Q2: 8 misses max. Q3: 66.7% — DANGER zone! Q4: only 3 more misses allowed across 18 classes. Q5: never skip CE review or lab demo days.' },
+      { type: 'practice', id: 'ja1-p5', lang: 'text', title: 'Practice: CE Strategy Planner', starter: `// STUDY PLAN — write your answers as comments.
+
+// CE-1 (10 Oct) covers: SQL basics + JDBC connection.
+// You have ~17 days from course start. Plan 4 weeks:
+
+// Week 1 (Days 1-7):  ?
+//   - revise DBMS SQL: CREATE, SELECT, WHERE
+//   - practice JDBC boilerplate 3x/day
+
+// Week 2 (Days 8-14): ?
+// Week 3 (Days 15-21): ?
+// Week 4 (Days 22-28): ? (mock tests, weak areas)
+
+// For EACH week write:
+//   1. one concrete goal
+//   2. the daily time budget (30 min? 1 hr?)
+//   3. how you will TEST yourself (quiz? rewrite from memory?)
+
+// Then: what is your #1 weak area RIGHT NOW, and what is
+// the FIRST action you will take on it?`, hint: 'The 3 coding tasks = 75% of CE-1. Daily 15-min JDBC boilerplate rewrite (from memory) is the highest-ROI habit. Test yourself by writing the full connection flow without notes.' },
     ],
     tasks: [
       { id: 'java-adv-d1-t1', text: 'Write down the dates and mark distribution for CE-1, CE-2, and CE-3. Put them in your calendar.', tag: 'lab' },
@@ -143,6 +244,93 @@ public class LibraryApp {
         // Connect to DB → Show menu → Perform operations
     }
 }`, hint: 'Book needs: id, title, author, isbn, available (boolean). LibraryDB methods will connect to MySQL via JDBC. Each method = one SQL query (INSERT, SELECT, UPDATE).' },
+      { type: 'practice', id: 'ja2-p2', lang: 'text', title: 'Practice: Project Proposal Draft', starter: `// PROJECT PROPOSAL WORKSHEET — fill this out for YOUR project.
+// This is a planning exercise: write your answers as comments.
+
+// 1. PROBLEM STATEMENT (one sentence, specific):
+//    e.g. "A library management system that tracks books, members,
+//    and borrow/return records with due-date alerts."
+
+// 2. TEAM (2-3 members): names + who owns which module
+//    (GUI / Database / Business logic)
+
+// 3. TECH STACK — fill the blanks:
+//    Database: MySQL via _____ (XAMPP)
+//    Java-DB bridge: _____ (java.sql)
+//    GUI: _____ (Swing or JavaFX)
+//    Driver JAR: mysql-connector-_____.jar
+
+// 4. TIMELINE — 3 checkpoints with dates:
+//    Proposal: ___   Mid-Review: ___   Final Demo: ___
+
+// 5. RISKS — what could go wrong, and your backup plan?`, hint: 'Tech stack blanks: XAMPP, JDBC, Swing/JavaFX, mysql-connector-j. Checkpoints: early Oct, early Nov, early Dec. Risk example: teammate drops out → have a plan to cover their module.' },
+      { type: 'practice', id: 'ja2-p3', lang: 'sql', title: 'Practice: Design Your Project Schema', starter: `-- Design the DATABASE schema for your project idea.
+-- Example (Library Management System):
+
+CREATE TABLE books (
+    book_id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(100) NOT NULL,
+    author VARCHAR(80),
+    isbn VARCHAR(20) UNIQUE,
+    available BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE members (
+    member_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(80) NOT NULL,
+    email VARCHAR(100) UNIQUE
+);
+
+-- TODO 1: create the borrowings table with:
+--   borrow_id PK, book_id FK -> books, member_id FK -> members,
+--   borrow_date DATE, return_date DATE (nullable!)
+-- TODO 2: think about the business rule:
+--   can a book be borrowed twice at the same time?
+--   what constraint (or app logic) prevents that?
+-- TODO 3: add an overdue_days column? or compute it?`, hint: 'borrowings: borrow_id INT PRIMARY KEY AUTO_INCREMENT, book_id INT, member_id INT, borrow_date DATE, return_date DATE, FOREIGN KEY (book_id) REFERENCES books(book_id), FOREIGN KEY (member_id) REFERENCES members(member_id). To prevent double-borrowing: check available flag in app logic, or add a UNIQUE partial index on (book_id) WHERE return_date IS NULL (MySQL 8+).' },
+      { type: 'practice', id: 'ja2-p4', lang: 'text', title: 'Practice: Project Risk Plan', starter: `// RISK PLANNING — write your answers in comments.
+
+// Every project hits problems. Plan for them now.
+
+// Q1: Your teammate stops responding 3 weeks before the demo.
+//     What do you do? (3 concrete steps)
+
+// Q2: MySQL won't start on demo day (port conflict / crash).
+//     What is your backup? (hint: exports, screenshots, reinstall)
+
+// Q3: You realize the GUI needs 3x more code than planned.
+//     What scope do you CUT first? (features, not the DB layer!)
+
+// Q4: The viva asks about a line of code your teammate wrote.
+//     You do not understand it. What NOW?
+//     (hint: you should have read EVERY line before the demo)
+
+// Q5: Write ONE sentence each for:
+//     - your fallback if the database is lost
+//     - your fallback if the GUI framework breaks
+//     - your "minimum viable demo" (what MUST work)`, hint: 'Q1: split work, take over their module, inform coordinator. Q2: phpMyAdmin export + screenshots + XAMPP reinstall. Q3: cut cosmetic features, keep CRUD + 1 report. Q4: you should know all code — prepare by code-walkthroughs with teammates. MVP: login + 1 CRUD flow.' },
+      { type: 'practice', id: 'ja2-p5', lang: 'text', title: 'Practice: Viva Mock Interview', starter: `// VIVA PREP — answer each question OUT LOUD, then write it.
+
+// Q1: "Explain your project in 30 seconds."
+//     (problem → tech stack → your role → one cool feature)
+
+// Q2: "Why did you choose MySQL over a file-based store?"
+//     (transactions, concurrency, SQL queries, the syllabus)
+
+// Q3: "Show me how you handle a database connection failure."
+//     (try-catch, user-friendly message, retry, log)
+
+// Q4: "What happens if two users borrow the same book at once?"
+//     (race condition → synchronized / transaction / check available)
+
+// Q5: "Why is your data normalized? Or why not?"
+//     (3NF removes redundancy; a little denormalization is OK for reports)
+
+// Q6: "What would you add with more time?"
+//     (one realistic feature + why it matters)
+
+// Tip: record yourself answering Q1. Listen back. Repeat until
+// it is under 30 seconds and smooth.`, hint: 'The 30-second pitch is the most reused answer — perfect it. Q4: your transaction + available-flag logic IS the answer. Practicing out loud beats reading notes.' },
     ],
     tasks: [
       { id: 'java-adv-d2-t1', text: 'Choose a project idea from the list (or create your own). Write a 1-paragraph problem statement.', tag: 'lab' },
@@ -250,6 +438,62 @@ public class DBTest {
         // TODO: Close the connection in finally block
     }
 }`, hint: 'Use try-catch for ClassNotFoundException and SQLException. In try: Class.forName("com.mysql.cj.jdbc.Driver"); Connection conn = DriverManager.getConnection(url, user, pass); In finally: if (conn != null) conn.close();' },
+      { type: 'practice', id: 'ja3-p3', lang: 'java', title: 'Practice: Connection URL Builder', starter: `// THINKING EXERCISE — answer in comments.
+
+// Write the CORRECT JDBC URL for each scenario:
+//
+// 1. MySQL on localhost, default port, database "school_db"
+// 2. MySQL on a server at 192.168.1.10, port 3307, database "project"
+// 3. MySQL on localhost, database "library", port 3306
+// 4. What are the 4 parts of a JDBC URL?
+//    (jdbc : mysql : // host:port/dbname)
+
+// For #1, write the full DriverManager.getConnection line:
+//   DriverManager.getConnection("____", "root", "");
+
+// Q5: What happens if you use the WRONG port in the URL?
+// Q6: What happens if the database name does not exist?`, hint: '1: jdbc:mysql://localhost:3306/school_db. 2: jdbc:mysql://192.168.1.10:3307/project. 3: jdbc:mysql://localhost:3306/library. Wrong port → Connection refused / timeout. Wrong db → SQLException: Unknown database.' },
+      { type: 'practice', id: 'ja3-p4', lang: 'sql', title: 'Practice: Schema for Your Project', starter: `-- Design the schema YOUR project will use.
+-- (If you chose Library: books/members/borrowings.
+--  If Student System: students/courses/enrollments. etc.)
+
+-- Requirements:
+-- 1. At least 2 related tables (PK + FK)
+-- 2. At least 1 UNIQUE column (email, isbn, roll_no)
+-- 3. At least 1 BOOLEAN or DATE column
+-- 4. 5+ sample INSERT rows per table
+-- 5. One JOIN query that combines both tables
+
+-- TODO: write the CREATE DATABASE, CREATE TABLEs, INSERTs,
+--       and the JOIN query here.
+
+-- In comments: which table will your Java DAO class
+-- (Day 5) talk to first?`, hint: 'Design with the DAO in mind: your Java app will INSERT/SELECT/UPDATE/DELETE these tables. Keep column names simple (snake_case) so JDBC rs.getString("column_name") is easy.' },
+      { type: 'practice', id: 'ja3-p5', lang: 'bash', title: 'Practice: MySQL Environment Check', starter: `# Run each command and record the result.
+
+# 1. Is MySQL running? (XAMPP: green light on MySQL)
+#    Or check the port:
+netstat -an | findstr 3306     # Windows
+# ss -tlnp | grep 3306          # macOS/Linux
+
+# 2. Login to MySQL:
+mysql -u root -p
+
+# 3. Inside MySQL, run:
+#    SHOW DATABASES;
+#    SELECT VERSION();
+#    SELECT CURRENT_USER();
+
+# 4. Create your project database:
+#    CREATE DATABASE IF NOT EXISTS my_project;
+#    USE my_project;
+
+# 5. Exit: \\q
+
+# TODO: in comments, write down:
+#   - MySQL version you are running
+#   - whether port 3306 is free or taken
+#   - the exact URL Java will use to connect`, hint: 'Port 3306 busy → another MySQL/Skype/Windows service. Fix in XAMPP my.ini → 3307, then Java URL uses :3307. Java URL: jdbc:mysql://localhost:3306/my_project.' },
     ],
     tasks: [
       { id: 'java-adv-d3-t1', text: 'Set up XAMPP MySQL. Create your project database with at least 2 related tables (PK + FK).', tag: 'lab' },
@@ -381,6 +625,68 @@ public class TableCreator {
         }
     }
 }`, hint: 'CREATE TABLE: use stmt.executeUpdate(). INSERT: also executeUpdate() — check return value (should be 1 per INSERT). SELECT: executeQuery(), then while(rs.next()).' },
+      { type: 'practice', id: 'ja4-p3', lang: 'java', title: 'Practice: ResultSet Reader', starter: `import java.sql.*;
+
+public class ResultSetReader {
+    public static void main(String[] args) throws Exception {
+        String url = "jdbc:mysql://localhost:3306/library_db", user = "root", pass = "";
+
+        try (Connection conn = DriverManager.getConnection(url, user, pass);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM books")) {
+
+            // TODO 1: print the number of columns:
+            //         ResultSetMetaData md = rs.getMetaData();
+            //         md.getColumnCount()
+            // TODO 2: print each column NAME: md.getColumnName(i)
+            // TODO 3: loop rows, print EVERY column value using
+            //         rs.getObject(i) in a loop (works for any type)
+            // TODO 4: count rows as you go, print total at the end
+        }
+    }
+}`, hint: 'getMetaData() gives column count/names. rs.getObject(i) returns any type — print it directly. Count rows with an int counter inside while(rs.next()).' },
+      { type: 'practice', id: 'ja4-p4', lang: 'java', title: 'Practice: executeUpdate Return Values', starter: `import java.sql.*;
+
+public class UpdateReturn {
+    public static void main(String[] args) throws Exception {
+        String url = "jdbc:mysql://localhost:3306/library_db", user = "root", pass = "";
+
+        try (Connection conn = DriverManager.getConnection(url, user, pass);
+             Statement stmt = conn.createStatement()) {
+
+            // TODO 1: INSERT a book, print the return value
+            //         (expect 1 — one row affected)
+            // TODO 2: UPDATE a book title, print return value
+            // TODO 3: DELETE a book, print return value
+            // TODO 4: CREATE TABLE temp (id INT), print return
+            //         value (expect 0 — DDL returns 0!)
+            // TODO 5: DROP TABLE temp, print return value
+
+            // TODO 6: in comments: what does executeUpdate
+            //         return for DML vs DDL? why?
+        }
+    }
+}`, hint: 'INSERT/UPDATE/DELETE return rows affected (1+). CREATE/DROP/ALTER return 0 (no rows). This is how you verify a write succeeded: if (rows > 0) print("success").' },
+      { type: 'practice', id: 'ja4-p5', lang: 'java', title: 'Practice: Search by Keyword', starter: `import java.sql.*;
+
+public class SearchBook {
+    public static void main(String[] args) throws Exception {
+        String url = "jdbc:mysql://localhost:3306/library_db", user = "root", pass = "";
+        String keyword = "Java";  // the user's search term
+
+        try (Connection conn = DriverManager.getConnection(url, user, pass);
+             Statement stmt = conn.createStatement()) {
+
+            // TODO 1: write a SELECT with LIKE:
+            //   SELECT * FROM books WHERE title LIKE '%Java%'
+            //   (concatenate the keyword into the SQL string)
+            // TODO 2: loop the ResultSet, print title + author
+            // TODO 3: if no rows matched, print "No books found"
+            // TODO 4: in comments: why is this DANGEROUS with
+            //         real user input? (SQL injection — Day 5!)
+        }
+    }
+}`, hint: 'String sql = "SELECT * FROM books WHERE title LIKE \'%" + keyword + "%\'";. Track a boolean found flag. Comment: string concatenation of user input = SQL injection risk — PreparedStatement fixes it tomorrow.' },
     ],
     tasks: [
       { id: 'java-adv-d4-t1', text: 'Write a JDBC program that connects to MySQL, executes SELECT, and prints all rows from your project table.', tag: 'lab' },
@@ -533,6 +839,70 @@ public class InjectionDemo {
         }
     }
 }`, hint: 'For BAD: Statement stmt = conn.createStatement(); stmt.executeQuery("SELECT * FROM t WHERE id=" + malicious); — observe how many rows return. For GOOD: use PreparedStatement with ? — only the row with id=1 returns.' },
+      { type: 'practice', id: 'ja5-p3', lang: 'java', title: 'Practice: PreparedStatement Param Types', starter: `import java.sql.*;
+
+public class ParamTypes {
+    public static void main(String[] args) throws Exception {
+        String url = "jdbc:mysql://localhost:3306/library_db", user = "root", pass = "";
+
+        try (Connection conn = DriverManager.getConnection(url, user, pass)) {
+
+            // TODO 1: INSERT with 4 different parameter types:
+            //   String, int, double, boolean
+            //   CREATE TABLE items (
+            //     id INT PRIMARY KEY AUTO_INCREMENT,
+            //     name VARCHAR(50), qty INT, price DOUBLE, in_stock BOOLEAN)
+            //   INSERT INTO items (name, qty, price, in_stock)
+            //   VALUES (?, ?, ?, ?)
+            //   ps.setString(1, ...); ps.setInt(2, ...);
+            //   ps.setDouble(3, ...); ps.setBoolean(4, ...);
+
+            // TODO 2: insert 3 rows with different values
+            // TODO 3: SELECT * WHERE in_stock = true — print rows
+            // TODO 4: what happens if you setString for an INT
+            //         column? (try it, observe the error)
+        }
+    }
+}`, hint: 'setXxx(index, value) — index is the ? position (1-based). Wrong type → SQLException or implicit conversion. setBoolean maps to MySQL BOOLEAN (TINYINT(1)).' },
+      { type: 'practice', id: 'ja5-p4', lang: 'java', title: 'Practice: DAO Search Methods', starter: `import java.sql.*;
+
+public class SearchDAO {
+    private Connection conn;
+    public SearchDAO(Connection conn) { this.conn = conn; }
+
+    // TODO 1: findByTitle(String keyword) — SELECT * WHERE title LIKE ?
+    //         (parameter: "%" + keyword + "%")
+    // TODO 2: findByAuthor(String author) — exact match
+    // TODO 3: countByCategory(String category) — SELECT COUNT(*)
+    //         (use rs.getInt(1) for the count)
+    // TODO 4: findAvailable() — WHERE available = true
+    // TODO 5: in main, connect and test all four
+
+    // Each method: try-with-resources PreparedStatement,
+    //              print matching rows, catch SQLException.
+}`, hint: 'LIKE parameter: ps.setString(1, "%" + keyword + "%"). COUNT: rs.next() once, then rs.getInt(1). available=true: ps.setBoolean(1, true) or embed in SQL. Print rows with while(rs.next()).' },
+      { type: 'practice', id: 'ja5-p5', lang: 'java', title: 'Practice: Reuse PreparedStatement', starter: `import java.sql.*;
+
+public class ReusePS {
+    public static void main(String[] args) throws Exception {
+        String url = "jdbc:mysql://localhost:3306/library_db", user = "root", pass = "";
+
+        try (Connection conn = DriverManager.getConnection(url, user, pass);
+             PreparedStatement ps = conn.prepareStatement(
+                 "INSERT INTO books (title, author) VALUES (?, ?)")) {
+
+            // TODO 1: insert 5 books by REUSING the same ps:
+            //   setString(1, title); setString(2, author);
+            //   ps.executeUpdate();  — repeat with new values
+            //   (NO new prepareStatement each time!)
+
+            // TODO 2: print how many rows inserted total
+            // TODO 3: in comments: why is reuse faster than
+            //         creating a new statement per insert?
+            //         (compiled once, executed many times)
+        }
+    }
+}`, hint: 'The SQL is compiled ONCE by the DB. Each executeUpdate() just binds new params. This is why batch + PreparedStatement is the fastest insert pattern. Add a counter to track total.' },
     ],
     tasks: [
       { id: 'java-adv-d5-t1', text: 'Write a complete CRUD class (DAO) for one of your project entities using PreparedStatement.', tag: 'lab' },
@@ -693,6 +1063,80 @@ public class BatchInsert {
         }
     }
 }`, hint: 'PreparedStatement ps = conn.prepareStatement(sql). Loop: setString(1,title); setString(2,author); ps.addBatch(). After loop: int[] results = ps.executeBatch(). Print results.length.' },
+      { type: 'practice', id: 'ja6-p3', lang: 'java', title: 'Practice: Transaction Rollback Test', starter: `import java.sql.*;
+
+public class RollbackTest {
+    public static void main(String[] args) throws Exception {
+        String url = "jdbc:mysql://localhost:3306/library_db", user = "root", pass = "";
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url, user, pass);
+            conn.setAutoCommit(false);
+
+            // STEP 1: INSERT a book (this will be rolled back)
+            // STEP 2: deliberately cause a failure — UPDATE a
+            //         table that does NOT exist (e.g. nosuchtable)
+            //         → SQLException thrown here
+
+            conn.commit();  // never reached
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+            // TODO: rollback here
+            // TODO: then SELECT COUNT(*) FROM books — is the
+            //       book from STEP 1 there? (should be gone!)
+        } finally {
+            // TODO: restore auto-commit and close
+        }
+    }
+}`, hint: 'conn.rollback() in catch. The INSERT from step 1 is undone because it was part of the same transaction. finally: if(conn!=null){ conn.setAutoCommit(true); conn.close(); }. This proves atomicity.' },
+      { type: 'practice', id: 'ja6-p4', lang: 'java', title: 'Practice: Prompt State Debugger', starter: `// THINKING EXERCISE — answer in comments.
+
+// You wrote this JDBC code and it throws SQLException:
+//   String sql = "INSERT INTO books (title, author) VALUES ('Java', 'Gosling)";
+//   // (notice: missing closing quote after Gosling)
+
+// Q1: What is WRONG with the SQL string?
+
+// Q2: If you typed the same broken SQL into the MySQL terminal,
+//     what PROMPT would appear?  (mysql>, ->, '>, ">, or \\c?)
+
+// Q3: What does the JDBC error message probably say?
+
+// Q4: In the MySQL terminal, what two ways can you recover?
+//     (finish the string + execute, OR cancel with \\c)
+
+// Q5: Write the FIXED Java string. What does the Java string
+//     need that the terminal version does not?
+//     (hint: escaping — \\" inside a Java string)
+
+// Q6: Why does Java need DOUBLE backslashes/escapes that MySQL
+//     does not? (Java string rules vs raw SQL)`, hint: 'Q1: unclosed single quote. Q2: single-quote prompt. Q3: syntax error message. Q4: add the closing quote then a semicolon, or cancel with backslash-c. Q5: escape the inner quotes inside the Java string. Q6: Java strings use escaped quotes to include a quote character.' },
+      { type: 'practice', id: 'ja6-p5', lang: 'java', title: 'Practice: Batch with Transaction', starter: `import java.sql.*;
+
+public class BatchTxn {
+    public static void main(String[] args) throws Exception {
+        String url = "jdbc:mysql://localhost:3306/library_db", user = "root", pass = "";
+
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url, user, pass);
+            conn.setAutoCommit(false);  // all-or-nothing batch
+
+            String sql = "INSERT INTO books (title, author) VALUES (?, ?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            // TODO 1: add 10 books to the batch
+            // TODO 2: executeBatch() — get int[] results
+            // TODO 3: print the total rows inserted
+            // TODO 4: commit()
+        } catch (SQLException e) {
+            System.out.println("Batch failed: " + e.getMessage());
+            // TODO: rollback — NONE of the 10 books should exist
+        } finally {
+            // TODO: restore auto-commit, close
+        }
+    }
+}`, hint: 'Loop 10x: setString + addBatch(). Then int[] r = ps.executeBatch(); sum r values. commit() after. If ANY batch item fails, rollback undoes ALL 10 — atomic batch.' },
     ],
     tasks: [
       { id: 'java-adv-d6-t1', text: 'Implement a transaction: book borrowing (decrement available + insert borrow record). Test commit and rollback paths.', tag: 'lab' },
@@ -753,6 +1197,9 @@ public class BatchInsert {
       ] },
       { type: 'practice', id: 'ja7-p1', lang: 'java', title: 'Practice: Multi-Threaded Download Simulator', starter: 'class DownloadTask implements Runnable {\n    private final String filename;\n    DownloadTask(String f) { filename = f; }\n    @Override\n    public void run() {\n        System.out.println("Starting download: " + filename);\n        try {\n            for (int i = 10; i <= 100; i += 10) {\n                Thread.sleep(300);  // simulate download\n                System.out.printf("%s: %d%% complete%n", filename, i);\n            }\n        } catch (InterruptedException e) {\n            System.out.println(filename + " download interrupted!");\n            return;\n        }\n        System.out.println(filename + " download COMPLETE!");\n    }\n}\npublic class DownloadSim {\n    public static void main(String[] args) throws InterruptedException {\n        Thread t1 = new Thread(new DownloadTask("notes.pdf"));\n        Thread t2 = new Thread(new DownloadTask("video.mp4"));\n        Thread t3 = new Thread(new DownloadTask("slides.pptx"));\n        // TODO: Start all 3 threads\n        // TODO: Use join() to wait for ALL to finish\n        // TODO: Print "All downloads complete!" after all finish\n    }\n}', hint: 't1.start(); t2.start(); t3.start(); t1.join(); t2.join(); t3.join(); System.out.println("All downloads complete!"); Try removing join() — see the message appear BEFORE downloads finish.' },
       { type: 'practice', id: 'ja7-p2', lang: 'java', title: 'Practice: Thread State Monitor', starter: 'public class StateMonitor {\n    public static void main(String[] args) throws InterruptedException {\n        Thread worker = new Thread(() -> {\n            try { Thread.sleep(3000); } catch (InterruptedException e) {}\n        }, "Worker");\n\n        System.out.println("State after new: " + worker.getState());\n        worker.start();\n        System.out.println("State after start: " + worker.getState());\n        // TODO: Print state every 500ms until TERMINATED\n        // TODO: Use join() to wait, then print final state\n    }\n}', hint: 'while(worker.isAlive()) { System.out.println(worker.getState()); Thread.sleep(500); } System.out.println("Final: " + worker.getState()); Observe NEW → RUNNABLE → TIMED_WAITING → TERMINATED.' },
+      { type: 'practice', id: 'ja7-p3', lang: 'java', title: 'Practice: Race the Threads', starter: 'public class RaceThreads {\n    public static void main(String[] args) throws InterruptedException {\n        // TODO 1: create 3 threads, each printing its name + a\n        //         number 1-10 with a 100ms sleep between prints\n        // TODO 2: start all three — observe INTERLEAVED output\n        // TODO 3: call join() on all three before printing "DONE"\n        // TODO 4: now change ONE thread to call run() instead of\n        //         start() — what changes? (answer in a comment)\n    }\n\n    // TODO 5: write the Runnable task (use a lambda!)\n    //         prints: Thread.currentThread().getName() + ": " + i\n}', hint: 'Runnable task = () -> { for(int i=1;i<=10;i++){ System.out.println(Thread.currentThread().getName()+" : "+i); Thread.sleep(100); } }. run() instead of start() → runs on MAIN thread, sequentially, not interleaved.' },
+      { type: 'practice', id: 'ja7-p4', lang: 'java', title: 'Practice: Daemon Logger', starter: 'public class DaemonLogger {\n    public static void main(String[] args) throws InterruptedException {\n        // TODO 1: create a daemon thread that prints a heartbeat\n        //         every second: "heartbeat at <timestamp>"\n        //         (use System.currentTimeMillis() for timestamp)\n        // TODO 2: setDaemon(true) BEFORE start()\n        // TODO 3: main thread sleeps 4 seconds, prints "Main done"\n        // TODO 4: observe — does the logger keep printing after\n        //         main exits? (it should NOT — daemon dies)\n        // TODO 5: remove setDaemon(true) and re-run — now the\n        //         program NEVER exits! why? (answer in comment)\n    }\n}', hint: 'Thread logger = new Thread(() -> { while(true) { System.out.println("heartbeat at " + System.currentTimeMillis()); Thread.sleep(1000); } });. logger.setDaemon(true); logger.start();. Non-daemon infinite loop = JVM never exits.' },
+      { type: 'practice', id: 'ja7-p5', lang: 'java', title: 'Practice: Sequential vs Concurrent', starter: 'public class SeqVsConcurrent {\n    public static void main(String[] args) throws InterruptedException {\n        // Task: print "Task X starting..." sleep 500ms print "done"\n        // (write it as a Runnable lambda once, reuse it)\n\n        // TODO 1: SEQUENTIAL — call task.run() 5 times directly.\n        //         Time it: should be ~2.5 seconds.\n\n        // TODO 2: CONCURRENT — create 5 threads, start all,\n        //         join all. Time it: should be ~0.5 seconds.\n\n        // TODO 3: print both timings and the speedup ratio\n\n        // TODO 4: in comments: why is concurrent ~5x faster here?\n        //         (threads sleep in parallel)\n    }\n}', hint: 'long start = System.currentTimeMillis(); ... long end = ...; ratio = seqMs / concMs. Threads sleep simultaneously → wall-clock time ≈ single sleep, not 5×.' },
     ],
     tasks: [
       { id: 'java-adv-d7-t1', text: 'Create 3 threads using Runnable. Each prints numbers 1-5 with their name. Observe interleaved output.', tag: 'lab' },
@@ -816,6 +1263,9 @@ public class BatchInsert {
       ] },
       { type: 'practice', id: 'ja8-p1', lang: 'java', title: 'Practice: Thread-Safe Bank Transfer', starter: 'class BankAccount {\n    private double balance;\n    BankAccount(double b) { balance = b; }\n\n    // TODO: Make deposit() and withdraw() thread-safe with synchronized\n    public void deposit(double amount) {\n        balance += amount;\n        System.out.println(Thread.currentThread().getName() + " deposited " + amount + ". Balance: " + balance);\n    }\n    public void withdraw(double amount) {\n        if (balance >= amount) {\n            balance -= amount;\n            System.out.println(Thread.currentThread().getName() + " withdrew " + amount + ". Balance: " + balance);\n        }\n    }\n    public double getBalance() { return balance; }\n}\n\npublic class BankTest {\n    public static void main(String[] args) throws InterruptedException {\n        BankAccount acc = new BankAccount(10000);\n        // TODO: Start 5 deposit threads and 5 withdraw threads (each does 100 ops of 100 each)\n        // TODO: Join all, print final balance. Should be 10000 (net zero change).\n    }\n}', hint: 'Add synchronized to deposit(), withdraw(), getBalance(). Net zero: 5 threads × 100 × 100 = +50K deposits. 5 threads × 100 × 100 = -50K withdrawals. Final = 10K. Without synchronized: observe wrong values.' },
       { type: 'practice', id: 'ja8-p2', lang: 'java', title: 'Practice: Thread Pool File Processor', starter: 'import java.util.concurrent.*;\n\npublic class FileProcessor {\n    public static void main(String[] args) throws InterruptedException {\n        String[] files = {"a.txt", "b.txt", "c.txt", "d.txt", "e.txt",\n                          "f.txt", "g.txt", "h.txt", "i.txt", "j.txt"};\n\n        ExecutorService pool = Executors.newFixedThreadPool(3);\n        // TODO: Submit a task for each file (print "Processing <file>" with 2s sleep)\n        // TODO: Shutdown pool, wait max 30s for completion\n        // TODO: Print summary: processed X out of Y files\n    }\n}', hint: 'for(String f : files) pool.submit(() -> { System.out.println("Processing " + f); Thread.sleep(2000); System.out.println("Done: " + f); }); pool.shutdown(); pool.awaitTermination(30, TimeUnit.SECONDS); Notice only 3 process at a time.' },
+      { type: 'practice', id: 'ja8-p3', lang: 'java', title: 'Practice: Volatile Flag Demo', starter: 'public class VolatileDemo {\n    // TODO 1: declare a boolean flag WITHOUT volatile\n    //         (private static boolean running = true;)\n\n    public static void main(String[] args) throws InterruptedException {\n        // Worker thread: loops while running is true\n        Thread worker = new Thread(() -> {\n            long count = 0;\n            while (running) {\n                count++;\n            }\n            System.out.println("Worker stopped after " + count + " iterations");\n        });\n        worker.start();\n\n        Thread.sleep(1000);\n        running = false;  // set the flag\n        System.out.println("Flag set to false, waiting...");\n        worker.join(2000);  // give it 2s to stop\n\n        // TODO 2: does the worker stop? (with and without volatile)\n        // TODO 3: add volatile to the flag and re-run\n        // TODO 4: explain the difference in comments\n        //         (CPU cache vs main memory visibility!)\n    }\n}', hint: 'WITHOUT volatile: worker may cache `running=true` in CPU cache forever — never stops. WITH volatile: reads always hit main memory — stops within ~1s. This is the classic volatile use case.' },
+      { type: 'practice', id: 'ja8-p4', lang: 'java', title: 'Practice: Producer-Consumer', starter: 'import java.util.LinkedList;\n\npublic class ProducerConsumer {\n    // Shared buffer between producer and consumer threads\n    private static final LinkedList<Integer> buffer = new LinkedList<>();\n    private static final int CAPACITY = 5;\n\n    public static void main(String[] args) {\n        // TODO 1: producer thread — adds 1..10 to the buffer\n        //         synchronized on buffer; wait() if full; notifyAll()\n        // TODO 2: consumer thread — removes and prints from buffer\n        //         synchronized on buffer; wait() if empty; notifyAll()\n        // TODO 3: start both, join both\n        // TODO 4: why wait() inside while() loop? (spurious wakeups)\n    }\n}', hint: 'Producer: synchronized(buffer){ while(buffer.size()==CAPACITY) buffer.wait(); buffer.add(i); buffer.notifyAll(); }. Consumer: while(buffer.isEmpty()) buffer.wait(); int v=buffer.removeFirst(); buffer.notifyAll();. while() re-checks the condition after waking.' },
+      { type: 'practice', id: 'ja8-p5', lang: 'java', title: 'Practice: Callable and Future', starter: 'import java.util.concurrent.*;\n\npublic class CallableDemo {\n    public static void main(String[] args) throws Exception {\n        ExecutorService pool = Executors.newFixedThreadPool(2);\n\n        // TODO 1: submit a Callable<Integer> that computes the\n        //         sum 1..100 and RETURNS it (use a lambda)\n        Future<Integer> future = pool.submit(() -> {\n            int s = 0;\n            for (int i = 1; i <= 100; i++) s += i;\n            return s;\n        });\n\n        // TODO 2: get the result (blocks until done)\n        int result = future.get();\n        System.out.println("Sum 1..100 = " + result);  // 5050\n\n        // TODO 3: submit 3 Callables, collect all 3 Futures\n        // TODO 4: shutdown the pool\n        // TODO 5: in comments: Callable vs Runnable difference\n    }\n}', hint: 'future.get() blocks the calling thread until the Callable finishes. Callable<V> returns a value (via Future), Runnable returns void. Sum 1..100 = 5050. Always shutdown() the pool.' },
     ],
     tasks: [
       { id: 'java-adv-d8-t1', text: 'Race condition demo: counter without synchronized. Run 1000 threads incrementing 1000 times. Show lost counts.', tag: 'lab' },

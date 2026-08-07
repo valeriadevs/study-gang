@@ -55,6 +55,10 @@ export const phase1days: Day[] = [
       },
       { type: 'practice', id: 'd1-p1', lang: 'java', title: 'Practice: Hello World', starter: 'public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}', hint: 'Add your name, university, and current date on separate lines.' },
       { type: 'practice', id: 'd1-p2', lang: 'java', title: 'Practice: Memory Demo', starter: 'public class MemoryDemo {\n    public static void main(String[] args) {\n        int age = 20;        // lives on the _____\n        String name = new String("Vinayak"); // object on the _____\n        System.out.println(name + " is " + age);\n    }\n}', hint: 'Primitives live on the stack. Objects created with new live on the heap.' },
+      { type: 'practice', id: 'd1-p3', lang: 'bash', title: 'Practice: Terminal Commands', starter: '# Run each command in your terminal and write down what it prints.\n# Then answer the questions in comments.\n\n# 1. What Java version is installed?\njava -version\n\n# 2. What does the Java compiler say about itself?\njavac -version\n\n# 3. Where is Java installed? (Windows)\nwhere java\n\n# 4. Where is Java installed? (macOS / Linux)\n# which java\n\n# TODO: what is the difference between the version of `java` and `javac`?', hint: 'java -version prints the runtime (JVM + JRE). javac -version prints the compiler (JDK tool). They can differ if you have multiple JDKs installed.' },
+      { type: 'practice', id: 'd1-p4', lang: 'java', title: 'Practice: Fix the Compile Errors', starter: 'public class FixMe {\n    public static void main(String[] args) {\n        System.out.println("I love Java")\n        System.out.println("Compiled and ran!");\n    }\n}', hint: 'The first println is missing a semicolon. Add it, compile with javac FixMe.java, then run java FixMe. Notice how the compiler tells you the exact line.' },
+      { type: 'practice', id: 'd1-p5', lang: 'java', title: 'Practice: Print Patterns', starter: 'public class Patterns {\n    public static void main(String[] args) {\n        // TODO 1: print this EXACTLY (use multiple println calls):\n        //   *\n        //   **\n        //   ***\n\n        // TODO 2: print a box:\n        //   +------+\n        //   | Java |\n        //   +------+\n\n        // TODO 3: print your name in a "banner" with lines of = above and below\n    }\n}', hint: 'Each println prints one line. The box needs 3 lines: top border, the | Java | line, bottom border. Use System.out.println for each line.' },
+      { type: 'practice', id: 'd1-p6', lang: 'java', title: 'Practice: Predict the Output', starter: 'public class Predict {\n    public static void main(String[] args) {\n        System.out.print("A");\n        System.out.println("B");\n        System.out.print("C");\n        System.out.print("D");\n    }\n}\n// TODO: write down what you expect the output to be (one line), then run it.\n// TODO: which calls put text on the SAME line? which start a NEW line?', hint: 'print() leaves the cursor on the same line; println() moves to the next. Expected output: "AB" then "CD" — so the whole output is AB followed by CD on the same line.' },
     ],
     tasks: [
       { id: 'java-14-d1-t1', text: 'Install JDK 21 and verify java -version and javac -version work.', tag: 'lab' },
@@ -115,6 +119,10 @@ export const phase1days: Day[] = [
       },
       { type: 'practice', id: 'd2-p1', lang: 'java', title: 'Practice: Type Explorer', starter: 'public class TypeExplorer {\n    public static void main(String[] args) {\n        // TODO: Declare all 8 primitive types with values\n        // Print each with a descriptive label\n\n        // TODO: Try casting — declare a double, cast to int, print both\n\n        // TODO: Demonstrate integer division: print 5/2 and 5.0/2\n    }\n}', hint: 'int age=21; double price=99.50; char grade=\'A\'; boolean active=true;. Casting: double d=3.99; int i=(int)d; println both. Division: println(5/2); println(5.0/2);' },
       { type: 'practice', id: 'd2-p2', lang: 'java', title: 'Practice: Circle Calculator', starter: 'public class CircleCalc {\n    public static void main(String[] args) {\n        double radius = 5.0;\n        final double PI = 3.14159;\n        // TODO: Calculate area = PI * radius * radius\n        // TODO: Calculate circumference = 2 * PI * radius\n        // Print results. What if you used int for radius?\n    }\n}', hint: 'double area = PI * radius * radius; double circumference = 2 * PI * radius; println each. Try changing radius to int — still works because widening is automatic.' },
+      { type: 'practice', id: 'd2-p3', lang: 'java', title: 'Practice: Fix the Casting', starter: 'public class FixCasting {\n    public static void main(String[] args) {\n        // Each line below has a problem. Fix it (do not remove the line).\n        double pi = 3.14159;\n        // int almostPi = pi;            // TODO: why does this not compile?\n        // long big = 100_000_000_000;   // TODO: is there a problem?\n        // float f = 2.5;                // TODO: what is wrong here?\n        // char c = "A";                 // TODO: char vs String\n        // boolean b = 1;                // TODO: Java is not C!\n        System.out.println("All fixed: " + pi);\n    }\n}', hint: 'Narrowing needs a cast: (int) pi. long literal needs L: 100_000_000_000L. float literal needs f: 2.5f. char uses single quotes: \'A\'. boolean only takes true/false.' },
+      { type: 'practice', id: 'd2-p4', lang: 'java', title: 'Practice: Swap Two Numbers', starter: 'public class Swap {\n    public static void main(String[] args) {\n        int a = 5;\n        int b = 10;\n        System.out.println("Before: a = " + a + ", b = " + b);\n\n        // TODO 1: swap using a third variable (temp)\n        // TODO 2: swap WITHOUT a third variable (use + and -)\n        // TODO 3: swap using XOR (^) — the classic bit trick\n\n        System.out.println("After: a = " + a + ", b = " + b);\n    }\n}', hint: 'With temp: int t=a; a=b; b=t;. Without temp: a=a+b; b=a-b; a=a-b;. XOR: a=a^b; b=a^b; a=a^b;. All three should end with a=10, b=5.' },
+      { type: 'practice', id: 'd2-p5', lang: 'java', title: 'Practice: Average Without the Trap', starter: 'public class Average {\n    public static void main(String[] args) {\n        int math = 85;\n        int physics = 92;\n        int chemistry = 78;\n\n        // TODO: compute the average of the three marks\n        // BUG: the line below is WRONG — integer division!\n        // double avg = (math + physics + chemistry) / 3;\n\n        // TODO: fix it two ways:\n        //   1. make the divisor a double (3.0)\n        //   2. cast the sum to double\n        // Print both results and explain in a comment which is correct.\n    }\n}', hint: 'Option 1: (math+physics+chemistry) / 3.0. Option 2: (double)(math+physics+chemistry) / 3. Expected: 85.0 — because 255/3 = 85 exactly, the trap hides here! Try marks 90, 95, 100 to see 95.0 vs 95.' },
+      { type: 'practice', id: 'd2-p6', lang: 'java', title: 'Practice: char Detective', starter: 'public class CharDetective {\n    public static void main(String[] args) {\n        char letter = \'A\';\n\n        // TODO 1: print the char, then cast it to int — what number is A?\n        // TODO 2: add 1 to the char and print — what letter do you get?\n        // TODO 3: what is the int value of \'a\' (lowercase)? of \'0\' (zero)?\n        // TODO 4: convert lowercase \'m\' to uppercase using ONLY arithmetic\n        //         (hint: lowercase and uppercase letters are 32 apart)\n    }\n}', hint: 'A is 65, a is 97, \'0\' is 48. letter+1 = \'B\'. To uppercase: subtract 32 — (char)(\'m\' - 32) = \'M\'.' },
     ],
     tasks: [
       { id: 'java-14-d2-t1', text: 'Declare all 8 primitive types with values. Print each with a descriptive label using println.', tag: 'lab' },
@@ -171,6 +179,10 @@ export const phase1days: Day[] = [
       },
       { type: 'practice', id: 'd3-scan-p1', lang: 'java', title: 'Practice: Student Info Form', starter: 'import java.util.Scanner;\n\npublic class StudentInfo {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        // TODO: Ask name, age, gpa, branch\n        // Remember: sc.nextLine() after nextInt/nextDouble!\n        // Print everything neatly with printf\n\n        sc.close();\n    }\n}', hint: 'Order: name (nextLine), age (nextInt + nextLine), gpa (nextDouble + nextLine), branch (nextLine). Print: printf("Name: %s%nAge: %d%nGPA: %.2f%nBranch: %s%n", name, age, gpa, branch).' },
       { type: 'practice', id: 'd3-scan-p2', lang: 'java', title: 'Practice: Temperature Converter', starter: 'import java.util.Scanner;\n\npublic class TempConvert {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        System.out.print("Celsius: ");\n        double celsius = sc.nextDouble();\n\n        // TODO: F = (C * 9.0/5.0) + 32. Print with 1 decimal\n        // Use 9.0/5.0 (not 9/5) to avoid integer division!\n\n        sc.close();\n    }\n}', hint: 'double f = (celsius * 9.0 / 5.0) + 32; System.out.printf("%.1f C = %.1f F%n", celsius, f);' },
+      { type: 'practice', id: 'd3-scan-p3', lang: 'java', title: 'Practice: See the Newline Trap', starter: 'import java.util.Scanner;\n\npublic class NewlineTrap {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        // STEP 1: run this EXACT code. What does it print for the name?\n        System.out.print("Age: ");\n        int age = sc.nextInt();\n        System.out.print("Name: ");\n        String name = sc.nextLine();\n        System.out.println("Age=" + age + ", Name=[" + name + "]");\n\n        // STEP 2: fix it with one extra sc.nextLine() after nextInt().\n        // STEP 3: in a comment, explain WHY the first version fails.\n\n        sc.close();\n    }\n}', hint: 'STEP 2: insert sc.nextLine(); right after nextInt() and before the nextLine() that reads the name. STEP 3: nextInt() leaves the \\n in the buffer, so nextLine() eats the leftover newline and returns "".' },
+      { type: 'practice', id: 'd3-scan-p4', lang: 'java', title: 'Practice: printf Formatter', starter: 'public class Formatter {\n    public static void main(String[] args) {\n        String name = "Vinayak";\n        int age = 21;\n        double gpa = 8.7531;\n        int marks = 92;\n\n        // TODO 1: "%s is %d years old" — print name and age\n        // TODO 2: print gpa with 2 decimals, then with 1 decimal\n        // TODO 3: print marks as a percentage: "92%" (use %% to print %)\n        // TODO 4: print a table row: | name | age | gpa |\n        //         use %-10s to LEFT-align text in a 10-wide column\n    }\n}', hint: 'printf("%s is %d years old%n", name, age); %.2f and %.1f for gpa. "92%%" prints 92%. Row: printf("| %-10s | %-4d | %.2f |%n", name, age, gpa);' },
+      { type: 'practice', id: 'd3-scan-p5', lang: 'java', title: 'Practice: Word vs Line', starter: 'import java.util.Scanner;\n\npublic class WordVsLine {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        // TODO 1: ask for a full name, read it with next(), print it\n        //         what happens if you type "Vinayak Kumar"?\n\n        // TODO 2: ask again, read with nextLine(), print it\n        //         now what happens?\n\n        // TODO 3: ask for three words in ONE line, read all three\n        //         with next() three times — what do you get?\n\n        sc.close();\n    }\n}', hint: 'next() stops at the first space, so "Vinayak Kumar" becomes just "Vinayak". nextLine() grabs the whole line. Three next() calls on one line read three words: first, second, third.' },
+      { type: 'practice', id: 'd3-scan-p6', lang: 'java', title: 'Practice: Bill Splitter', starter: 'import java.util.Scanner;\n\npublic class BillSplit {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n\n        // TODO 1: ask the total bill amount (nextDouble)\n        // TODO 2: ask how many friends are splitting (nextInt)\n        // TODO 3: compute each share = total / friends\n        //         WATCH OUT: total is double, friends is int — is this\n        //         integer division? why or why not?\n        // TODO 4: print "Each person pays: Rs. X.XX" with printf\n        //         (use %,f or just %.2f)\n\n        sc.close();\n    }\n}', hint: 'double share = total / friends; — this is NOT integer division because total is double (mixed division promotes to double). Print: System.out.printf("Each person pays: Rs. %.2f%n", share);' },
     ],
     tasks: [
       { id: 'java-14-d3-scan-t1', text: 'Write a Scanner program: ask for first name, last name, age, city. Print formatted summary with printf.', tag: 'lab' },
@@ -189,12 +201,48 @@ export const phase1days: Day[] = [
     blocks: [
       { type: 'callout', id: 'd3-intro', calloutType: 'info', title: 'The Brain of Every Program', content: 'Decision-making lets your program **choose** which code to run. Without it, every program would do the same thing every time. Today: `if-else` chains, `switch-case`, and the small differences between them.' },
       { type: 'heading', id: 'd3-if', level: 2, content: 'if-else — The Universal Decision Maker' },
-      { type: 'code', id: 'd3-if-code', lang: 'java', title: 'if-else-if Ladder', code: 'int marks = 85;\n\nif (marks >= 90)      System.out.println("S");\nelse if (marks >= 80) System.out.println("A");\nelse if (marks >= 70) System.out.println("B");\nelse if (marks >= 60) System.out.println("C");\nelse if (marks >= 50) System.out.println("D");\nelse if (marks >= 40) System.out.println("E");\nelse                  System.out.println("F");' },
+      { type: 'code', id: 'd3-if-code', lang: 'java', title: 'if-else-if Ladder', code: `int marks = 85;
+
+if (marks >= 90) {
+    System.out.println("S");
+} else if (marks >= 80) {
+    System.out.println("A");
+} else if (marks >= 70) {
+    System.out.println("B");
+} else if (marks >= 60) {
+    System.out.println("C");
+} else if (marks >= 50) {
+    System.out.println("D");
+} else if (marks >= 40) {
+    System.out.println("E");
+} else {
+    System.out.println("F");
+}
+// Output: A` },
       { type: 'table', id: 'd3-ops', headers: ['Operator', 'Meaning', 'Example'], rows: [['==', 'Equal', '5 == 5 → true'], ['!=', 'Not equal', '5 != 3 → true'], ['>', 'Greater', '10 > 5 → true'], ['<', 'Less', '10 < 5 → false'], ['>=', 'Greater or equal', '10 >= 10 → true'], ['<=', 'Less or equal', '5 <= 10 → true'], ['&&', 'AND (both must be true)', '(5 > 2) && (3 < 10) → true'], ['||', 'OR (at least one true)', '(5 < 2) || (3 < 10) → true'], ['!', 'NOT (flip true ↔ false)', '!(5 > 2) → false']] },
       { type: 'callout', id: 'd3-short', calloutType: 'tip', title: 'Short-Circuit Evaluation', content: 'Java stops checking as soon as it knows the answer.\n\n- `false && anything` → result is `false` immediately, the right side is **never run**.\n- `true || anything` → result is `true` immediately, the right side is **never run**.\n\nThis is useful for safety: `if (arr != null && arr.length > 0)` — the `arr.length` check is skipped if `arr` is `null`, which prevents a `NullPointerException`.' },
       { type: 'heading', id: 'd3-switch', level: 2, content: 'switch-case — For Menu-Driven Programs' },
       { type: 'callout', id: 'd3-sw-types', calloutType: 'info', title: 'What Can You Switch On?', content: 'You can `switch` on these types: `byte`, `short`, `int`, `char`, `String` (Java 7+), and `enum`.\n\nYou **cannot** switch on `long`, `float`, `double`, or `boolean`.' },
-      { type: 'code', id: 'd3-sw-code', lang: 'java', title: 'Calculator Menu', code: 'switch (choice) {\n    case 1: result = a + b; break;\n    case 2: result = a - b; break;\n    case 3: result = a * b; break;\n    case 4:\n        if (b != 0) result = a / b;\n        else System.out.println("Cannot divide by zero!");\n        break;\n    default: System.out.println("Invalid choice!");\n}' },
+      { type: 'code', id: 'd3-sw-code', lang: 'java', title: 'Calculator Menu', code: `switch (choice) {
+    case 1:
+        result = a + b;
+        break;
+    case 2:
+        result = a - b;
+        break;
+    case 3:
+        result = a * b;
+        break;
+    case 4:
+        if (b != 0) {
+            result = a / b;
+        } else {
+            System.out.println("Cannot divide by zero!");
+        }
+        break;
+    default:
+        System.out.println("Invalid choice!");
+}` },
       { type: 'callout', id: 'd3-fall', calloutType: 'warn', title: 'break — DO NOT FORGET', content: 'Without `break`, execution **falls through** to the next case. This is the #1 switch bug.\n\nThe only time you want fall-through is when multiple cases should share the same code. Example: treat grade `S` and grade `A` the same.' },
       { type: 'table', id: 'd3-switch-vs-if', headers: ['Scenario', 'Use'], rows: [['Equality against a fixed set of values', 'switch'], ['Range checks (>, <)', 'if-else'], ['Complex AND/OR conditions', 'if-else'], ['Menu-driven programs', 'switch'], ['Only 2-3 conditions', 'if-else']] },
       // Doubt Clinics
@@ -223,8 +271,124 @@ export const phase1days: Day[] = [
           { id: 'd3-f3', front: 'Ternary operator syntax?', back: 'condition ? valueIfTrue : valueIfFalse. Can be nested but becomes hard to read.', hint: 'One-line if-else...' },
         ],
       },
-      { type: 'practice', id: 'd3-p1', lang: 'java', title: 'Practice: Grade Calculator', starter: 'import java.util.Scanner;\npublic class Grades {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        System.out.print("Marks: ");\n        int m = sc.nextInt();\n        // TODO: if-else-if ladder for S/A/B/C/D/E/F\n        sc.close();\n    }\n}', hint: 'S: 90+, A: 80-89, B: 70-79, C: 60-69, D: 50-59, E: 40-49, F: below 40.' },
-      { type: 'practice', id: 'd3-p2', lang: 'java', title: 'Practice: ATM Menu', starter: 'import java.util.Scanner;\npublic class ATM {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        double balance = 5000;\n        System.out.println("1.Check 2.Deposit 3.Withdraw 4.Exit");\n        int ch = sc.nextInt();\n        // TODO: switch with deposit/withdraw logic\n        sc.close();\n    }\n}', hint: 'For withdraw, check if balance >= amount. Use a while loop to keep ATM running until Exit is chosen.' },
+      { type: 'practice', id: 'd3-p1', lang: 'java', title: 'Practice: Grade Calculator', starter: `import java.util.Scanner;
+
+public class Grades {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Marks: ");
+        int marks = sc.nextInt();
+
+        // TODO: write an if-else-if ladder.
+        // S: 90+, A: 80-89, B: 70-79, C: 60-69,
+        // D: 50-59, E: 40-49, F: below 40.
+
+        sc.close();
+    }
+}`, hint: 'S: 90+, A: 80-89, B: 70-79, C: 60-69, D: 50-59, E: 40-49, F: below 40.' },
+      { type: 'practice', id: 'd3-p2', lang: 'java', title: 'Practice: ATM Menu', starter: `import java.util.Scanner;
+
+public class ATM {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        double balance = 5000;
+
+        System.out.println("1. Check balance");
+        System.out.println("2. Deposit");
+        System.out.println("3. Withdraw");
+        System.out.println("4. Exit");
+        int choice = sc.nextInt();
+
+        // TODO: use a switch statement.
+        // For withdraw, check if balance >= amount first.
+        // Use a while loop to keep the ATM running until Exit is chosen.
+
+        sc.close();
+    }
+}`, hint: 'For withdraw, check if balance >= amount. Use a while loop to keep ATM running until Exit is chosen.' },
+      { type: 'practice', id: 'd3-p3', lang: 'java', title: 'Practice: Leap Year Checker', starter: `import java.util.Scanner;
+
+public class LeapYear {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Year: ");
+        int year = sc.nextInt();
+
+        // TODO: a year is a leap year if:
+        //   - divisible by 4, AND
+        //   - NOT divisible by 100, UNLESS also divisible by 400
+        // 2000 -> leap (divisible by 400)
+        // 1900 -> NOT leap (divisible by 100 but not 400)
+        // 2024 -> leap, 2023 -> not
+        // Print "leap year" or "not a leap year"
+
+        sc.close();
+    }
+}`, hint: 'if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0). Test: 2000, 1900, 2024, 2023.' },
+      { type: 'practice', id: 'd3-p4', lang: 'java', title: 'Practice: Fall-Through Lab', starter: `import java.util.Scanner;
+
+public class FallThrough {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Grade (S/A/B/C/D/E/F): ");
+        String grade = sc.nextLine();
+
+        // STEP 1: write a switch on grade where EVERY case has a message
+        //         but REMOVE all the break statements. Run it with "B".
+        //         Observe what happens. Write it down in a comment.
+
+        // STEP 2: add break back to every case. Run with "B" again.
+
+        // STEP 3: use DELIBERATE fall-through so that:
+        //         S and A both print "Excellent"
+        //         B and C both print "Good"
+        //         D and E both print "Pass"
+        //         F prints "Fail"
+        //         anything else prints "Invalid"
+
+        sc.close();
+    }
+}`, hint: 'STEP 1 with no break, input B prints B\'s message then EVERYTHING after it (C, D, E, F, default). STEP 3: stack empty cases: case "S": case "A": System.out.println("Excellent"); break;' },
+      { type: 'practice', id: 'd3-p5', lang: 'java', title: 'Practice: Number Classifier', starter: `import java.util.Scanner;
+
+public class Classify {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int n = sc.nextInt();
+
+        // TODO 1: print "positive", "negative", or "zero"
+        // TODO 2: print "even" or "odd"
+        // TODO 3: print "small" if |n| < 10, "medium" if < 100, else "large"
+        //         (use Math.abs(n) for absolute value)
+        // TODO 4: print "multiple of 7" if n % 7 == 0
+
+        sc.close();
+    }
+}`, hint: 'Use if/else chains for sign and size. n % 2 == 0 for even. Combine conditions with && where needed. Test: 0, -5, 7, 49, -250.' },
+      { type: 'practice', id: 'd3-p6', lang: 'java', title: 'Practice: Ternary Tracer', starter: `public class TernaryTracer {
+    public static void main(String[] args) {
+        int marks = 65;
+
+        // TODO 1: rewrite this if-else as a ternary and print the result
+        String verdict;
+        if (marks >= 40) {
+            verdict = "Pass";
+        } else {
+            verdict = "Fail";
+        }
+
+        // TODO 2: write a ternary that gives "Adult" for age >= 18 else "Minor"
+        //         (declare int age = 20;)
+        // TODO 3: write a NESTED ternary for three grades:
+        //         marks >= 75 -> "Distinction", >= 40 -> "Pass", else "Fail"
+        // TODO 4: in a comment, explain why nested ternaries are hard to read
+    }
+}`, hint: 'verdict = (marks >= 40) ? "Pass" : "Fail";. Nested: (marks >= 75) ? "Distinction" : (marks >= 40) ? "Pass" : "Fail".' },
     ],
     tasks: [
       { id: 'java-14-d3-t1', text: 'Marks → Grade using if-else-if ladder.', tag: 'lab' },
@@ -244,15 +408,114 @@ export const phase1days: Day[] = [
       { type: 'callout', id: 'd4-intro', calloutType: 'info', title: 'Loops — The Engine of Computation', content: 'Loops let you repeat code **without rewriting it**. Today: all three loop types — `for`, `while`, `do-while` — and the critical difference between **entry-controlled** and **exit-controlled** loops. Guaranteed CE-1 topic.' },
       { type: 'heading', id: 'd4-types', level: 2, content: 'The Three Loops' },
       { type: 'table', id: 'd4-compare', headers: ['Loop', 'Control', 'When to Use', 'Structure'], rows: [['for', 'Entry', 'Known count', 'for(init; cond; update) { }'], ['while', 'Entry', 'Unknown count', 'while(cond) { }'], ['do-while', 'Exit', 'Body MUST run at least once', 'do { } while(cond);']] },
-      { type: 'code', id: 'd4-for', lang: 'java', title: 'for Loop', code: '// Print 1-10\nfor (int i = 1; i <= 10; i++) System.out.print(i + " ");\n// 1 2 3 4 5 6 7 8 9 10\n\n// Count down\nfor (int i = 10; i >= 1; i--) System.out.print(i + " ");\n\n// Step of 2\nfor (int i = 0; i <= 20; i += 2) System.out.print(i + " ");' },
-      { type: 'code', id: 'd4-while', lang: 'java', title: 'while Loop', code: '// Count digits\nint num = 12345, count = 0;\nwhile (num != 0) { num /= 10; count++; }\nSystem.out.println(count); // 5\n\n// Sum until 0 (sentinel)\nint sum = 0, input;\nwhile ((input = sc.nextInt()) != 0) sum += input;' },
-      { type: 'code', id: 'd4-do-while', lang: 'java', title: 'do-while (Menu Example)', code: 'int choice;\ndo {\n    System.out.println("1.Hello 2.Goodbye 3.Exit");\n    choice = sc.nextInt();\n} while (choice != 3);\n// Menu displays AT LEAST ONCE regardless of choice' },
+      { type: 'code', id: 'd4-for', lang: 'java', title: 'for Loop', code: `// Print the numbers 1 to 10
+for (int i = 1; i <= 10; i++) {
+    System.out.print(i + " ");
+}
+// Output: 1 2 3 4 5 6 7 8 9 10
+
+// Count down from 10 to 1
+for (int i = 10; i >= 1; i--) {
+    System.out.print(i + " ");
+}
+// Output: 10 9 8 7 6 5 4 3 2 1
+
+// Count in steps of 2
+for (int i = 0; i <= 20; i += 2) {
+    System.out.print(i + " ");
+}
+// Output: 0 2 4 6 8 10 12 14 16 18 20` },
+      { type: 'code', id: 'd4-while', lang: 'java', title: 'while Loop', code: `// Count how many digits are in a number
+int num = 12345;
+int count = 0;
+
+while (num != 0) {
+    num = num / 10;   // remove the last digit
+    count = count + 1; // count how many times we removed one
+}
+
+System.out.println(count); // Output: 5
+
+// Keep adding numbers until the user enters 0
+int sum = 0;
+int input = sc.nextInt();   // read the first number before the loop
+
+while (input != 0) {
+    sum = sum + input;       // add the latest input to the total
+    input = sc.nextInt();    // read the next number
+}` },
+      { type: 'code', id: 'd4-do-while', lang: 'java', title: 'do-while (Menu Example)', code: `int choice;
+
+do {
+    // Show the menu
+    System.out.println("1. Hello");
+    System.out.println("2. Goodbye");
+    System.out.println("3. Exit");
+
+    // Ask the user to pick
+    choice = sc.nextInt();
+
+} while (choice != 3);
+
+// The menu ALWAYS shows at least once,
+// because the condition is checked at the END.` },
       { type: 'callout', id: 'd4-entry-exit', calloutType: 'info', title: 'Entry vs Exit Control', content: '**Entry-controlled** (`for`, `while`): the condition is checked **before** the body runs. If it is false the first time, the body never runs.\n\n**Exit-controlled** (`do-while`): the condition is checked **after** the body runs. The body **always** runs at least once.\n\nClassic MCQ: "Which loop is guaranteed to execute at least once?" → **`do-while`**.' },
       { type: 'heading', id: 'd4-break', level: 2, content: 'break and continue' },
-      { type: 'code', id: 'd4-bc-code', lang: 'java', title: 'break vs continue', code: '// break: EXITS the loop entirely\nfor (int i=1; i<=10; i++) { if (i==5) break; System.out.print(i+" "); }\n// 1 2 3 4\n\n// continue: SKIPS this iteration\nfor (int i=1; i<=10; i++) { if (i%2==0) continue; System.out.print(i+" "); }\n// 1 3 5 7 9\n\n// Labeled break: exits both loops at once\nouter: for (int i=1; i<=3; i++)\n    for (int j=1; j<=3; j++)\n        if (i==2 && j==2) break outer;' },
+      { type: 'code', id: 'd4-bc-code', lang: 'java', title: 'break vs continue', code: `// break: EXITS the loop entirely
+for (int i = 1; i <= 10; i++) {
+    if (i == 5) {
+        break;      // stop the loop completely
+    }
+    System.out.print(i + " ");
+}
+// Output: 1 2 3 4
+
+// continue: SKIPS this one iteration
+for (int i = 1; i <= 10; i++) {
+    if (i % 2 == 0) {
+        continue;   // skip even numbers, keep looping
+    }
+    System.out.print(i + " ");
+}
+// Output: 1 3 5 7 9
+
+// Labeled break: exits both loops at once
+outer:
+for (int i = 1; i <= 3; i++) {
+    for (int j = 1; j <= 3; j++) {
+        if (i == 2 && j == 2) {
+            break outer;   // jump out of BOTH loops
+        }
+    }
+}` },
       // Factorial
       { type: 'heading', id: 'd4-fact', level: 2, content: 'Lab: Factorial — All Three Ways' },
-      { type: 'code', id: 'd4-fact-code', lang: 'java', title: 'Factorial (for, while, do-while)', code: 'int n=5, f1=1, f2=1, f3=1;\n// for\nfor (int i=1; i<=n; i++) f1 *= i;\n// while\nint j=1; while (j<=n) { f2 *= j; j++; }\n// do-while (with the n>0 guard so it works for n=0 too)\nint k=1; if (n>0) do { f3 *= k; k++; } while (k<=n);' },
+      { type: 'code', id: 'd4-fact-code', lang: 'java', title: 'Factorial (for, while, do-while)', code: `int n = 5;
+int factorialFor = 1;
+int factorialWhile = 1;
+int factorialDoWhile = 1;
+
+// --- Using a for loop ---
+for (int i = 1; i <= n; i++) {
+    factorialFor = factorialFor * i;
+}
+
+// --- Using a while loop ---
+int j = 1;
+while (j <= n) {
+    factorialWhile = factorialWhile * j;
+    j++;
+}
+
+// --- Using a do-while loop ---
+// The guard (n > 0) makes sure it works when n = 0 (0! = 1)
+int k = 1;
+if (n > 0) {
+    do {
+        factorialDoWhile = factorialDoWhile * k;
+        k++;
+    } while (k <= n);
+}` },
       // Doubt Clinics
       { type: 'callout', id: 'd4-d1', calloutType: 'doubt', title: 'When should I use while vs for?', content: '**Decision framework**:\n\n- Know the exact count? → `for` (e.g., array iteration, print 1-10)\n- Unknown count (reading until "quit")? → `while`\n- Must execute at least once (menu)? → `do-while`\n\nAny loop can be rewritten as any other — choose for clarity.' },
       { type: 'callout', id: 'd4-d2', calloutType: 'doubt', title: 'How do I avoid infinite loops?', content: 'Checklist before running:\n\n1. Is the **condition** eventually going to become false?\n2. Is the **update step** actually changing the variable?\n3. For `while`: is there an **increment/decrement** inside the body?\n\nCommon mistake: `int i=0; while(i<10) { System.out.println(i); }` — forgot `i++`!\n\nUse **Ctrl+C** to kill a runaway program.' },
@@ -281,8 +544,142 @@ export const phase1days: Day[] = [
           { id: 'd4-f4', front: 'What causes an infinite loop?', back: 'A condition that never becomes false. Examples: while(true), for(;;), or forgetting the update step (i++).', hint: 'The condition never changes...' },
         ],
       },
-      { type: 'practice', id: 'd4-p1', lang: 'java', title: 'Practice: Sum of Digits', starter: 'public class SumDigits {\n    public static void main(String[] args) {\n        int number = 9876; // try: 123 → 6\n        // TODO: with while loop\n        // Extract: n%10, Remove: n/10\n    }\n}', hint: 'sum=0. while(n>0): sum += n%10; n/=10. Answer for 9876 is 30.' },
-      { type: 'practice', id: 'd4-p2', lang: 'java', title: 'Practice: GCD (Euclidean Algorithm)', starter: 'import java.util.Scanner;\npublic class GCD {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int a=48, b=18;\n        // TODO: while(b!=0): temp=b; b=a%b; a=temp;\n        System.out.println("GCD: " + a);\n        sc.close();\n    }\n}', hint: 'Euclidean: while(b != 0) { int t = b; b = a % b; a = t; }. GCD of 48 and 18 is 6.' },
+      { type: 'practice', id: 'd4-p1', lang: 'java', title: 'Practice: Sum of Digits', starter: `public class SumDigits {
+    public static void main(String[] args) {
+        int number = 9876;   // try: 123  ->  1 + 2 + 3 = 6
+
+        // TODO: use a while loop to add up the digits.
+        //
+        // Two tools you will need (think about what they do):
+        //   number % 10   — extracts the LAST digit
+        //   number / 10   — removes the LAST digit
+        //
+        // Keep looping while number is not 0. Add each extracted
+        // digit to a running sum.
+    }
+}`, hint: 'sum=0. while(n>0): sum += n%10; n/=10. Answer for 9876 is 30.' },
+      { type: 'practice', id: 'd4-p2', lang: 'java', title: 'Practice: GCD (Euclidean Algorithm)', starter: `import java.util.Scanner;
+
+public class GCD {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int a = 48;
+        int b = 18;
+
+        // GCD = the biggest number that divides BOTH a and b evenly.
+        // Example: GCD(48, 18) = 6, because 6 divides both,
+        // and no number bigger than 6 does.
+
+        // Euclid's trick: GCD(a, b) = GCD(b, a % b).
+        // We shrink the pair down until b becomes 0 — then a is the answer.
+        //
+        // Trace with a=48, b=18:
+        //   48 % 18 = 12  ->  now solve (18, 12)
+        //   18 % 12 = 6   ->  now solve (12, 6)
+        //   12 % 6  = 0   ->  now solve (6, 0)  -> b is 0, so answer is 6!
+        //
+        // TODO: write the while loop.
+        //   keep looping WHILE b is not 0.
+        //   each iteration: replace the pair (a, b) with (b, a % b).
+        //   (you will need a temp variable so you do not lose b's old value)
+        // When b becomes 0, a holds the GCD.
+
+        System.out.println("GCD: " + a);
+        sc.close();
+    }
+}`, hint: `Follow the trace, do not skip it:
+   (48, 18) -> (18, 12) -> (12, 6) -> (6, 0)  -> answer is 6
+
+Each step replaces (a, b) with (b, a % b) until b is 0.
+Think: how do you swap two values without losing one?
+The last non-zero remainder IS the GCD.` },
+      { type: 'practice', id: 'd4-p3', lang: 'java', title: 'Practice: Multiplication Table', starter: `import java.util.Scanner;
+
+public class TimesTable {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Which table? ");
+        int n = sc.nextInt();
+
+        // TODO 1: print the table from n x 1 to n x 10 using a for loop
+        //         output format: "5 x 3 = 15"
+
+        // TODO 2: print ONLY the even rows (2, 4, 6, 8, 10) using continue
+
+        // TODO 3: stop the loop entirely at 5 using break (print rows 1-4)
+
+        sc.close();
+    }
+}`, hint: 'for (int i = 1; i <= 10; i++) { System.out.println(n + " x " + i + " = " + (n * i)); }. For even rows: if (i % 2 != 0) continue;. For break: if (i == 5) break;' },
+      { type: 'practice', id: 'd4-p4', lang: 'java', title: 'Practice: Sentinel Sum', starter: `import java.util.Scanner;
+
+public class SentinelSum {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // TODO 1: keep reading numbers and adding them to a sum.
+        //         STOP when the user enters 0 (the "sentinel").
+        //         Print the total at the end.
+        //         Use a while loop. Read the FIRST number before the loop!
+
+        // TODO 2: change the sentinel to -1.
+        // TODO 3: count how many numbers were entered (excluding the sentinel).
+
+        sc.close();
+    }
+}`, hint: 'int input = sc.nextInt(); while (input != 0) { sum += input; input = sc.nextInt(); }. The first read before the loop is the classic pattern.' },
+      { type: 'practice', id: 'd4-p5', lang: 'java', title: 'Practice: do-while Menu', starter: `import java.util.Scanner;
+
+public class DoWhileMenu {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int choice;
+
+        // TODO 1: build a do-while menu:
+        //   1. Say Hello
+        //   2. Tell a Joke
+        //   3. Exit
+        //   The menu MUST show at least once. Loop until choice == 3.
+
+        // TODO 2: add a default message in the switch for invalid choices.
+
+        // TODO 3: in a comment, explain why do-while is the right loop here
+        //         instead of while.
+
+        sc.close();
+    }
+}`, hint: 'do { print menu; choice = sc.nextInt(); switch(choice) {...} } while (choice != 3);. The menu must display once before we know the choice, so the exit-controlled do-while fits.' },
+      { type: 'practice', id: 'd4-p6', lang: 'java', title: 'Practice: Loop Detective', starter: `public class LoopDetective {
+    public static void main(String[] args) {
+        // For EACH loop below: predict the output, run it, and write
+        // the actual output in a comment. Then answer the question.
+
+        // LOOP A: how many times does this print?
+        for (int i = 0; i < 5; i++) {
+            System.out.print(i + " ");
+        }
+
+        // LOOP B: does this ever print anything?
+        int j = 10;
+        while (j < 5) {
+            System.out.print("B: " + j + " ");
+        }
+
+        // LOOP C: how many times does this run?
+        int k = 10;
+        do {
+            System.out.print("C: " + k + " ");
+            k++;
+        } while (k < 5);
+
+        // LOOP D: is this an infinite loop? why or why not?
+        // for (int m = 1; m > 0; m++) { System.out.print(m + " "); }
+
+        // TODO: in one sentence each, explain the difference between
+        //       loop B and loop C.
+    }
+}`, hint: 'A prints 0 1 2 3 4 (5 times). B prints nothing — condition false before body. C prints "C: 10 " once — body runs before the check. D is infinite — m keeps growing past 0 forever.' },
     ],
     tasks: [
       { id: 'java-14-d4-t1', text: 'Factorial using for, while, AND do-while. Compare all three.', tag: 'lab' },

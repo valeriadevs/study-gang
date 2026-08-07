@@ -45,6 +45,7 @@ import {
   Medal,
   MedalStar,
   Menu,
+  MessageDots,
   Moon,
   Note,
   Notebook,
@@ -61,6 +62,7 @@ import {
   ShieldCheck,
   Search2,
   SearchNormal,
+  Send,
   Setting,
   Settings,
   Sparkle,
@@ -109,11 +111,15 @@ const reiconRegistry: Record<string, ComponentType<ReiconIconProps>> = {
   play: Play,
   pause: Pause,
   copy: ClipboardText,
+  send: Send,
 
   // Navigation
   home: Home,
   menu: Menu,
   search: Search,
+
+  // Chat / assistant
+  messageDots: MessageDots,
 
   // Settings
   cog: Setting,

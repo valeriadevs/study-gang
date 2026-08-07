@@ -13,6 +13,7 @@ import { layout } from './styles/tokens';
 export default function App() {
   const view = useStore((s) => s.view);
   const settingsOpen = useStore((s) => s.settingsOpen);
+  const sidebarCollapsed = useStore((s) => s.sidebarCollapsed);
 
   return (
     <div className="grid h-screen" style={{ gridTemplateRows: `${layout.headerHeight} 1fr` }}>
@@ -21,8 +22,12 @@ export default function App() {
       </a>
       <Header />
       <div
-        className="grid overflow-hidden"
-        style={{ gridTemplateColumns: `${layout.sidebarWidth} 1fr` }}
+        className="grid overflow-hidden transition-[grid-template-columns] duration-normal ease-standard"
+        style={{
+          gridTemplateColumns: sidebarCollapsed
+            ? '0px 1fr'
+            : `${layout.sidebarWidth} 1fr`,
+        }}
       >
         <Sidebar />
         <main

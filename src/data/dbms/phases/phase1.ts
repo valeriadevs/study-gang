@@ -108,6 +108,75 @@ CREATE TABLE pet (
 CREATE TABLE student (
     -- TODO: Your columns here
 );`, hint: 'DECIMAL(3,2) means max value 9.99. INT is for whole numbers. VARCHAR for text. Use semicolon at the end.' },
+      { type: 'practice', id: 'db1-p3', lang: 'sql', title: 'Practice: Fix the Broken Table', starter: `-- Each CREATE TABLE below has a bug. Find it, fix it, run it.
+
+-- BUG 1: missing semicolon
+CREATE TABLE teachers (
+    id INT,
+    name VARCHAR(30)
+)
+
+-- BUG 2: wrong data type for a phone number (should be text, not number!)
+CREATE TABLE contacts (
+    id INT,
+    phone INT
+)
+
+-- BUG 3: comma after the last column
+CREATE TABLE books (
+    id INT,
+    title VARCHAR(100),
+    author VARCHAR(50),
+)
+
+-- TODO: after fixing each, run DESCRIBE to verify the structure.
+-- TODO: write the CORRECT version of the contacts table:
+--   phone should be VARCHAR(15) — why? (answer in a comment)`, hint: 'Bug 1: add ; . Bug 2: phone INT drops leading zeros and cannot hold +91 — use VARCHAR(15). Bug 3: remove trailing comma. Phone numbers are identifiers, not numbers.' },
+      { type: 'practice', id: 'db1-p4', lang: 'sql', title: 'Practice: DDL Command Sort', starter: `-- CLASSIFICATION EXERCISE — answer in comments.
+
+-- For each command, label it DDL, DML, DQL, or DCL:
+--   CREATE TABLE
+--   SELECT
+--   INSERT
+--   ALTER TABLE
+--   DELETE
+--   DROP DATABASE
+--   UPDATE
+--   TRUNCATE
+--   GRANT
+--   DESCRIBE (tricky — it is a MySQL utility, not standard SQL!)
+
+-- Then answer:
+-- 1. Which commands change the STRUCTURE of a table?
+-- 2. Which commands change the DATA inside a table?
+-- 3. Which command only READS data?
+-- 4. Why is TRUNCATE considered DDL even though it removes data?
+--    (hint: it removes ALL rows and resets the table — it does not
+--     go row by row like DELETE)`, hint: 'DDL: CREATE, ALTER, DROP, TRUNCATE. DML: INSERT, UPDATE, DELETE. DQL: SELECT. DCL: GRANT. TRUNCATE is DDL because it operates on the table structure, not individual rows.' },
+      { type: 'practice', id: 'db1-p5', lang: 'sql', title: 'Practice: Data Type Selector', starter: `-- For each scenario, pick the BEST data type and write the column def.
+
+-- 1. A student's roll number (whole number, up to 999999)
+--    column: roll_no _____
+
+-- 2. An email address
+--    column: email _____
+
+-- 3. A book's price in rupees (with paise, e.g., 499.99)
+--    column: price _____
+
+-- 4. A person's date of birth
+--    column: dob _____
+
+-- 5. A true/false flag: is the student hosteller?
+--    column: is_hosteller _____
+
+-- 6. A 5000-character review/description
+--    column: review _____
+
+-- 7. A single-letter gender code 'M'/'F'
+--    column: gender _____
+
+-- Write a full CREATE TABLE "profile" containing all 7 columns.`, hint: 'roll_no INT. email VARCHAR(100). price DECIMAL(6,2). dob DATE. is_hosteller BOOLEAN (or TINYINT(1)). review TEXT. gender CHAR(1). DECIMAL for money — never FLOAT!' },
     ],
     tasks: [
       { id: 'dbms-8-d1-t1', text: 'Install XAMPP and verify Apache + MySQL are running (both green).', tag: 'lab' },
@@ -229,6 +298,51 @@ CREATE TABLE courses (
 -- 1. All courses in 'CSE' department
 -- 2. Distinct departments offered
 -- 3. Courses with more than 3 credits`, hint: 'Use WHERE department = \'CSE\'. Use DISTINCT department. Use WHERE credits > 3.' },
+      { type: 'practice', id: 'db2-p3', lang: 'sql', title: 'Practice: SELECT Column Picker', starter: `-- Using the pet table:
+--   pet(name, owner, species, sex, birth, death)
+
+-- For each question, write the SELECT with ONLY the needed columns:
+
+-- 1. I only want the pet names and species
+-- 2. I want a list of unique owner names (no repeats)
+-- 3. I want names + birth dates of ALL dogs, sorted by birth
+-- 4. I want the species of every pet, but each species ONCE
+-- 5. I want name, species, sex of female pets only
+-- 6. Why is listing columns better than SELECT * here?
+--    (answer in a comment)`, hint: '1. SELECT name, species. 2. SELECT DISTINCT owner. 3. SELECT name, birth WHERE species=\'dog\' ORDER BY birth. 4. SELECT DISTINCT species. 5. WHERE sex=\'f\'. Specific columns = faster + clearer.' },
+      { type: 'practice', id: 'db2-p4', lang: 'sql', title: 'Practice: WHERE Condition Builder', starter: `-- Using pet(name, owner, species, sex, birth, death).
+-- Write the WHERE clause (or full query) for each:
+
+-- 1. All dogs
+-- 2. All pets owned by Harold
+-- 3. All pets born after 2020-01-01
+-- 4. All male cats
+-- 5. All pets whose owner is NOT Harold
+-- 6. All DECEASED pets (death is not null)
+-- 7. All ALIVE pets
+-- 8. All pets whose species is 'dog' OR 'cat' (use IN)
+-- 9. All pets whose birth year is 2019 (use YEAR(birth))
+-- 10. All pets whose name starts with 'B'`, hint: 'species=\'dog\'. owner=\'Harold\'. birth > \'2020-01-01\'. species=\'cat\' AND sex=\'m\'. owner <>\'Harold\'. death IS NOT NULL. death IS NULL. species IN (\'dog\',\'cat\'). YEAR(birth)=2019. name LIKE \'B%\'.' },
+      { type: 'practice', id: 'db2-p5', lang: 'sql', title: 'Practice: Query Execution Order', starter: `-- THINKING EXERCISE — answer in comments.
+
+-- Given this query:
+--   SELECT DISTINCT species
+--   FROM pet
+--   WHERE birth > '2018-01-01'
+--   ORDER BY species;
+
+-- Q1: In what order does MySQL execute the clauses?
+--     (pick from: FROM, WHERE, SELECT, DISTINCT, ORDER BY)
+
+-- Q2: Which rows does WHERE see? (before or after DISTINCT?)
+
+-- Q3: Why can't you use a column ALIAS in WHERE?
+--     (aliases are created in SELECT, which runs AFTER WHERE)
+
+-- Q4: Would this query work? Why or why not?
+--   SELECT name AS pet_name FROM pet WHERE pet_name = 'Buddy';
+
+-- Q5: Can you use an alias in ORDER BY? (yes/no + why)`, hint: 'Order: FROM → WHERE → SELECT → DISTINCT → ORDER BY. WHERE sees raw rows. Aliases are born in SELECT — so WHERE cannot use them (Q4 fails). ORDER BY runs last, so it CAN use aliases (Q5 yes).' },
     ],
     tasks: [
       { id: 'dbms-8-d2-t1', text: 'Write 5 SELECT queries on the pet table: all pets, only dogs, female pets, born after 2015, distinct species.', tag: 'lab' },

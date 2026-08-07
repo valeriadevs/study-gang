@@ -139,6 +139,53 @@ ORDER BY order_date DESC;
 -- TODO: Use EXPLAIN before and after to see the difference
 EXPLAIN SELECT * FROM orders WHERE customer_id = 42;`,
         hint: 'Composite index: CREATE INDEX idx_cust_date ON orders(customer_id, order_date). customer_id first (equality check), order_date second (range + ORDER BY). EXPLAIN should show type=ref (not ALL) and key=idx_cust_date.' },
+      { type: 'practice', id: 'db9-p3', lang: 'sql', title: 'Practice: View Builder', starter: `-- Create views for the pet+owners schema:
+
+-- 1. Create a view 'v_dogs' showing only dogs (name, owner, birth)
+-- 2. Create a view 'v_owner_pets' showing owner + pet count
+--    (JOIN + GROUP BY)
+-- 3. Query v_dogs: all dogs born after 2019
+-- 4. Try inserting into v_dogs — does it work?
+--    (views with simple WHERE are updatable in MySQL)
+-- 5. SHOW CREATE VIEW v_dogs
+-- 6. DROP VIEW v_dogs
+-- 7. In comments: why is a view useful here vs writing the JOIN
+--    every time?`, hint: 'CREATE VIEW v_dogs AS SELECT p.name, o.name AS owner, p.birth FROM pet p JOIN owners o ON p.owner_id=o.owner_id WHERE p.species=\'dog\'. View = saved query, live data, reusable.' },
+      { type: 'practice', id: 'db9-p4', lang: 'sql', title: 'Practice: Leftmost Prefix Detective', starter: `-- A composite index is created on pet(species, sex, birth).
+CREATE INDEX idx_species_sex_birth ON pet(species, sex, birth);
+
+-- For EACH query below, decide: can it use the index? (yes/no + why)
+
+-- Q1: WHERE species = 'dog'
+-- Q2: WHERE species = 'dog' AND sex = 'f'
+-- Q3: WHERE species = 'dog' AND sex = 'f' AND birth > '2019-01-01'
+-- Q4: WHERE sex = 'f'
+-- Q5: WHERE birth > '2019-01-01'
+-- Q6: WHERE species = 'dog' AND birth > '2019-01-01'
+--     (species is present, but birth is NOT contiguous — sex is skipped!)
+
+-- Write answers in comments, then verify with EXPLAIN:
+-- EXPLAIN SELECT * FROM pet WHERE sex = 'f';   -- key should be NULL`, hint: 'Q1-Q3: yes (leftmost columns used). Q4-Q5: NO — the leftmost column (species) is missing. Q6: partially — index uses species only (the birth part needs sex first). EXPLAIN shows which index/key is used.' },
+      { type: 'practice', id: 'db9-p5', lang: 'sql', title: 'Practice: EXPLAIN Interpreter', starter: `-- For each EXPLAIN output, diagnose the problem and suggest a fix.
+
+-- CASE 1:
+EXPLAIN SELECT * FROM pet WHERE owner = 'Harold';
+-- type: ALL,  key: NULL,  rows: 100000
+-- Diagnosis: ________  Fix: ________
+
+-- CASE 2:
+EXPLAIN SELECT * FROM pet WHERE species = 'dog';
+-- type: ref,   key: idx_species,  rows: 50
+-- Diagnosis: ________  Fix: ________
+
+-- CASE 3:
+EXPLAIN SELECT * FROM orders ORDER BY order_date;
+-- type: ALL,  key: NULL,  rows: 500000,  Extra: Using filesort
+-- Diagnosis: ________  Fix: ________
+
+-- TODO: write the diagnosis + fix for each case in comments.
+-- TODO: then run EXPLAIN on your own tables and check:
+--   is type=ALL anywhere? is key=NULL anywhere? add indexes!`, hint: 'C1: full table scan, no index on owner → CREATE INDEX idx_owner ON pet(owner). C2: healthy — index used. C3: full scan + filesort → index on order_date (covers ORDER BY, removes filesort).' },
     ],
     tasks: [
       { id: 'dbms-8-d9-t1', text: 'Create a view for pet+owner details. Query it like a table. Show that inserting into pet appears in the view.', tag: 'lab' },
@@ -348,6 +395,66 @@ DELIMITER ;
 -- Test: UPDATE pet SET name='Buddy' WHERE pet_id=1;
 -- Then SELECT name, last_updated FROM pet WHERE pet_id=1;`,
         hint: 'SET NEW.last_updated = CURRENT_TIMESTAMP; Simple one-liner. BEFORE UPDATE lets you modify NEW values before they are written.' },
+      { type: 'practice', id: 'db10-p3', lang: 'sql', title: 'Practice: Procedure with OUT Parameters', starter: `-- Build a procedure that returns BOTH a count and an average.
+DELIMITER //
+CREATE PROCEDURE SpeciesStats(
+    IN species_name VARCHAR(20),
+    OUT total INT,
+    OUT avg_age DECIMAL(5,1)
+)
+BEGIN
+    -- TODO 1: count pets of that species into total
+    -- TODO 2: average age (TIMESTAMPDIFF) into avg_age
+    --         hint: SELECT COUNT(*), AVG(...) INTO total, avg_age
+    --               FROM pet WHERE species = species_name;
+END //
+DELIMITER ;
+
+-- Test it
+CALL SpeciesStats('dog', @c, @a);
+SELECT @c AS dog_count, @a AS avg_age;
+
+-- TODO 3: call it for 'cat' and 'bird' too
+-- TODO 4: what happens if the species has no pets? (comment)`, hint: 'SELECT COUNT(*), AVG(TIMESTAMPDIFF(YEAR, birth, IFNULL(death, CURDATE()))) INTO total, avg_age FROM pet WHERE species = species_name. Empty species → total=0, avg_age=NULL.' },
+      { type: 'practice', id: 'db10-p4', lang: 'sql', title: 'Practice: Function Factory', starter: `-- Create THREE functions and test each in a SELECT:
+
+-- 1. YearsBetween(start DATE, end DATE) RETURNS INT
+--    (use TIMESTAMPDIFF(YEAR, start, end))
+-- 2. Category(marks INT) RETURNS VARCHAR(10)
+--    ('Distinction' >= 75, 'First' >= 60, 'Pass' >= 40, 'Fail' < 40)
+-- 3. CircleArea(radius DECIMAL(6,2)) RETURNS DECIMAL(8,2)
+--    (3.14159 * radius * radius)
+
+-- Test: SELECT YearsBetween('2010-01-01', CURDATE());
+--       SELECT Category(82), Category(55), Category(30);
+--       SELECT CircleArea(5);
+
+-- Remember: DETERMINISTIC keyword, RETURNS type, RETURN value.`, hint: 'RETURN TIMESTAMPDIFF(YEAR, start, end). Category: IF/ELSEIF chain returning strings. CircleArea: RETURN 3.14159 * radius * radius. All DETERMINISTIC (same input → same output).' },
+      { type: 'practice', id: 'db10-p5', lang: 'sql', title: 'Practice: Trigger Trio', starter: `-- Build three triggers on a products table.
+
+CREATE TABLE products (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50),
+    price DECIMAL(8,2),
+    stock INT DEFAULT 0,
+    updated_at TIMESTAMP
+);
+
+CREATE TABLE price_log (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    product_id INT,
+    old_price DECIMAL(8,2),
+    new_price DECIMAL(8,2),
+    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- TRIGGER 1: BEFORE INSERT — auto-set updated_at
+-- TRIGGER 2: BEFORE UPDATE — auto-set updated_at
+-- TRIGGER 3: AFTER UPDATE — if price CHANGED, log it to price_log
+--   (compare OLD.price <> NEW.price inside the trigger)
+
+-- Test: insert a product, update its price, check both tables.`,
+hint: 'BEFORE triggers: SET NEW.updated_at = CURRENT_TIMESTAMP. AFTER UPDATE: IF OLD.price <> NEW.price THEN INSERT INTO price_log (product_id, old_price, new_price) VALUES (OLD.id, OLD.price, NEW.price); END IF;' },
     ],
     tasks: [
       { id: 'dbms-8-d10-t1', text: 'Create a stored procedure that takes species name and returns count and oldest pet. Use IN and OUT parameters.', tag: 'lab' },
