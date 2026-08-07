@@ -298,7 +298,8 @@ export function ChatAgent() {
       });
       const data = await res.json();
       if (data.error) {
-        setMessages((prev) => [...prev, { role: 'assistant', content: `Something went wrong: ${data.error}` }]);
+        const errText = typeof data.error === 'string' ? data.error : JSON.stringify(data.error);
+        setMessages((prev) => [...prev, { role: 'assistant', content: `Something went wrong: ${errText}` }]);
       } else {
         const raw = data.choices?.[0]?.message?.content ?? '';
         const reply = raw.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
