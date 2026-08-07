@@ -1,5 +1,6 @@
 import { useState, useMemo, useRef, useCallback } from 'react';
 import { highlight, langLabel } from '../utils/syntax';
+import { getSuggestions } from '../utils/suggestions';
 import { cn } from '../utils/helpers';
 import { useStore } from '../store/useStore';
 import { Icon } from './Icon';
@@ -49,6 +50,9 @@ export function PracticeEditor({
   const [outputType, setOutputType] = useState<'idle' | 'success' | 'error'>(
     'idle'
   );
+  // Autocomplete: the prefix being completed and the index of the highlighted item.
+  const [suggestPrefix, setSuggestPrefix] = useState<string | null>(null);
+  const [suggestIndex, setSuggestIndex] = useState(0);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const gutterRef = useRef<HTMLDivElement>(null);
   const selectionStartRef = useRef<number | null>(null);
@@ -60,6 +64,11 @@ export function PracticeEditor({
   );
 
   const highlighted = useMemo(() => highlight(code, lang), [code, lang]);
+
+  const suggestions = useMemo(
+    () => (suggestPrefix === null ? [] : getSuggestions(code, lang, suggestPrefix)),
+    [code, lang, suggestPrefix]
+  );
 
   function updateCode(next: string) {
     setCode(next);
@@ -84,6 +93,32 @@ export function PracticeEditor({
     updateCode(e.target.value);
   }
 
+  /** Word immediately before the caret (or null if caret is not inside a word). */
+  function currentWord(code: string, pos: number): string | null {
+    let i = pos - 1;
+    while (i >= 0 && /[A-Za-z0-9_.]/.test(code[i])) i -= 1;
+    const word = code.slice(i + 1, pos);
+    // Only suggest after a word char or a dot (e.g. "Sys", "System.").
+    return word && /[A-Za-z0-9_.]/.test(word) ? word : null;
+  }
+
+  function acceptSuggestion(label: string) {
+    if (suggestPrefix === null) return;
+    const ta = textareaRef.current;
+    if (!ta) return;
+    const start = ta.selectionStart;
+    const prefixLen = suggestPrefix.length;
+    const next = code.slice(0, start - prefixLen) + label + code.slice(start);
+    updateCode(next);
+    const cursor = start - prefixLen + label.length;
+    requestAnimationFrame(() => {
+      ta.selectionStart = cursor;
+      ta.selectionEnd = cursor;
+    });
+    setSuggestPrefix(null);
+    setSuggestIndex(0);
+  }
+
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     const ta = e.currentTarget;
     const start = ta.selectionStart;
@@ -94,6 +129,50 @@ export function PracticeEditor({
       e.preventDefault();
       run();
       return;
+    }
+
+    // --- Autocomplete handling ---
+    const word = currentWord(code, start);
+
+    // Open suggestions when typing a letter/digit/dot.
+    if (
+      !e.ctrlKey && !e.metaKey && !e.altKey &&
+      word && word !== suggestPrefix
+    ) {
+      setSuggestPrefix(word);
+      setSuggestIndex(0);
+    }
+
+    if (suggestions.length > 0) {
+      // Tab accepts the highlighted suggestion.
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        acceptSuggestion(suggestions[suggestIndex].label);
+        return;
+      }
+      // Enter accepts when the dropdown is open (instead of inserting a newline).
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        acceptSuggestion(suggestions[suggestIndex].label);
+        return;
+      }
+      // ArrowUp / ArrowDown navigate the list.
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setSuggestIndex((i) => (i + 1) % suggestions.length);
+        return;
+      }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setSuggestIndex((i) => (i - 1 + suggestions.length) % suggestions.length);
+        return;
+      }
+    }
+
+    // Close suggestions when the caret moves off a word.
+    if (!word && suggestPrefix !== null) {
+      setSuggestPrefix(null);
+      setSuggestIndex(0);
     }
 
     // Tab / Shift+Tab: insert or remove an indentation level.
@@ -344,6 +423,31 @@ export function PracticeEditor({
             aria-label={`${title ?? 'Practice'} code editor`}
             className="absolute inset-0 w-full h-full bg-transparent text-transparent caret-accent font-mono text-sm leading-relaxed p-4 resize-none outline-none whitespace-pre-wrap break-all focus-visible:ring-2 focus-visible:ring-accent"
           />
+
+          {/* Autocomplete dropdown */}
+          {suggestPrefix !== null && suggestions.length > 0 && (
+            <div className="absolute left-4 top-4 z-20 min-w-[200px] max-h-56 overflow-y-auto bg-panel-2 border border-border rounded-lg shadow-lg shadow-black/30">
+              {suggestions.map((s, i) => (
+                <button
+                  key={s.label}
+                  type="button"
+                  onClick={() => acceptSuggestion(s.label)}
+                  onMouseEnter={() => setSuggestIndex(i)}
+                  className={cn(
+                    'w-full text-left px-3 py-1.5 font-mono text-sm flex items-center justify-between gap-3',
+                    i === suggestIndex ? 'bg-accent/15 text-ink' : 'text-ink-2'
+                  )}
+                >
+                  <span>{s.label}</span>
+                  {s.detail && (
+                    <span className="text-[10px] uppercase tracking-wide text-ink-3 flex-shrink-0">
+                      {s.detail}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
