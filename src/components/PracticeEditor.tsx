@@ -50,9 +50,11 @@ export function PracticeEditor({
   const [outputType, setOutputType] = useState<'idle' | 'success' | 'error'>(
     'idle'
   );
-  // Autocomplete: the prefix being completed and the index of the highlighted item.
-  const [suggestPrefix, setSuggestPrefix] = useState<string | null>(null);
+  // Autocomplete: whether the dropdown is open + the index of the highlighted item.
+  const [suggestOpen, setSuggestOpen] = useState(false);
   const [suggestIndex, setSuggestIndex] = useState(0);
+  // Caret position (relative to the editor wrapper) for the dropdown.
+  const [caretPos, setCaretPos] = useState<{ top: number; left: number } | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const gutterRef = useRef<HTMLDivElement>(null);
   const selectionStartRef = useRef<number | null>(null);
@@ -65,9 +67,14 @@ export function PracticeEditor({
 
   const highlighted = useMemo(() => highlight(code, lang), [code, lang]);
 
+  // Live word at the caret — always current, unlike state.
+  const liveWord = textareaRef.current
+    ? currentWord(code, textareaRef.current.selectionStart)
+    : null;
+
   const suggestions = useMemo(
-    () => (suggestPrefix === null ? [] : getSuggestions(code, lang, suggestPrefix)),
-    [code, lang, suggestPrefix]
+    () => (suggestOpen && liveWord !== null ? getSuggestions(code, lang, liveWord) : []),
+    [code, lang, suggestOpen, liveWord]
   );
 
   function updateCode(next: string) {
@@ -102,12 +109,47 @@ export function PracticeEditor({
     return word && /[A-Za-z0-9_.]/.test(word) ? word : null;
   }
 
+  /** Measure the caret's pixel position inside the editor, using a hidden mirror. */
+  function measureCaret(ta: HTMLTextAreaElement): { top: number; left: number } | null {
+    const wrapper = ta.parentElement;
+    if (!wrapper) return null;
+    const pos = ta.selectionStart;
+    const mirror = document.createElement('div');
+    const style = window.getComputedStyle(ta);
+    mirror.style.cssText = `
+      position: absolute;
+      visibility: hidden;
+      white-space: pre-wrap;
+      word-break: break-all;
+      font-family: ${style.fontFamily};
+      font-size: ${style.fontSize};
+      line-height: ${style.lineHeight};
+      letter-spacing: ${style.letterSpacing};
+      padding: ${style.padding};
+      border: 1px solid transparent;
+      width: ${ta.clientWidth}px;
+    `;
+    // Text before the caret, with a marker at the end.
+    mirror.textContent = code.slice(0, pos);
+    const marker = document.createElement('span');
+    marker.textContent = '\u200b'; // zero-width space
+    mirror.appendChild(marker);
+    wrapper.appendChild(mirror);
+    const markerRect = marker.getBoundingClientRect();
+    const wrapperRect = wrapper.getBoundingClientRect();
+    const top = markerRect.top - wrapperRect.top + 2;
+    const left = markerRect.left - wrapperRect.left;
+    wrapper.removeChild(mirror);
+    return { top, left };
+  }
+
   function acceptSuggestion(label: string) {
-    if (suggestPrefix === null) return;
     const ta = textareaRef.current;
     if (!ta) return;
     const start = ta.selectionStart;
-    const prefixLen = suggestPrefix.length;
+    // Measure the word at the caret directly — never trust a lagging state.
+    const word = currentWord(code, start);
+    const prefixLen = word ? word.length : 0;
     const next = code.slice(0, start - prefixLen) + label + code.slice(start);
     updateCode(next);
     const cursor = start - prefixLen + label.length;
@@ -115,8 +157,9 @@ export function PracticeEditor({
       ta.selectionStart = cursor;
       ta.selectionEnd = cursor;
     });
-    setSuggestPrefix(null);
+    setSuggestOpen(false);
     setSuggestIndex(0);
+    setCaretPos(null);
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
@@ -137,13 +180,21 @@ export function PracticeEditor({
     // Open suggestions when typing a letter/digit/dot.
     if (
       !e.ctrlKey && !e.metaKey && !e.altKey &&
-      word && word !== suggestPrefix
+      word && !e.shiftKey && !e.altKey
     ) {
-      setSuggestPrefix(word);
+      setSuggestOpen(true);
       setSuggestIndex(0);
+      setCaretPos(measureCaret(ta));
     }
 
-    if (suggestions.length > 0) {
+    // Escape closes the dropdown (without inserting anything).
+    if (e.key === 'Escape') {
+      setSuggestOpen(false);
+      setSuggestIndex(0);
+      setCaretPos(null);
+    }
+
+    if (suggestions.length > 0 && suggestOpen) {
       // Tab accepts the highlighted suggestion.
       if (e.key === 'Tab') {
         e.preventDefault();
@@ -169,10 +220,11 @@ export function PracticeEditor({
       }
     }
 
-    // Close suggestions when the caret moves off a word.
-    if (!word && suggestPrefix !== null) {
-      setSuggestPrefix(null);
+    // Close suggestions when the caret moves off a word (e.g. a space or newline).
+    if (!word && suggestOpen) {
+      setSuggestOpen(false);
       setSuggestIndex(0);
+      setCaretPos(null);
     }
 
     // Tab / Shift+Tab: insert or remove an indentation level.
@@ -424,9 +476,15 @@ export function PracticeEditor({
             className="absolute inset-0 w-full h-full bg-transparent text-transparent caret-accent font-mono text-sm leading-relaxed p-4 resize-none outline-none whitespace-pre-wrap break-all focus-visible:ring-2 focus-visible:ring-accent"
           />
 
-          {/* Autocomplete dropdown */}
-          {suggestPrefix !== null && suggestions.length > 0 && (
-            <div className="absolute left-4 top-4 z-20 min-w-[200px] max-h-56 overflow-y-auto bg-panel-2 border border-border rounded-lg shadow-lg shadow-black/30">
+          {/* Autocomplete dropdown — positioned at the caret */}
+          {suggestOpen && suggestions.length > 0 && (
+            <div
+              className="absolute z-20 min-w-[200px] max-h-56 overflow-y-auto bg-panel-2 border border-border rounded-lg shadow-lg shadow-black/30"
+              style={{
+                top: caretPos ? caretPos.top : 16,
+                left: caretPos ? caretPos.left : 16,
+              }}
+            >
               {suggestions.map((s, i) => (
                 <button
                   key={s.label}
