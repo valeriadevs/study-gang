@@ -305,7 +305,7 @@ export function ChatAgent() {
         setMessages((prev) => [...prev, { role: 'assistant', content: reply || '(no response)' }]);
       }
     } catch {
-      setMessages((prev) => [...prev, { role: 'assistant', content: 'Could not reach the AI. Make sure the dev server is running (`npm run dev`).' }]);
+      setMessages((prev) => [...prev, { role: 'assistant', content: 'Could not reach the AI service. Please try again in a moment.' }]);
     } finally {
       setLoading(false);
     }
