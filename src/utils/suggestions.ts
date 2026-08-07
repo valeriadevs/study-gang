@@ -1,7 +1,7 @@
 // Lightweight autocomplete suggestions for the practice editor.
 // Curated per-language keywords + identifiers already present in the code.
 
-type Suggestion = { label: string; detail?: string };
+type Suggestion = { label: string; detail?: string; params?: string };
 
 const COMMON_JAVA: Suggestion[] = [
   { label: 'public', detail: 'keyword' },
@@ -27,9 +27,9 @@ const COMMON_JAVA: Suggestion[] = [
   { label: 'true', detail: 'keyword' },
   { label: 'false', detail: 'keyword' },
   { label: 'null', detail: 'keyword' },
-  { label: 'System.out.println', detail: 'print line' },
-  { label: 'System.out.print', detail: 'print' },
-  { label: 'main', detail: 'method' },
+  { label: 'System.out.println', detail: 'print line', params: 'String x' },
+  { label: 'System.out.print', detail: 'print', params: 'String x' },
+  { label: 'main', detail: 'method', params: 'String[] args' },
   { label: 'String[] args', detail: 'param' },
 ];
 
@@ -99,17 +99,17 @@ const COMMON_JS: Suggestion[] = [
   { label: 'for', detail: 'keyword' },
   { label: 'while', detail: 'keyword' },
   { label: 'new', detail: 'keyword' },
-  { label: 'console.log', detail: 'builtin' },
-  { label: 'console.error', detail: 'builtin' },
-  { label: 'Math.max', detail: 'builtin' },
-  { label: 'Math.min', detail: 'builtin' },
-  { label: 'Math.random', detail: 'builtin' },
+  { label: 'console.log', detail: 'builtin', params: '...args' },
+  { label: 'console.error', detail: 'builtin', params: '...args' },
+  { label: 'Math.max', detail: 'builtin', params: 'a, b' },
+  { label: 'Math.min', detail: 'builtin', params: 'a, b' },
+  { label: 'Math.random', detail: 'builtin', params: '()' },
   { label: 'Number', detail: 'builtin' },
   { label: 'String', detail: 'builtin' },
   { label: 'Array', detail: 'builtin' },
   { label: 'Object', detail: 'builtin' },
-  { label: 'JSON.stringify', detail: 'builtin' },
-  { label: 'JSON.parse', detail: 'builtin' },
+  { label: 'JSON.stringify', detail: 'builtin', params: 'obj' },
+  { label: 'JSON.parse', detail: 'builtin', params: 'text' },
 ];
 
 const CURATED: Record<string, Suggestion[]> = {

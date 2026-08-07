@@ -57,6 +57,7 @@ export function PracticeEditor({
   const [caretPos, setCaretPos] = useState<{ top: number; left: number } | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const gutterRef = useRef<HTMLDivElement>(null);
+  const preRef = useRef<HTMLPreElement>(null);
   const selectionStartRef = useRef<number | null>(null);
 
   const lineCount = code.split('\n').length;
@@ -86,18 +87,28 @@ export function PracticeEditor({
     }
   }
 
-  // Keep the line-number gutter in sync with the textarea scroll.
+  // Keep the line-number gutter and the highlight overlay in sync with
+  // the textarea scroll, so the visible text and the caret never drift.
   const syncGutter = useCallback(() => {
     const ta = textareaRef.current;
     const gutter = gutterRef.current;
+    const pre = preRef.current;
     if (ta && gutter) {
       gutter.scrollTop = ta.scrollTop;
+    }
+    if (ta && pre) {
+      pre.scrollTop = ta.scrollTop;
+      pre.scrollLeft = ta.scrollLeft;
     }
   }, []);
 
   function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     selectionStartRef.current = e.target.selectionStart;
     updateCode(e.target.value);
+    // Re-measure the caret AFTER the keystroke lands, so the dropdown
+    // tracks the actual caret instead of lagging one char behind.
+    const ta = textareaRef.current;
+    if (ta) setCaretPos(measureCaret(ta, e.target.value));
   }
 
   /** Word immediately before the caret (or null if caret is not inside a word). */
@@ -110,7 +121,7 @@ export function PracticeEditor({
   }
 
   /** Measure the caret's pixel position inside the editor, using a hidden mirror. */
-  function measureCaret(ta: HTMLTextAreaElement): { top: number; left: number } | null {
+  function measureCaret(ta: HTMLTextAreaElement, value: string): { top: number; left: number } | null {
     const wrapper = ta.parentElement;
     if (!wrapper) return null;
     const pos = ta.selectionStart;
@@ -118,6 +129,8 @@ export function PracticeEditor({
     const style = window.getComputedStyle(ta);
     mirror.style.cssText = `
       position: absolute;
+      top: 0;
+      left: 0;
       visibility: hidden;
       white-space: pre-wrap;
       word-break: break-all;
@@ -126,11 +139,10 @@ export function PracticeEditor({
       line-height: ${style.lineHeight};
       letter-spacing: ${style.letterSpacing};
       padding: ${style.padding};
-      border: 1px solid transparent;
       width: ${ta.clientWidth}px;
     `;
     // Text before the caret, with a marker at the end.
-    mirror.textContent = code.slice(0, pos);
+    mirror.textContent = value.slice(0, pos);
     const marker = document.createElement('span');
     marker.textContent = '\u200b'; // zero-width space
     mirror.appendChild(marker);
@@ -184,7 +196,6 @@ export function PracticeEditor({
     ) {
       setSuggestOpen(true);
       setSuggestIndex(0);
-      setCaretPos(measureCaret(ta));
     }
 
     // Escape closes the dropdown (without inserting anything).
@@ -457,7 +468,8 @@ export function PracticeEditor({
 
         <div className="relative flex-1">
           <pre
-            className="m-0 px-4 py-3.5 font-mono text-sm leading-relaxed pointer-events-none whitespace-pre-wrap break-all"
+            ref={preRef}
+            className="m-0 px-4 py-3.5 font-mono text-sm leading-relaxed pointer-events-none whitespace-pre-wrap break-all overflow-hidden"
             aria-hidden
           >
             <code dangerouslySetInnerHTML={{ __html: highlighted }} />
@@ -496,7 +508,12 @@ export function PracticeEditor({
                     i === suggestIndex ? 'bg-accent/15 text-ink' : 'text-ink-2'
                   )}
                 >
-                  <span>{s.label}</span>
+                  <span className="flex items-baseline gap-2 min-w-0">
+                    <span className="truncate">{s.label}</span>
+                    {s.params && (
+                      <span className="text-xs text-ink-3 truncate">({s.params})</span>
+                    )}
+                  </span>
                   {s.detail && (
                     <span className="text-[10px] uppercase tracking-wide text-ink-3 flex-shrink-0">
                       {s.detail}
