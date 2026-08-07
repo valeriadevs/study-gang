@@ -64,7 +64,9 @@ export const phase6days: Day[] = [
         // TODO 3: test on int[] {-5, 5, -2} (expect -2)
     }
     // TODO 4: implement static int sumOfArray(int[] arr) using recursion
-    //   hint: if arr.length == 0 return 0; else return arr[arr.length-1] + sumOfArray(Arrays.copyOf(arr, arr.length-1));
+    //   What is the smallest array? What should it return?
+    //   Otherwise: split off ONE element and recurse on the rest.
+    //   Hint: the LAST element + the sum of everything before it.
     //   bonus: avoid copying the array each call by passing (arr, index) instead
 }` },
       { type: 'practice', id: 'd15-p2', lang: 'java', title: 'Practice: reverseString', starter: `public class Test {
@@ -75,8 +77,8 @@ export const phase6days: Day[] = [
         // TODO 4: reverseString("a") -> "a"
     }
     // TODO 5: implement static String reverseString(String s) recursively
-    //   hint: base case s.isEmpty() return s;
-    //         recursive: return reverseString(s.substring(1)) + s.charAt(0);
+    //   What string is its own reverse (base case)? What does it return?
+    //   Otherwise: take the LAST character, put it FIRST, then reverse the remaining prefix.
 }` },
       { type: 'practice', id: 'd15-p3', lang: 'java', title: 'Practice: isPalindrome', starter: `public class Test {
     public static void main(String[] args) {
@@ -87,10 +89,10 @@ export const phase6days: Day[] = [
         // TODO 5: isPalindrome("abba")    -> true (even length)
     }
     // TODO 6: implement static boolean isPalindrome(String s) using recursion
-    //   hint: helper method isPalindrome(s, 0, s.length() - 1)
-    //         base case: l >= r return true
-    //         recursive: if s.charAt(l) != s.charAt(r) return false
-    //                    else isPalindrome(s, l + 1, r - 1)
+    //   When is a string ALWAYS a palindrome (base case)?
+    //   Otherwise: compare the FIRST and LAST characters.
+    //   If they differ -> false. If they match -> recurse on WHAT?
+    //   Tip: a helper with (s, left, right) indices avoids substring copying
 }` },
       { type: 'practice', id: 'd15-p4', lang: 'java', title: 'Practice: Trace factorial(5) on paper', starter: `public class Test {
     public static void main(String[] args) {
@@ -120,9 +122,9 @@ export const phase6days: Day[] = [
         // TODO 5: countDigits(-123) -> 3 (handle negatives by stripping the sign)
     }
     // TODO 6: implement static int countDigits(int n) recursively
-    //   hint: handle negative: return countDigits(-n)
-    //         base case: n < 10 return 1
-    //         recursive: return 1 + countDigits(n / 10)
+    //   What single-digit input stops the recursion (base case)?
+    //   Otherwise: how do you remove one digit, then count the rest + 1?
+    //   Hint for negatives: what does -n give you?
 }` },
       { type: 'practice', id: 'd15-p6', lang: 'java', title: 'Practice: power + GCD pair', starter: `public class Test {
     public static void main(String[] args) {
@@ -212,9 +214,10 @@ export const phase6days: Day[] = [
         // TODO 4: try naive fib(50) — expect a long pause (or StackOverflowError on small stack)
     }
     // TODO 5: implement static long fibMemo(int n, long[] memo)
-    //   - if n <= 1 return n
-    //   - if memo[n] != 0 return memo[n]
-    //   - memo[n] = fibMemo(n-1, memo) + fibMemo(n-2, memo); return memo[n];
+    //   think: what stops the recursion (base case)?
+    //   how do you CHECK the cache before computing?
+    //   how do you STORE a result once computed?
+    //   (two recursive calls, like naive fib, but cached)
     // TODO 6: implement static int fib(int n) (the naive version for comparison)
     // TODO 7: in main, initialise memo as new long[50+1] before calling fibMemo
 }` },
@@ -227,11 +230,10 @@ export const phase6days: Day[] = [
         // TODO 4: try with an empty array {} and a single-element array {42}
     }
     // TODO 5: implement static int[] mergeSort(int[] arr) recursively
-    //   - base case: if (arr.length <= 1) return arr;
-    //   - split: int mid = arr.length / 2;
-    //           int[] left = Arrays.copyOfRange(arr, 0, mid);
-    //           int[] right = Arrays.copyOfRange(arr, mid, arr.length);
-    //   - recurse: return merge(mergeSort(left), mergeSort(right));
+    //   think: when is an array already sorted (base case)?
+    //   how do you SPLIT the array in half?
+    //   how do you COMBINE two sorted halves (the merge step)?
+    //   (look at the lesson example for the merge helper pattern)
     // TODO 6: implement static int[] merge(int[] a, int[] b)
     //   - combine two sorted arrays into one sorted array
 }` },
@@ -262,9 +264,10 @@ export const phase6days: Day[] = [
         // TODO 3: visualise the board by printing Q for queen and . for empty
     }
     // TODO 4: implement static boolean solve(int row)
-    //   - if row == 4 return true
-    //   - for col 0..3: if isSafe(row, col): board[row] = col; if solve(row+1) return true; board[row] = -1;
-    //   - return false
+    //   think: when is the board fully solved (base case)?
+    //   for each column: if safe, PLACE the queen, recurse on next row.
+    //   if recursion fails, UNDO the placement and try next column.
+    //   if no column works, return false.
     // TODO 5: implement static boolean isSafe(int row, int col)
     //   - check no earlier row has board[i] == col (same column)
     //   - check no earlier row has |board[i] - col| == |i - row| (diagonal attack)
@@ -279,7 +282,8 @@ export const phase6days: Day[] = [
     }
     // TODO 6: implement static int gcdRec(int a, int b) recursively (tail-recursive)
     // TODO 7: implement static int gcdIter(int a, int b) with a while loop
-    //   while (b != 0) { int t = b; b = a % b; a = t; } return a;
+    //   same idea as gcdRec: keep replacing (a, b) with (b, a % b)
+    //   until b is 0. you will need a temp variable to not lose b.
 }` },
       { type: 'practice', id: 'd15n-p6', lang: 'java', title: 'Practice: subset-sum backtracking', starter: `public class Test {
     public static void main(String[] args) {
@@ -290,10 +294,11 @@ export const phase6days: Day[] = [
     }
     // TODO 2: implement static void findSubsets(int[] nums, int target)
     //   - use a helper that takes (nums, index, currentSum, currentPath, target)
-    //   - if currentSum == target: print currentPath, return
-    //   - if index == nums.length: return (no more numbers to try)
-    //   - recursive option 1: INCLUDE nums[index] -> recurse with index+1, currentSum+nums[index]
-    //   - recursive option 2: EXCLUDE nums[index] -> recurse with index+1, currentSum
+    //   think: when do you STOP (two base cases)?
+    //   at each index you have TWO choices: include nums[index] or skip it.
+    //   INCLUDE: add to the path + currentSum, recurse on next index.
+    //   EXCLUDE: leave path/currentSum unchanged, recurse on next index.
+    //   (add/remove the element from the path around the recursive call)
     // Hint: use ArrayList<Integer> for currentPath, pass it by reference and add/remove
 }` },
     ],
@@ -386,7 +391,8 @@ export const phase6days: Day[] = [
     public static void main(String[] args) {
         // TODO 1: TrafficLight { RED("Stop"), YELLOW("Caution"), GREEN("Go") }
         // TODO 2: add next() method — RED -> GREEN, GREEN -> YELLOW, YELLOW -> RED
-        //   hint: int nextOrdinal = (ordinal() + 1) % values().length;
+        //   think: how do you move to the NEXT constant and wrap around
+        //   from the last one back to the first? (modulo helps)
         // TODO 3: add durationSeconds() — RED=30, YELLOW=5, GREEN=25
         //         (use a field passed in the constant declaration)
         // TODO 4: loop 6 times starting from RED, print "<color> for <duration>s -> <action>"
@@ -511,7 +517,8 @@ export const phase6days: Day[] = [
 class NumericBox<T extends Number> {
     private T value;
     // TODO 4: constructor that sets value
-    // TODO 5: public double sqrt() — return Math.sqrt(value.doubleValue())
+    // TODO 5: public double sqrt() — compute the square root of value
+    //         (you will need to convert value to a double first)
 }` },
       { type: 'practice', id: 'd16n-p3', lang: 'java', title: 'Practice: sortedPair — smallest first', starter: `public class Test {
     public static void main(String[] args) {
@@ -566,8 +573,10 @@ class SortedBox<T extends Comparable<T> & java.io.Serializable> {
     }
 }
 // TODO 6: class Utils with TWO static generic methods:
-//   - <T> String describe(T value)  — returns value.getClass().getSimpleName() + ": " + value
-//   - <T extends Comparable<T>> T firstOf(T a, T b) — returns whichever compareTo says is smaller
+//   - <T> String describe(T value)  — prints the type name + the value
+//         (hint: value.getClass().getSimpleName())
+//   - <T extends Comparable<T>> T firstOf(T a, T b) — returns the SMALLER one
+//         (use compareTo — think about what it returns)
 //   Bonus: make describe() handle null without crashing (return "<null>")
 }` },
     ],
@@ -629,11 +638,11 @@ class SortedBox<T extends Comparable<T> & java.io.Serializable> {
         { id: 'd17-f3', front: 'Generic class vs generic method?', back: 'Generic class: <T> after the class name (e.g., class Box<T>). Generic method: <T> before the return type (e.g., public static <T> T identity(T value)). They can be combined: a non-generic class can have generic methods.', hint: 'Class vs method...' },
       ] },
       { type: 'practice', id: 'd17-p1', lang: 'java', title: 'Practice: Generic Stack<T>', starter: 'import java.util.ArrayList;\n\npublic class TestStack {\n    public static void main(String[] args) {\n        Stack<Integer> s = new Stack<>();\n        // TODO: Push 3 numbers, pop them, print each\n        // TODO: Test with Stack<String>\n        // TODO: What happens if you pop from empty stack?\n    }\n}\nclass Stack<T> {\n    private ArrayList<T> items = new ArrayList<>();\n\n    public void push(T item) { items.add(item); }\n    public T pop() {\n        if (isEmpty()) throw new IllegalStateException("Empty stack");\n        return items.remove(items.size() - 1);\n    }\n    public T peek() {\n        if (isEmpty()) return null;\n        return items.get(items.size() - 1);\n    }\n    public boolean isEmpty() { return items.isEmpty(); }\n    public int size() { return items.size(); }\n}', hint: 's.push(10); s.push(20); s.push(30); while(!s.isEmpty()) System.out.println(s.pop()); // prints 30,20,10. Stack is LIFO.' },
-      { type: 'practice', id: 'd17-p2', lang: 'java', title: 'Practice: Generic Binary Search', starter: 'public class BinarySearch {\n    public static void main(String[] args) {\n        Integer[] nums = {1, 3, 5, 7, 9, 11, 13};\n        String[] words = {"apple", "banana", "cherry", "date"};\n        System.out.println(search(nums, 7));     // 3\n        System.out.println(search(nums, 8));     // -1\n        System.out.println(search(words, "cherry")); // 2\n    }\n    // Generic binary search — works with ANY Comparable type!\n    public static <T extends Comparable<T>> int search(T[] arr, T target) {\n        // TODO: Implement binary search using compareTo()\n        return -1;\n    }\n}', hint: 'int lo=0, hi=arr.length-1; while(lo<=hi){int mid=lo+(hi-lo)/2; int cmp=target.compareTo(arr[mid]); if(cmp==0)return mid; if(cmp<0)hi=mid-1; else lo=mid+1;} return -1;' },
+      { type: 'practice', id: 'd17-p2', lang: 'java', title: 'Practice: Generic Binary Search', starter: 'public class BinarySearch {\n    public static void main(String[] args) {\n        Integer[] nums = {1, 3, 5, 7, 9, 11, 13};\n        String[] words = {"apple", "banana", "cherry", "date"};\n        System.out.println(search(nums, 7));     // 3\n        System.out.println(search(nums, 8));     // -1\n        System.out.println(search(words, "cherry")); // 2\n    }\n    // Generic binary search — works with ANY Comparable type!\n    public static <T extends Comparable<T>> int search(T[] arr, T target) {\n        // TODO: Implement binary search using compareTo()\n        return -1;\n    }\n}', hint: 'Three pointers: lo, hi, mid. While lo <= hi: compare target to arr[mid]. Equal -> return mid. Smaller -> search the left half. Larger -> search the right half. If the loop ends, return -1.' },
       { type: 'practice', id: 'd17-p3', lang: 'java', title: 'Practice: Erasure Detective', starter: 'import java.util.*;\n\npublic class ErasureDetective {\n    public static void main(String[] args) {\n        ArrayList<String> strings = new ArrayList<>();\n        ArrayList<Integer> ints = new ArrayList<>();\n\n        // TODO 1: predict: are these the SAME class at runtime?\n        System.out.println(strings.getClass() == ints.getClass());\n\n        // TODO 2: print strings.getClass().getName() — what do you see?\n\n        // TODO 3: try to compile:  strings instanceof ArrayList<String>\n        //         what error do you get? why?\n        // TODO 4: this DOES compile — explain why:\n        if (strings instanceof ArrayList) {\n            System.out.println("raw type works");\n        }\n        // TODO 5: in comments, define type erasure in one sentence\n    }\n}', hint: 'getClass() == getClass() is TRUE — both are java.util.ArrayList at runtime. instanceof with a parameterized type is a compile error (generics are erased). The raw ArrayList works.' },
-      { type: 'practice', id: 'd17-p4', lang: 'java', title: 'Practice: Wildcard Reader', starter: 'import java.util.*;\n\npublic class WildcardReader {\n    public static void main(String[] args) {\n        ArrayList<Integer> ints = new ArrayList<>(Arrays.asList(1, 2, 3));\n        ArrayList<Double> doubles = new ArrayList<>(Arrays.asList(1.5, 2.5));\n        ArrayList<String> strings = new ArrayList<>(Arrays.asList("a", "b"));\n\n        System.out.println(sum(ints));     // 6.0\n        System.out.println(sum(doubles));  // 4.0\n        // System.out.println(sum(strings)); // should NOT compile\n    }\n\n    // TODO: implement sum(ArrayList<? extends Number> list)\n    //       that adds every element as a double and returns the total\n    //       (use n.doubleValue())\n}', hint: 'double total = 0; for (Number n : list) total += n.doubleValue(); return total;. The ? extends Number bound accepts Integer and Double but rejects String.' },
-      { type: 'practice', id: 'd17-p5', lang: 'java', title: 'Practice: Consumer Writer', starter: 'import java.util.*;\n\npublic class ConsumerWriter {\n    public static void main(String[] args) {\n        ArrayList<Number> numbers = new ArrayList<>();\n        ArrayList<Object> objects = new ArrayList<>();\n\n        addFives(numbers);  // works\n        addFives(objects);  // works\n        // addFives(new ArrayList<String>()); // should NOT compile\n\n        System.out.println(numbers);  // [5, 5]\n        System.out.println(objects);  // [5, 5]\n    }\n\n    // TODO: implement addFives(ArrayList<? super Integer> list)\n    //       that adds the Integer 5 twice\n    //       (hint: ? super Integer accepts Integer, Number, Object)\n}', hint: 'list.add(5); list.add(5); — you can WRITE Integer into a ? super Integer list. You cannot write into a ? extends list. PECS: Consumer Super.' },
-      { type: 'practice', id: 'd17-p6', lang: 'java', title: 'Practice: Generic Pair<T, U>', starter: 'public class PairDemo {\n    public static void main(String[] args) {\n        // TODO 1: create a Pair<String, Integer> for (\"Vinayak\", 95)\n        // TODO 2: create a Pair<Integer, Integer> for (10, 20)\n        // TODO 3: create a Pair<String, String> for (\"A\", \"B\")\n        // TODO 4: print the key and value of each pair\n    }\n}\n\n// TODO 5: write a generic class Pair<T, U> with:\n//   - private fields: T key; U value;\n//   - a constructor that sets both\n//   - getKey() and getValue() methods\n//   - a toString() that returns "key -> value"', hint: 'class Pair<T, U> { private T key; private U value; Pair(T k, U v) { key=k; value=v; } public T getKey() { return key; } public U getValue() { return value; } public String toString() { return key + " -> " + value; } }' },
+      { type: 'practice', id: 'd17-p4', lang: 'java', title: 'Practice: Wildcard Reader', starter: 'import java.util.*;\n\npublic class WildcardReader {\n    public static void main(String[] args) {\n        ArrayList<Integer> ints = new ArrayList<>(Arrays.asList(1, 2, 3));\n        ArrayList<Double> doubles = new ArrayList<>(Arrays.asList(1.5, 2.5));\n        ArrayList<String> strings = new ArrayList<>(Arrays.asList("a", "b"));\n\n        System.out.println(sum(ints));     // 6.0\n        System.out.println(sum(doubles));  // 4.0\n        // System.out.println(sum(strings)); // should NOT compile\n    }\n\n    // TODO: implement sum(ArrayList<? extends Number> list)\n    //       that adds every element as a double and returns the total\n    //       (use n.doubleValue())\n}', hint: 'Loop over the list as Number, add n.doubleValue() to a total. The ? extends Number bound accepts Integer and Double but rejects String.' },
+      { type: 'practice', id: 'd17-p5', lang: 'java', title: 'Practice: Consumer Writer', starter: 'import java.util.*;\n\npublic class ConsumerWriter {\n    public static void main(String[] args) {\n        ArrayList<Number> numbers = new ArrayList<>();\n        ArrayList<Object> objects = new ArrayList<>();\n\n        addFives(numbers);  // works\n        addFives(objects);  // works\n        // addFives(new ArrayList<String>()); // should NOT compile\n\n        System.out.println(numbers);  // [5, 5]\n        System.out.println(objects);  // [5, 5]\n    }\n\n    // TODO: implement addFives(ArrayList<? super Integer> list)\n    //       that adds the Integer 5 twice\n    //       (hint: ? super Integer accepts Integer, Number, Object)\n}', hint: 'You can WRITE Integer into a ? super Integer list — just add() it. You cannot write into a ? extends list. PECS: Consumer Super.' },
+      { type: 'practice', id: 'd17-p6', lang: 'java', title: 'Practice: Generic Pair<T, U>', starter: 'public class PairDemo {\n    public static void main(String[] args) {\n        // TODO 1: create a Pair<String, Integer> for (\"Vinayak\", 95)\n        // TODO 2: create a Pair<Integer, Integer> for (10, 20)\n        // TODO 3: create a Pair<String, String> for (\"A\", \"B\")\n        // TODO 4: print the key and value of each pair\n    }\n}\n\n// TODO 5: write a generic class Pair<T, U> with:\n//   - private fields: T key; U value;\n//   - a constructor that sets both\n//   - getKey() and getValue() methods\n//   - a toString() that returns "key -> value"', hint: 'Two private fields, a constructor setting both, getters for each, and a toString returning key + " -> " + value.' },
     ],
     tasks: [
       { id: 'java-14-d17-t1', text: 'Implement a generic Pair<K,V> class with getKey() and getValue(). Use it with at least 3 different type combinations.', tag: 'lab' },

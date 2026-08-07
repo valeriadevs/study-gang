@@ -412,9 +412,9 @@ class SparseMatrix {
       { type: 'practice', id: 'd12-p1', lang: 'java', title: 'Practice: try-catch patterns', starter: `public class Test {
     public static void main(String[] args) {
         // TODO 1: try parsing "abc" as int — catch NumberFormatException, print "Not a number!"
-        // TODO 2: try { int[] a = {1,2,3}; System.out.println(a[10]); }
-        //         catch (ArrayIndexOutOfBoundsException e) { print "Out of bounds!" }
-        //         then a SECOND catch (Exception e) for everything else
+        // TODO 2: access index 10 of an int[] {1,2,3} inside a try block.
+        //         catch ArrayIndexOutOfBoundsException and print "Out of bounds!"
+        //         then add a SECOND catch (Exception e) for everything else
         // TODO 3: write a finally block that prints "cleanup done"
         //         even when an exception is thrown above
     }
