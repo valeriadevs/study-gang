@@ -13,13 +13,14 @@ export const phase3days: Day[] = [
       { type: 'callout', id: 'd7-intro', calloutType: 'info', title: 'Welcome to OOP', content: 'Up to now, your programs have been lists of instructions — read input, do math, print, repeat. Today you start handing the computer **named shapes** it can build as many copies of as you want. By the end of this day you will have written a class of your own, made objects from it, and given those objects a polite public interface. Tomorrow you will learn the formal way to *introduce* those objects — constructors. Today is about getting the shape right.' },
       { type: 'heading', id: 'd7-class', level: 2, content: 'A Class is a Blueprint' },
       { type: 'paragraph', id: 'd7-class-p', content: 'Think of a class like an architect\'s drawing. It says "every House has a number of rooms, a colour, and a way to be described" — but the drawing itself is not a house. Once you have the drawing, you can build any number of houses from it. In Java, the drawing is the `class`, and each house you build is an **object** (also called an *instance*).' },
-      { type: 'code', id: 'd7-class-code', lang: 'java', title: 'Your first class', code: `public class House {
-    int rooms;
-    String colour;
+      { type: 'code', id: 'd7-class-code', lang: 'java', title: 'Your first class', code: `public class House {            // the blueprint — describes EVERY house
+    int rooms;                    // a FIELD (state): how many rooms a house has
+    String colour;                // a FIELD (state): what colour a house is
 
     public static void main(String[] args) {
-        // TODO 1: print the default values of rooms and colour
-        // TODO 2: assign values to rooms and colour, then print again
+        House h = new House();    // build ONE object from the blueprint
+        // TODO 1: print the default values of rooms and colour (h.rooms, h.colour)
+        // TODO 2: assign values to h.rooms and h.colour, then print again
     }
 }` },
       { type: 'callout', id: 'd7-defaults', calloutType: 'tip', title: 'No constructor yet — Java fills in defaults', content: 'You have not written any constructor in `House`. Java quietly gives you a **default no-arg constructor** for free. It does nothing except allocate space. Fields with no explicit value get their default: `0` for ints, `false` for booleans, `null` for objects. Tomorrow you will write your own constructors; today, just observe the defaults.' },
@@ -38,20 +39,28 @@ export const phase3days: Day[] = [
       { type: 'callout', id: 'd7-dot', calloutType: 'note', title: 'The dot operator', content: '`object.field` reads a field. `object.field = value` writes one. `object.method()` calls a method. The dot means "of this object". Two objects of the same class have the same set of fields and methods, but each has its own values for those fields.' },
       { type: 'heading', id: 'd7-encap', level: 2, content: 'Encapsulation — Keep the Inside Private, Expose a Polite Door' },
       { type: 'paragraph', id: 'd7-encap-p', content: 'Right now `rooms` is *package-private* — anyone can poke at it. That is convenient but dangerous. Real Java code keeps fields **`private`** and exposes **public getters and setters** so the class can validate, log, or change its mind about how things are stored later. This is **encapsulation** — one of the four pillars of OOP.' },
+      { type: 'callout', id: 'd7-anatomy', calloutType: 'tip', title: 'Class anatomy — the four kinds of members', content: 'A class body holds four kinds of things. Recognise them at a glance:\n\n1. **Fields** — `private int rooms;` — the data each object owns. Usually `private`.\n2. **Constructors** — `public House(int rooms) { ... }` — run at `new`. (Tomorrow.)\n3. **Methods** — `public int getRooms() { ... }` — the behaviour. `public` = the outside world may call them.\n4. **Getters / Setters** — the polite doors that read and write the private fields.\n\nNaming convention: fields are lowercase (`rooms`), getters are `get` + Capitalised field (`getRooms`), setters are `set` + Capitalised field (`setRooms`). Java expects these exact names — tools, frameworks, and the exam all rely on them.' },
       { type: 'code', id: 'd7-encap-code', lang: 'java', title: 'Encapsulation pattern', code: `public class House {
+    // FIELDS are private — nobody outside this class can touch them directly.
     private int rooms;
     private String colour;
 
+    // GETTER — a polite read-only door. "Give me the rooms, please."
+    // public = anyone may call it. int = the type it hands back.
     public int getRooms() {
-        return rooms;
+        return rooms;   // hands back the current value of the private field
     }
 
+    // SETTER — a polite write door. "Change the rooms, please."
+    // void = it does not hand anything back; it just does the job.
     public void setRooms(int rooms) {
+        // VALIDATION — the whole point of encapsulation:
+        // we can refuse bad data BEFORE it enters the object.
         if (rooms < 0) {
             System.out.println("Rooms cannot be negative. Keeping previous value.");
-            return;
+            return;          // leave without changing the field
         }
-        this.rooms = rooms;
+        this.rooms = rooms;  // this.rooms = the FIELD; rooms = the parameter
     }
 
     public String getColour() {
@@ -66,20 +75,23 @@ export const phase3days: Day[] = [
         this.colour = colour;
     }
 
+    // A regular method that USES the fields (behaviour).
     public void describe() {
         System.out.println("A " + colour + " house with " + rooms + " rooms.");
     }
 
     public static void main(String[] args) {
-        House h = new House();
-        h.setRooms(3);
-        h.setColour("blue");
-        h.describe();                          // A blue house with 3 rooms.
-        h.setRooms(-1);                        // rejected by the setter
-        System.out.println(h.getRooms());     // 3 — unchanged
+        House h = new House();       // build an object
+        h.setRooms(3);               // go through the setter (valid)
+        h.setColour("blue");         // go through the setter (valid)
+        h.describe();                // A blue house with 3 rooms.
+        h.setRooms(-1);              // setter REJECTS the negative value
+        System.out.println(h.getRooms());  // 3 — unchanged! bad data never got in
+        // h.rooms = 99;             // COMPILE ERROR — rooms is private!
     }
 }` },
       { type: 'callout', id: 'd7-this-peek', calloutType: 'note', title: 'A quick peek at this', content: 'In `setRooms(int rooms)`, the parameter and the field share the same name. `this.rooms = rooms;` says "the field on *this* object, set to the parameter". You will get the full tour of `this` tomorrow; for now, just notice the pattern.' },
+      { type: 'callout', id: 'd7-recipe', calloutType: 'tip', title: 'The 5-step recipe for ANY encapsulated class', content: 'Every practice below (Car, Movie, Student, Counter, Playlist, Thermometer) follows the SAME recipe. If you learn the recipe, you can do all of them:\n\n**Step 1 — Fields.** Decide what data the class owns. Make them `private`.\n```java\nprivate String brand;   // one private field per piece of data\nprivate int year;\n```\n\n**Step 2 — Getters.** One per field. `public` + the field\'s type + `get` + Capitalised field name. It just returns the field.\n```java\npublic String getBrand() { return brand; }\n```\n\n**Step 3 — Setters.** One per field you want writable. `public void` + `set` + Capitalised field name. **Validate first, then assign** — this is the encapsulation payoff.\n```java\npublic void setYear(int year) {\n    if (year < 1900) {              // validation BEFORE assignment\n        System.out.println("Year too old. Keeping previous value.");\n        return;                     // reject: leave the field unchanged\n    }\n    this.year = year;               // accept: assign the parameter to the field\n}\n```\n\n**Step 4 — A behaviour method.** Usually `describe()` or `displayInfo()`, using the fields. This is the "what does this object DO" part.\n```java\npublic void describe() {\n    System.out.println(year + " " + brand);\n}\n```\n\n**Step 5 — Test in main.** Create the object, call setters (including a bad value to prove validation), call getters, call describe.\n\n**The recipe in one line**: `private` fields → getter per field → setter per field (validate!) → a behaviour method → test in `main`.\n\nIf a practice asks for a **read-only field** (like Thermometer\'s fahrenheit), just SKIP the setter — a getter without a setter means nobody can change it from outside.' },
       { type: 'callout', id: 'd7-d2', calloutType: 'doubt', title: 'Why use getters/setters instead of public fields?', content: 'Three real reasons:\n\n1. **Validation** — reject negative ages, blank names, or null values inside the setter.\n2. **Refactor later** — you can store `age` as a `LocalDate` instead of an `int` without breaking any external code, because nobody ever touched the field directly.\n3. **Read-only fields** — give a getter but no setter.\n\nThis pattern shows up in every OOP design question.' },
       { type: 'callout', id: 'd7-exam', calloutType: 'exam', title: 'Exam Alert', content: '1. **Class = blueprint, object = instance**. Tested in every MCQ.\n2. **Each object has its own copy** of instance fields. Changing one does not affect another.\n3. **`new ClassName()` runs the constructor** and returns a fresh object.\n4. **Private fields + public getters/setters** is the encapsulation pattern. Expected in code-tracing and design questions.' },
       { type: 'callout', id: 'd7-bridge', calloutType: 'bridge', title: 'Connect the Dots', content: 'Tomorrow (Day 10) you will write **constructors** so each object can start with the values *you* choose, not just Java\'s defaults. The `this` keyword you glimpsed above gets its own section there.\n\nDay 11 (Static + Inheritance) will introduce `super()` — the constructor call that walks up to the parent class.\n\nDay 12 (Polymorphism) depends on the dot operator you just used: `Animal a = new Dog(); a.sound();` — same dot, different behaviour at runtime.' },
